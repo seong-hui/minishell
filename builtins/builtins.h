@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:35:59 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/12 23:54:35 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/14 21:15:20 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,17 @@ typedef struct s_process
 {
     t_redir         *redir;
     char            **cmd;
-    struct s_token  *next;
+    struct s_process  *next;
 }   t_process;
 
 int		ft_strncmp(const char *s1, const char *s2, int n);
 char	**ft_split(char const *s, char c);
 int		ft_strlen(char *s);
 void	builtin_echo(t_process *process);
+void builtin_pwd(t_process *process);
+void builtin_cd(t_process *process);
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
+char	*ft_strrchr(char *s, int c);
 
 #endif
 

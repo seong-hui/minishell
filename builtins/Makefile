@@ -3,17 +3,21 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS :=
 SRCS += builtin_echo.c
+SRCS += builtin_pwd.c
+SRCS += builtin_cd.c
 SRCS += builtins.c
 SRCS += ft_split.c
 SRCS += ft_strlen.c
 SRCS += ft_strncmp.c
+SRCS += ft_strrchr.c
+SRCS += ft_strncpy.c
 
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 %.o: %.c
-	$(CC) -c $(CFLAGS) $<
+	$(CC) -c  $<
 
 $(NAME): $(OBJS)
 	$(CC) -o $@ $^
