@@ -11,6 +11,10 @@ SRCS += ft_strlen.c
 SRCS += ft_strncmp.c
 SRCS += ft_strrchr.c
 SRCS += ft_strncpy.c
+SRCS += main.c
+SRCS += execute.c
+SRCS += utils.c
+SRCS += utils2.c
 
 OBJS = $(SRCS:.c=.o)
 
