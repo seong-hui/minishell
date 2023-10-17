@@ -1,4 +1,6 @@
-#include "parse.h"
+
+#include "../include/parse.h"
+
 
 void	free_env(t_env *env)
 {
