@@ -1,4 +1,4 @@
-#include "parse.h"
+#include "../include/parse.h"
 
 void	add_process(t_process **process, char *cmd_line)
 {
