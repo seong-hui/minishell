@@ -57,7 +57,7 @@ char	*add_new_cmd(char *line)
 		i++;
 	}
 	new_cmd[i] = 0;
-	printf("len: %d, new_cmd: %s\n", len, new_cmd);
+	//printf("len: %d, new_cmd: %s\n", len, new_cmd);
 	return (new_cmd);
 }
 
@@ -70,7 +70,7 @@ void	parse_cmd(t_process *process)
 	int	cmd_cnt;
 
 	cmd_cnt = count_cmd(process->cmd_line);
-	printf("%s, %d\n", process->cmd_line, cmd_cnt);
+	//printf("%s, %d\n", process->cmd_line, cmd_cnt);
 	cmd_arr = (char **)malloc(sizeof(char *) * (cmd_cnt + 1));
 	i = 0;
 	j = 0;

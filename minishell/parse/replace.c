@@ -93,7 +93,7 @@ char	*replace_str(char *str, t_env **env)
 	char	*replaced;
 
 	len = count_replace_str_len(str, env);
-	printf("len: %d\n", len);
+	//printf("len: %d\n", len);
 	replaced = (char *)malloc(sizeof(char) * (len + 1));
 	i = 0;
 	j = 0;

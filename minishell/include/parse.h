@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:29:40 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/17 20:59:16 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/17 21:29:28 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	create_env_list(t_env **env, char **envp);
 void	replace_process_resources(t_process *process, t_env **env);
 char	*search_env_value(t_env **env, char *search);
-void process_start(t_process *process, char **envp);
+void    process_start(t_process *process, char **envp);
 
 #endif

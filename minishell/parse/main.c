@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/17 21:03:12 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/17 22:32:32 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,10 @@ int	main(int ac, char **av, char **envp)
 		process = NULL;
 		env = NULL;
 		line = readline("minishell$ ");
+		add_history(line);
 		tokenize(&process, &env, line, envp);
-		print_lists(process, env);
-		//process_start(process, envp);
+		//print_lists(process, env);
+		process_start(process, envp);
 		free(line);
 	}
 }
