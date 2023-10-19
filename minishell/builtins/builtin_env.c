@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/14 16:16:33 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/19 18:37:34 by moonseonghu      ###   ########.fr       */
+/*   Created: 2023/10/19 20:33:16 by moonseonghu       #+#    #+#             */
+/*   Updated: 2023/10/19 21:46:31 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void builtin_pwd(t_process *process)
+void builtin_env(t_process *process, t_env *env)
 {
-	char *pwd;
-
-	pwd = getcwd(NULL, 0);
-	if (pwd)
-	{
-		printf("%s\n" , pwd);
-		free(pwd); //안 터졌을 때. 
-	}
+    while(env)
+    {
+        printf("%s=%s\n", env->key, env->value);
+        env = env->next;
+    }
 }

@@ -11,6 +11,12 @@ SRCS = ./parse/main.c \
 	   ./parse/env.c \
 	   ./parse/replace.c\
 	   ./execute/execute.c\
+	   ./builtins/builtins.c\
+	   ./builtins/builtin_cd.c\
+	   ./builtins/builtin_echo.c\
+	   ./builtins/builtin_pwd.c\
+	   ./builtins/builtin_env.c\
+	   ./builtins/ft_strncpy.c\
 
 OBJS = $(SRCS:.c=.o)
 
