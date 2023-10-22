@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:29:40 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/19 21:03:46 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/19 22:46:50 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_process
     t_redir         *redir;
     char            **cmd;
     struct s_process  *next;
-    int             pipefd[2];
+    int             cur_fd[2];
     int             infile_fd;
     int             outfile_fd;
     char				*cmd_line;

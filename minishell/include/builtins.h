@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:35:59 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/19 21:42:54 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/22 20:52:17 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ void	builtin_echo(t_process *process);
 void builtin_pwd(t_process *process);
 void builtin_cd(t_process *process);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
-void	check_biltins(t_process *process, t_env *env);
+void	check_biltins(t_process *process, t_env *env, int fd);
 void process_start(t_process *process, t_env *env);
-void builtin_env(t_process *process, t_env *env);
+void builtin_env(t_process *process, t_env *env, int fd);
+void fd_redirection(t_process *process, t_redir *redir);
 
 #endif
 

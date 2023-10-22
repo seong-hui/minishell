@@ -29,7 +29,7 @@ all : $(NAME)
 $(NAME) : $(OBJS)
 
 	make all -C $(LIBFT_DIR) 
-	$(CC) $(CFLAGS) -o $@ $^ -L$(LIBFT_DIR) -lft -lreadline
+	$(CC) $(CFLAGS) -g -fsanitize=address -o $@ $^ -L$(LIBFT_DIR) -lft -lreadline
 	@echo "\033[36m" --- 🔹 Compile Complete 🔹 ---
 
 

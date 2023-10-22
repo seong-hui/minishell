@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 19:03:26 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/19 22:42:11 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/22 20:51:49 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,19 @@ void last_child(t_process *process, int *prev_fd)
 	// 	exit(1);
 }
 
-
-
 void	close_pipe(int i, int *prev_fd, int *cur_fd)
 {
-	close(prev_fd[0]);
-	close(prev_fd[1]);
-	close(cur_fd[0]);
-	close(cur_fd[1]);
+	if (prev_fd)
+	{
+		close(prev_fd[0]);
+		close(prev_fd[1]);
+	}
+
+	if (cur_fd)
+	{
+		close(cur_fd[0]);
+		close(cur_fd[1]);
+	}
 	while (i > 0)
 	{
 		waitpid(-1, 0, 0);
@@ -119,28 +124,33 @@ void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env
 	int		i;
 	int prev_fd[2];
 	int cur_fd[2];
+	
 
 	if (pipe(prev_fd) == -1)
 		exit(1);
 	i = 0;
-	pipe(cur_fd);
 	
 	while (process)
 	{
 		fd_redirection(process, process->redir);
 		
 		//printf("%d %d %d\n", i, process->infile_fd, process->outfile_fd);
-		//printf("%d %d | %d %d|\n", prev_fd[0], prev_fd[1], cur_fd[0], cur_fd[1]);
+		
 		if (i > 0)
 		{
 			close(prev_fd[0]);
 			close(prev_fd[1]);
-		}
-		if (i != 0)
-		{
 			prev_fd[0] = cur_fd[0];
 			prev_fd[1] = cur_fd[1];
 		}
+		if (pipe(cur_fd) == -1)
+        {
+            perror("pipe");
+            exit(1);
+        }
+		//pipe(process->cur_fd);
+		printf("%d %d | %d %d|\n", prev_fd[0], prev_fd[1], cur_fd[0], cur_fd[1]);
+		
 		pid = fork();
 		if (pid < 0)
 			exit(1);
@@ -154,13 +164,26 @@ void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env
 			else
 				middle_child(process, prev_fd, cur_fd);
 			if (is_builtin(process))
-				check_biltins(process, env);
+				check_biltins(process, env, cur_fd[1]);
 			else
 			{
 				if (execve(cmd, process->cmd, execute_path) == -1)
 		 			perror("execve");
+				printf("[test]\n");
 			}
+			
 		}
+		//  if (i > 0)
+        // {
+        //     close(prev_fd[0]);
+        //     close(prev_fd[1]);
+        // }
+
+		// close(prev_fd[0]);
+		// close(prev_fd[1]);
+			
+			// close(process->cur_fd[0]);
+			// close(process->cur_fd[1]);
 			process = process->next;
 			i++;
 	}
@@ -241,7 +264,7 @@ int fork_toExcute(t_process *process, t_env *env, int cmd_size)
 void no_fork_toExecute(t_process *process, t_env *env)
 {
 
-	check_biltins(process, env);
+	check_biltins(process, env, 1);
 }
 
 int is_builtin(t_process *process)
