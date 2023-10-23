@@ -4,8 +4,8 @@
 
 int	count_cmd(char *line)
 {
-	int	quote;
 	int	i;
+	int	quote;
 	int	count;
 
 	i = 0;
@@ -13,11 +13,11 @@ int	count_cmd(char *line)
 	count = 0;
 	while (line[i])
 	{
-		while (line[i] && (line[i] == ' ' || line[i] == '\n' || line[i] == '\t'))
+		while (line[i] && in_charset(line[i], " \n\t"))
 			i++;
-		if (line[i] && !(line[i] == ' ' || line[i] == '\n' || line[i] == '\t'))
+		if (line[i] && !in_charset(line[i], " \n\t"))
 			count++;
-		while (line[i] && !(line[i] == ' ' || line[i] == '\n' || line[i] == '\t'))
+		while (line[i] && !in_charset(line[i], " \n\t"))
 		{
 			if (line[i] == '\'' || line[i] == '"')
 			{
@@ -33,13 +33,13 @@ int	count_cmd(char *line)
 
 char	*add_new_cmd(char *line)
 {
-	int	i;
-	int	len;
-	int	quote;
+	int		i;
+	int		len;
+	int		quote;
 	char	*new_cmd;
 
 	len = 0;
-	while (line[len] && !(line[len] == ' ' || line[len] == '\n' || line[len] == '\t'))
+	while (line[len] && !in_charset(line[len], " \n\t"))
 	{
 		if (line[len] == '\'' || line[len] == '"')
 		{
@@ -57,32 +57,28 @@ char	*add_new_cmd(char *line)
 		i++;
 	}
 	new_cmd[i] = 0;
-	printf("len: %d, new_cmd: %s\n", len, new_cmd);
 	return (new_cmd);
 }
 
 void	parse_cmd(t_process *process)
 {
-	int	i;
-	int	j;
-	int	quote;
-	char **cmd_arr;
-	int	cmd_cnt;
+	int		i;
+	int		j;
+	int		quote;
+	char	**cmd_arr;
+	int		cmd_cnt;
 
 	cmd_cnt = count_cmd(process->cmd_line);
-	printf("%s, %d\n", process->cmd_line, cmd_cnt);
 	cmd_arr = (char **)malloc(sizeof(char *) * (cmd_cnt + 1));
 	i = 0;
 	j = 0;
 	while (j < cmd_cnt)
 	{
-		while (process->cmd_line[i] && (process->cmd_line[i] == ' ' || process->cmd_line[i] == '\n'
-				|| process->cmd_line[i] == '\t'))
+		while (in_charset(process->cmd_line[i], " \n\t"))
 			i++;
 		if (process->cmd_line[i])
 			cmd_arr[j++] = add_new_cmd(&process->cmd_line[i]);
-		while (process->cmd_line[i] && !(process->cmd_line[i] == ' ' || process->cmd_line[i] == '\n'
-				|| process->cmd_line[i] == '\t'))
+		while (process->cmd_line[i] && !in_charset(process->cmd_line[i], " \n\t"))
 		{
 			if (process->cmd_line[i] == '\'' || process->cmd_line[i] == '"')
 			{

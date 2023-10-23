@@ -36,8 +36,15 @@ char	*get_env_key(char *str)
 	char	*key;
 
 	i = 0;
-	while (str[i] && ft_isalnum(str[i]))
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	{
+		if (i == 0 && ft_isdigit(str[i]))
+		{
+			i = 1;
+			break ;
+		}
 		i++;
+	}
 	key = ft_strndup(str, i);
 	return (key);
 }
@@ -62,13 +69,12 @@ int	count_replace_str_len(char *str, t_env **env)
 		else if (str[i] == '$' && quote != '\'')
 		{
 			env_key = get_env_key(&str[i + 1]);
-			printf("env_key: %s\n", env_key);
-			if (ft_strlen(env_key) == 0 || (str[i + 1] != '\'' && quote != 0))
+			if ((ft_strlen(env_key) == 0) && (quote != 0
+					|| !(str[i + 1] == '\'' || str[i + 1] == '"')))
 				len++;
 			else
 			{
 				env_value = search_env_value(env, env_key);
-				printf("env_value: %s\n", env_value);
 				if (env_value != NULL)
 					len += ft_strlen(env_value);
 				i += ft_strlen(env_key);
@@ -93,7 +99,6 @@ char	*replace_str(char *str, t_env **env)
 	char	*replaced;
 
 	len = count_replace_str_len(str, env);
-	printf("len: %d\n", len);
 	replaced = (char *)malloc(sizeof(char) * (len + 1));
 	i = 0;
 	j = 0;
@@ -113,6 +118,7 @@ char	*replace_str(char *str, t_env **env)
 			else
 			{
 				env_value = search_env_value(env, env_key);
+				printf("%s\n", env_value);
 				if (env_value != NULL)
 				{
 					while (*env_value)

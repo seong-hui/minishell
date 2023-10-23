@@ -47,18 +47,15 @@ void	add_redir(t_redir **redir, char *file, int type)
 	new_redir->type = type;
 	new_redir->file = file;
 	new_redir->next = NULL;
-	if (*redir == NULL)
-	{
-		*redir = new_redir;
-		return ;
-	}
-	else
+	if (*redir != NULL)
 	{
 		last_redir = *redir;
 		while (last_redir->next)
 			last_redir = last_redir->next;
 		last_redir->next = new_redir;
 	}
+	else
+		*redir = new_redir;
 }
 
 void	parse_redir(t_process *process)
@@ -80,8 +77,7 @@ void	parse_redir(t_process *process)
 				st += 2;
 			else if (type == T_REDIR_INPUT || type == T_REDIR_OUTPUT)
 				st++;
-			while ((process->cmd_line[st] == ' ' || process->cmd_line[st] == '\n'
-					|| process->cmd_line[st] == '\t') && process->cmd_line[st] != 0)
+			while (in_charset(process->cmd_line[st], " \n\t"))
 					st++;
 			len = get_file_len(&(process->cmd_line[st]));
 			add_redir(&(process->redir), ft_strndup(&(process->cmd_line[st]), len), type);

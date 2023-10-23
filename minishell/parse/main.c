@@ -6,23 +6,24 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/17 21:03:12 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/22 22:31:16 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 
-void	print_lists(t_process *process, t_env *env)
+void	print_lists(t_process **process, t_env **env)
 {
 	int	i = 1;
+	t_process *cur_process = *process;
 	t_redir *cur_redir;
 	printf("\n[[PROCESS LIST]]\n\n");
-	while (process)
+	while (cur_process)
 	{
 		printf("[PROCESS %d]\n", i);
-		printf("cmd_line: %s\n", process->cmd_line);
+		printf("cmd_line: %s\n", cur_process->cmd_line);
 		printf("[PROCESS %d - REDIR]\n", i);
-		cur_redir = process->redir;
+		cur_redir = cur_process->redir;
 		if (cur_redir == NULL)
 			printf("No Redirection\n");
 		while (cur_redir)
@@ -31,22 +32,26 @@ void	print_lists(t_process *process, t_env *env)
 			cur_redir = cur_redir->next;
 		}
 		printf("[PROCESS %d - CMD]\n", i++);
-		if (process->cmd == NULL)
+		if (cur_process->cmd == NULL)
 			printf("No Cmd\n");
-		while (*process->cmd)
-		{
-			printf("cmd: %s\n", *process->cmd);
-			process->cmd++;
-		}
+		int	idx = 0;
+		while (cur_process->cmd[idx])
+			printf("cmd: %s\n", cur_process->cmd[idx++]);
 		printf("\n");
-		process = process->next;
+		cur_process = cur_process->next;
 	}
-	//printf("\n[[ENV LIST]]\n\n");
-	while (env)
-	{
-		//printf("%s=%s\n", env->key, env->value);
-		env = env->next;
-	}
+	t_env *cur_env = *env;
+	// printf("\n[[ENV LIST]]\n\n");
+	// while (cur_env)
+	// {
+	// 	printf("%s=%s\n", cur_env->key, cur_env->value);
+		cur_env = cur_env->next;
+	//}
+}
+
+void	cl()
+{
+	system("leaks minishell");
 }
 
 int	main(int ac, char **av, char **envp)
@@ -55,16 +60,27 @@ int	main(int ac, char **av, char **envp)
 	t_process	*process;
 	t_env		*env;
 
+	//atexit(cl);
 	ac = 0;
 	av = NULL;
+	env = NULL;
+	create_env_list(&env, envp);
+	detect_signal();
+	set_terminal_print_off();
 	while (1)
 	{
+		g_exit_code = 0;
 		process = NULL;
-		env = NULL;
 		line = readline("minishell$ ");
-		tokenize(&process, &env, line, envp);
-		print_lists(process, env);
+		if (!line)
+			signal_handler(SIGTERM);
+		add_history(line);
+		if (tokenize(&process, &env, line) == 1)
+			print_lists(&process, &env);
+		free_process_list(&process);
 		//process_start(process, envp);
 		free(line);
 	}
+	free_env_list(env);
+	return (0);
 }
