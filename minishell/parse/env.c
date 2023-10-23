@@ -2,13 +2,6 @@
 #include "../include/parse.h"
 
 
-void	free_env(t_env *env)
-{
-	free(env->key);
-	free(env->value);
-	free(env);
-}
-
 void	add_env(t_env **env, char *key, char *value)
 {
 	t_env	*new_env;
@@ -18,18 +11,15 @@ void	add_env(t_env **env, char *key, char *value)
 	new_env->key = key;
 	new_env->value = value;
 	new_env->next = NULL;
-	if (*env == NULL)
-	{
-		*env = new_env;
-		return ;
-	}
-	else
+	if (*env != NULL)
 	{
 		last_env = *env;
 		while (last_env->next)
 			last_env = last_env->next;
 		last_env->next = new_env;
 	}
+	else
+		*env = new_env;
 }
 
 void	delete_env(t_env **env, char *del_key)
@@ -38,10 +28,15 @@ void	delete_env(t_env **env, char *del_key)
 	t_env	*delete_env;
 
 	prev = *env;
+	if (!ft_strcmp(prev->key, del_key))
+	{
+		delete_env = prev;
+		*env = delete_env->next;
+		return (free(delete_env));
+	}
 	while (prev)
 	{
-		if (prev->next
-			&& !ft_strncmp(prev->next->key, del_key, ft_strlen(del_key)))
+		if (prev->next && !ft_strcmp(prev->next->key, del_key))
 		{
 			delete_env = prev->next;
 			break ;

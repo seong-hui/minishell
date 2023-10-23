@@ -9,7 +9,11 @@ SRCS = ./parse/main.c \
 	   ./parse/utils.c \
 	   ./parse/cmd.c \
 	   ./parse/env.c \
-	   ./parse/replace.c\
+	   ./parse/replace.c \
+	   ./parse/syntax.c \
+	   ./parse/free.c \
+	   ./parse/signal.c \
+	   ./parse/terminal.c
 	   ./execute/execute.c\
 	   ./builtins/builtins.c\
 	   ./builtins/builtin_cd.c\
