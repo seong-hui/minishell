@@ -1,6 +1,9 @@
 CC = cc
 
 CFLAGS = -g3 -fsanitize=address
+COMFILE_FLAGS = -I${HOME}/.brew/opt/readline/include
+LDFLAGS = -L${HOME}/.brew/opt/readline/lib
+LDLIBS = -lreadline
 
 
 SRCS = ./parse/main.c \
@@ -13,14 +16,14 @@ SRCS = ./parse/main.c \
 	   ./parse/syntax.c \
 	   ./parse/free.c \
 	   ./parse/signal.c \
-	   ./parse/terminal.c
+	   ./parse/terminal.c \
 	   ./execute/execute.c\
 	   ./builtins/builtins.c\
 	   ./builtins/builtin_cd.c\
 	   ./builtins/builtin_echo.c\
 	   ./builtins/builtin_pwd.c\
 	   ./builtins/builtin_env.c\
-	   ./builtins/ft_strncpy.c\
+	   ./builtins/ft_strncpy.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -33,12 +36,12 @@ all : $(NAME)
 $(NAME) : $(OBJS)
 
 	make all -C $(LIBFT_DIR) 
-	$(CC) $(CFLAGS)  -o $@ $^ -L$(LIBFT_DIR) -lft -lreadline
+	$(CC) $(CFLAGS)  $(COMFILE_FLAGS) -o $@ $^ -L$(LIBFT_DIR) -lft $(LDFLAGS) $(LDLIBS)
 	@echo "\033[36m" --- 🔹 Compile Complete 🔹 ---
 
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) $(COMFILE_FLAGS) -c -o $@ $<
 
 clean :
 	make fclean -C $(LIBFT_DIR)

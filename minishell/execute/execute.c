@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 19:03:26 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/23 20:04:51 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/23 20:36:44 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,20 +285,21 @@ int is_builtin(t_process *process)
 	return (0);
 }
 
-void process_start(t_process *process, t_env *env)
+void process_start(t_process **process, t_env *env)
 {
+	t_process *head = process;
     int process_len;
 	if (!process)
 		return;
     process_len = ft_lstsize(process);
 	// printf("[%d]\n", process_len);
 	
-    if (process_len == 1 && is_builtin(process)) //process 1개 && builtin인 경우
+    if (process_len == 1 && is_builtin(head)) //process 1개 && builtin인 경우
 	{
-		no_fork_toExecute(process, env);
+		no_fork_toExecute(head, env);
 	}
 	else // 그 외는 다 포크해서 실행하기
 	{
-		fork_toExcute(process, env, process_len);
+		fork_toExcute(head, env, process_len);
 	}
 }

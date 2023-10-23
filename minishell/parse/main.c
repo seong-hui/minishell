@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/23 20:08:58 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/23 20:36:40 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,15 @@ int	main(int ac, char **av, char **envp)
 		if (!line)
 			signal_handler(SIGTERM);
 		add_history(line);
+		// if (tokenize(&process, &env, line) == 1)
+		// 	print_lists(&process, &env);
 		if (tokenize(&process, &env, line) == 1)
-			print_lists(&process, &env);
+			printf("%s\n", process->cmd[0]);
+		process_start(&process, envp);
+		
+		
 		free_process_list(&process);
-		//process_start(process, envp);
+		
 		free(line);
 	}
 	free_env_list(env);

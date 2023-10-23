@@ -1,4 +1,4 @@
-#include "parse.h"
+#include "../include/parse.h"
 
 void	print_syntax_error(char *str)
 {

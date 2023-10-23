@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:29:40 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/23 16:34:09 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/23 20:37:01 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
+# include <signal.h>
+#include <termios.h>
 
 # define T_SIMPLE 0
 # define T_PIPE 1
@@ -25,6 +27,8 @@
 # define T_REDIR_OUTPUT 3
 # define T_REDIR_HEREDOC 4
 # define T_REDIR_APPEND 5
+
+int	g_exit_code;
 
 typedef struct s_redir
 {
@@ -50,7 +54,7 @@ typedef struct s_process
     char				*cmd_line;
 }   t_process;
 
-void	tokenize(t_process **process, t_env **env, char *line, char **envp);
+int	tokenize(t_process **process, t_env **env, char *line);
 void	parse_redir(t_process *process);
 void	parse_cmd(t_process *process);
 char	*ft_strndup(const char *s, int n);
@@ -58,6 +62,22 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	create_env_list(t_env **env, char **envp);
 void	replace_process_resources(t_process *process, t_env **env);
 char	*search_env_value(t_env **env, char *search);
-void    process_start(t_process *process, t_env *env);
+void	check_syntax(t_process *process);
+
+void	free_redir_list(t_redir *redir);
+void	free_process_list(t_process **process);
+void	free_env(t_env *env);
+void	free_env_list(t_env *env);
+
+int	in_charset(char c, char *charset);
+void	print_syntax_error(char *str);
+void	detect_signal(void);
+void	signal_handler(int signo);
+
+void	set_terminal_print_off(void);
+void	set_terminal_print_on(void);
+
+void process_start(t_process **process, t_env *env);
+
 
 #endif

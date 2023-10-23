@@ -1,4 +1,4 @@
-#include "parse.h"
+#include "../include/parse.h"
 
 void	free_redir_list(t_redir *redir)
 {
