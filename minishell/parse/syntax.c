@@ -10,13 +10,14 @@ void	check_syntax(t_process *process)
 {
 	t_redir	*cur_redir;
 
-	if (process == NULL || process->cmd == NULL)
-		print_syntax_error("minishell: syntax error: invalid syntax");
+	if (process == NULL || process->cmd == NULL || process->cmd[0] == NULL
+		|| process->cmd[0][0] == '\0')
+		return(print_syntax_error("minishell: syntax error: invalid syntax"));
 	cur_redir = process->redir;
 	while (cur_redir)
 	{
-		if (cur_redir->file == NULL || *cur_redir->file == '\0')
-			print_syntax_error("minishell: syntax error: invalid syntax");
+		if (cur_redir->file == NULL || cur_redir->file[0] == '\0')
+			return(print_syntax_error("minishell: syntax error: invalid syntax"));
 		cur_redir = cur_redir->next;
 	}
 }

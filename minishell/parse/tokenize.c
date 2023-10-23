@@ -1,6 +1,8 @@
 
 #include "../include/parse.h"
 
+void	print_lists(t_process **process, t_env **env);
+
 void	add_process(t_process **process, char *cmd_line)
 {
 	t_process *new_process;
@@ -74,14 +76,13 @@ void	split_process(t_process **process, char *line)
 	while (line[i])
 	{
 		pipe = skip_quote_with_pipe(&line[i]);
+		if (line[i + pipe] == '|' && (i + pipe == line_len))
+			return (print_syntax_error("minishell: syntax error: invalid syntax"));
 		line[i + pipe] = '\0';
 		if (!is_all_blank(&line[i]))
 			add_process(process, ft_strdup(&line[i]));
 		else
-		{
-			print_syntax_error("minishell: syntax error: invalid syntax");
-			return ;
-		}
+			return (print_syntax_error("minishell: syntax error: invalid syntax"));
 		i += pipe;
 		if (i != line_len)
 			i++;
