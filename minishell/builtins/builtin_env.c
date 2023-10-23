@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 19:33:09 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/12 20:41:31 by moonseonghu      ###   ########.fr       */
+/*   Created: 2023/10/19 20:33:16 by moonseonghu       #+#    #+#             */
+/*   Updated: 2023/10/23 15:32:54 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "../include/builtins.h"
 
-void	builtin_export(char **token)
+void builtin_env(t_process *process, t_env *env, int fd)
 {
-	
+    t_env *start;
+
+    start = env;
+    while(env)
+    {
+         ft_putstr_fd(env->key, fd);
+         ft_putstr_fd("=", fd);
+         ft_putendl_fd(env->value, fd);
+        env = env->next;
+    }
+    env = start;
+    return;
 }

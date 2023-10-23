@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "parse.h": "c",
+    "builtins.h": "c"
+  }
+}

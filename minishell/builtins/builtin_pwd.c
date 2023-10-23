@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:16:33 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/17 20:52:03 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/19 18:37:34 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,5 @@ void builtin_pwd(t_process *process)
 	{
 		printf("%s\n" , pwd);
 		free(pwd); //안 터졌을 때. 
-		exit(0);
 	}
 }

@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g3 -fsanitize=address
 
 
 SRCS = ./parse/main.c \
@@ -15,6 +15,12 @@ SRCS = ./parse/main.c \
 	   ./parse/signal.c \
 	   ./parse/terminal.c
 	   ./execute/execute.c\
+	   ./builtins/builtins.c\
+	   ./builtins/builtin_cd.c\
+	   ./builtins/builtin_echo.c\
+	   ./builtins/builtin_pwd.c\
+	   ./builtins/builtin_env.c\
+	   ./builtins/ft_strncpy.c\
 
 OBJS = $(SRCS:.c=.o)
 
@@ -27,7 +33,7 @@ all : $(NAME)
 $(NAME) : $(OBJS)
 
 	make all -C $(LIBFT_DIR) 
-	$(CC) $(CFLAGS) -o $@ $^ -L$(LIBFT_DIR) -lft -lreadline
+	$(CC) $(CFLAGS)  -o $@ $^ -L$(LIBFT_DIR) -lft -lreadline
 	@echo "\033[36m" --- 🔹 Compile Complete 🔹 ---
 
 

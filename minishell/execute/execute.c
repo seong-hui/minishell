@@ -6,53 +6,67 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 19:03:26 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/17 21:02:19 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/23 20:04:51 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/builtins.h"
+#include "../include/execute.h"
 
 char	*get_cmd(char **path, char *cmd);
 
 
-void fd_redirection(t_process *process)
+void fd_redirection(t_process *process, t_redir *redir)
+
 {
-	printf("%d\n", process->redir->type);
-	
-	if (process->redir->type == 2) //infile이 있을 때
+	process->infile_fd = 0;
+	process->outfile_fd = 1;
+	while(redir)
 	{
-		process->infile_fd = open(process->redir->file, O_RDONLY);
-		 if (process->infile_fd == -1) {
-            perror("Failed to open infile");
-            exit(1);
-        }
+		if (redir->type == 2) //infile이 있을 때
+		{
+			process->infile_fd = open(redir->file, O_RDONLY);
+		 	if (process->infile_fd == -1) {
+            	perror("Failed to open infile");
+            	exit(1);
+        	}
+		}
+		else if (redir->type == 3) //outfile이 있을 때 
+		{
+			process->outfile_fd = open(redir->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		 	if (process->outfile_fd == -1) 
+		 	{
+            	perror("Failed to open outfile");
+            	exit(1);
+		 	}
+		}
+		else if (redir->type == 5) //APPEND 처리 따로 해야함
+		{
+			process->outfile_fd = open(redir->file, O_RDWR | O_CREAT | O_APPEND, 0644);
+		 	if (process->outfile_fd == -1) 
+		 	{
+            	perror("Failed to open outfile");
+            	exit(1);
+		 	}
+		}
+		redir = redir->next;
 	}
-	if (process->redir->type == 3) //outfile이 있을 때
-	{
-		process->outfile_fd = open(process->redir->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-		 if (process->outfile_fd == -1) {
-            perror("Failed to open outfile");
-            exit(1);
-		 }
-	}
-	printf("test1\n");
 }
 
-void first_child(t_process *process, char **envp, char *cmd, int *prev_fd, int *cur_fd)
+void first_child(t_process *process, int *cur_fd)
 {
 	close(cur_fd[0]);
 	if (process->infile_fd > 0)
 		dup2(process->infile_fd, STDIN_FILENO);
 	if (process->outfile_fd > 1)
 		dup2(process->outfile_fd, STDOUT_FILENO);
-	else
+	else if (process->next)
 		dup2(cur_fd[1], STDOUT_FILENO);
 	close(cur_fd[1]);
-	if (execve(cmd, process->cmd, envp) == -1)
-		 perror("execve");
+	// if (execve(cmd, process->cmd, env) == -1)
+	// 	 perror("execve");
 }
 
-void middle_child(t_process *process, char **envp, char *cmd, int *prev_fd, int *cur_fd)
+void middle_child(t_process *process, int *prev_fd, int *cur_fd)
 {
 	close(cur_fd[0]);
 	close(prev_fd[1]);
@@ -66,11 +80,11 @@ void middle_child(t_process *process, char **envp, char *cmd, int *prev_fd, int 
 		dup2(cur_fd[1], STDOUT_FILENO);
 	close(cur_fd[1]);
 	close(prev_fd[0]);
-	if (execve(cmd, process->cmd, envp) == -1)
-		exit(1);
+	// if (execve(cmd, process->cmd, env) == -1)
+	// 	exit(1);
 }
 
-void last_child(t_process *process, char **envp, char *cmd, int *prev_fd, int *cur_fd)
+void last_child(t_process *process, int *prev_fd)
 {
 	close(prev_fd[1]);
 	if (process->infile_fd > 0)
@@ -80,69 +94,99 @@ void last_child(t_process *process, char **envp, char *cmd, int *prev_fd, int *c
 	if (process->outfile_fd > 1)
 		dup2(process->outfile_fd, STDOUT_FILENO);
 	close(prev_fd[0]);
-	if (execve(cmd, process->cmd, envp) == -1)
-		exit(1);
+	// if (execve(cmd, process->cmd, env) == -1)
+	// 	exit(1);
 }
 
-
-
-void	close_fife(int i, int *prev_fd, int *cur_fd)
+void	close_pipe(int i, int *prev_fd, int *cur_fd)
 {
-	close(prev_fd[0]);
-	close(prev_fd[1]);
-	close(cur_fd[0]);
-	close(cur_fd[1]);
-	printf("%d\n", i);
+	if (prev_fd)
+	{
+		close(prev_fd[0]);
+		close(prev_fd[1]);
+	}
+
+	if (cur_fd)
+	{
+		close(cur_fd[0]);
+		close(cur_fd[1]);
+	}
 	while (i > 0)
 	{
 		waitpid(-1, 0, 0);
 		i--;
-		printf("%d\n", i);
 	}
-	
 }
 
-void	make_pipe(t_process *process, int cmd_size, char **envp)
+void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env)
 {
 	pid_t	pid;
 	int		i;
 	int prev_fd[2];
 	int cur_fd[2];
+	
 
 	if (pipe(prev_fd) == -1)
 		exit(1);
 	i = 0;
-	pipe(cur_fd);
 	
-	while (i < cmd_size)
+	while (process)
 	{
-		process->infile_fd = 0;
-		process->outfile_fd = 1;
+		fd_redirection(process, process->redir);
 		
-		fd_redirection(process);
-		printf("test\n");
 		//printf("%d %d %d\n", i, process->infile_fd, process->outfile_fd);
+		
+		if (i > 0)
+		{
+			close(prev_fd[0]);
+			close(prev_fd[1]);
+			prev_fd[0] = cur_fd[0];
+			prev_fd[1] = cur_fd[1];
+		}
+		if (pipe(cur_fd) == -1)
+        {
+            perror("pipe");
+            exit(1);
+        }
+		//pipe(process->cur_fd);
 		printf("%d %d | %d %d|\n", prev_fd[0], prev_fd[1], cur_fd[0], cur_fd[1]);
-		prev_fd[0] = cur_fd[0];
-		prev_fd[1] = cur_fd[1];
+		
 		pid = fork();
 		if (pid < 0)
 			exit(1);
 		if (pid == 0)
 		{
-			char *cmd = get_cmd(envp, process->cmd[0]);
+			char *cmd = get_cmd(execute_path, process->cmd[0]);
 			if (i == 0)
-				first_child(process, envp, cmd, prev_fd, cur_fd);
+				first_child(process, cur_fd);
 			else if (i == cmd_size - 1)
-				last_child(process, envp, cmd, prev_fd, cur_fd);
+				last_child(process, prev_fd);
 			else
-				middle_child(process, envp, cmd, prev_fd, cur_fd);
+				middle_child(process, prev_fd, cur_fd);
+			if (is_builtin(process))
+				check_biltins(process, env, 1);
+			else
+			{
+				if (execve(cmd, process->cmd, execute_path) == -1)
+		 			perror("execve");
+				printf("[test]\n");
+			}
 		}
+		//  if (i > 0)
+        // {
+        //     close(prev_fd[0]);
+        //     close(prev_fd[1]);
+        // }
+
+		// close(prev_fd[0]);
+		// close(prev_fd[1]);
+			
+			// close(process->cur_fd[0]);
+			// close(process->cur_fd[1]);
 			process = process->next;
 			i++;
 	}
-	close_fife(i, prev_fd, cur_fd);
-	printf("test");
+	close_pipe(i, prev_fd, cur_fd);
 }
 
 int	ft_lstsize(t_process *lst)
@@ -152,7 +196,6 @@ int	ft_lstsize(t_process *lst)
 	size = 0;
 	while (lst)
 	{
-		printf("%s\n", lst->cmd_line);
 		size++;
 		lst = lst->next;
 	}
@@ -189,35 +232,73 @@ char	*get_cmd(char **path, char *cmd)
 	return (0);
 }
 
-int fork_toExcute(t_process *process, char **envp, int cmd_size)
+
+char	**get_path(t_env *env)
 {
-	
-	make_pipe(process, cmd_size, envp);
+	char	**path;
+
+	path = NULL;
+	while (env)
+	{
+		if (ft_strncmp("PATH", env->key, 4) == 0)
+		{
+			path = ft_split(env->value, ':');
+			break ;
+		}
+		env = env->next;
+	}
+	return (path);
+}
+
+
+int fork_toExcute(t_process *process, t_env *env, int cmd_size)
+{
+	char **execute_path;
+	execute_path = get_path(env);
+	//check_heredoc(process);
+	make_pipe(process, cmd_size, execute_path, env);
 	return (0);
 }
 
-void no_fork_toExecute(t_process *process)
+void no_fork_toExecute(t_process *process, t_env *env)
 {
-	
+
+	check_biltins(process, env, 1);
 }
 
 int is_builtin(t_process *process)
 {
+	if (!ft_strncmp(process->cmd[0], "echo", ft_strlen("echo")))
+		return (1);
+	else if (!ft_strncmp(process->cmd[0], "cd", ft_strlen("cd")))
+		return (1);
+	else if (!ft_strncmp(process->cmd[0], "pwd", ft_strlen("pwd")))
+		return (1);
+	else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
+		return (1);
+	else if (!ft_strncmp(process->cmd[0], "unset", ft_strlen("unset")))
+	return (1);
+	else if (!ft_strncmp(process->cmd[0], "env", ft_strlen("env")))
+		return (1);
+	else if (!ft_strncmp(process->cmd[0], "exit", ft_strlen("exit")))
+		return (1);
 	return (0);
 }
 
-void process_start(t_process *process, char **envp)
+void process_start(t_process *process, t_env *env)
 {
     int process_len;
-
+	if (!process)
+		return;
     process_len = ft_lstsize(process);
-	printf("[%d]\n", process_len);
+	// printf("[%d]\n", process_len);
+	
     if (process_len == 1 && is_builtin(process)) //process 1개 && builtin인 경우
 	{
-		no_fork_toExecute(process);
+		no_fork_toExecute(process, env);
 	}
-	else // 그 외는 다 포크해새 실행하기
+	else // 그 외는 다 포크해서 실행하기
 	{
-		fork_toExcute(process, envp, process_len);
+		fork_toExcute(process, env, process_len);
 	}
 }

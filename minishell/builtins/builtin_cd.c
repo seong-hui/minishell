@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:24:50 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/17 20:51:53 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/19 20:25:39 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	check_command(char *command)
         perror("chdir");
         exit(1);
     }
-    printf("Current directory: %s\n", par_dir);
+    //printf("Current directory: %s\n", par_dir);
 	return (1);
 }
 
