@@ -1,5 +1,16 @@
 #include "parse.h"
 
+int	in_charset(char c, char *charset)
+{
+	while (*charset)
+	{
+		if (c == *charset)
+			return (1);
+		charset++;
+	}
+	return (0);
+}
+
 char	*ft_strndup(const char *s, int n)
 {
 	char	*copy;
