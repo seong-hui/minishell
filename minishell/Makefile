@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = 
+CFLAGS = -g3 -fsanitize=address
 
 
 SRCS = ./parse/main.c \
@@ -29,7 +29,7 @@ all : $(NAME)
 $(NAME) : $(OBJS)
 
 	make all -C $(LIBFT_DIR) 
-	$(CC) $(CFLAGS) -g -fsanitize=address -o $@ $^ -L$(LIBFT_DIR) -lft -lreadline
+	$(CC) $(CFLAGS)  -o $@ $^ -L$(LIBFT_DIR) -lft -lreadline
 	@echo "\033[36m" --- 🔹 Compile Complete 🔹 ---
 
 

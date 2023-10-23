@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 19:03:26 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/22 20:51:49 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/23 20:04:51 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,14 +164,13 @@ void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env
 			else
 				middle_child(process, prev_fd, cur_fd);
 			if (is_builtin(process))
-				check_biltins(process, env, cur_fd[1]);
+				check_biltins(process, env, 1);
 			else
 			{
 				if (execve(cmd, process->cmd, execute_path) == -1)
 		 			perror("execve");
 				printf("[test]\n");
 			}
-			
 		}
 		//  if (i > 0)
         // {
@@ -289,9 +288,11 @@ int is_builtin(t_process *process)
 void process_start(t_process *process, t_env *env)
 {
     int process_len;
-
+	if (!process)
+		return;
     process_len = ft_lstsize(process);
 	// printf("[%d]\n", process_len);
+	
     if (process_len == 1 && is_builtin(process)) //process 1개 && builtin인 경우
 	{
 		no_fork_toExecute(process, env);
