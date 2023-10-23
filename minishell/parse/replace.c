@@ -1,4 +1,6 @@
-#include "parse.h"
+
+#include "../include/parse.h"
+
 
 void	trim_spaces(t_process *process)
 {

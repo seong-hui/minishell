@@ -1,4 +1,6 @@
-#include "parse.h"
+
+#include "../include/parse.h"
+
 
 void	add_env(t_env **env, char *key, char *value)
 {

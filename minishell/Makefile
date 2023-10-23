@@ -1,5 +1,7 @@
 CC = cc
+
 CFLAGS = -Wall -Wextra -Werror
+
 
 SRCS = ./parse/main.c \
 	   ./parse/tokenize.c \
@@ -12,6 +14,7 @@ SRCS = ./parse/main.c \
 	   ./parse/free.c \
 	   ./parse/signal.c \
 	   ./parse/terminal.c
+	   ./execute/execute.c\
 
 OBJS = $(SRCS:.c=.o)
 
@@ -22,8 +25,11 @@ NAME = minishell
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	make all -C $(LIBFT_DIR)
+
+	make all -C $(LIBFT_DIR) 
 	$(CC) $(CFLAGS) -o $@ $^ -L$(LIBFT_DIR) -lft -lreadline
+	@echo "\033[36m" --- 🔹 Compile Complete 🔹 ---
+
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c -o $@ $<

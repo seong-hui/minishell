@@ -1,4 +1,4 @@
-#include "parse.h"
+#include "../include/parse.h"
 
 int	get_file_len(char *line)
 {
