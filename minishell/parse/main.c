@@ -6,11 +6,11 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/22 22:31:16 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/24 20:52:44 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parse.h"
+#include "../include/parse.h"
 
 void	print_lists(t_process **process, t_env **env)
 {
@@ -35,18 +35,18 @@ void	print_lists(t_process **process, t_env **env)
 		if (cur_process->cmd == NULL)
 			printf("No Cmd\n");
 		int	idx = 0;
-		while (cur_process->cmd[idx])
+		while (cur_process->cmd && cur_process->cmd[idx])
 			printf("cmd: %s\n", cur_process->cmd[idx++]);
 		printf("\n");
 		cur_process = cur_process->next;
 	}
 	t_env *cur_env = *env;
-	// printf("\n[[ENV LIST]]\n\n");
-	// while (cur_env)
-	// {
-	// 	printf("%s=%s\n", cur_env->key, cur_env->value);
+	printf("\n[[ENV LIST]]\n\n");
+	while (cur_env)
+	{
+		printf("%s=%s\n", cur_env->key, cur_env->value);
 		cur_env = cur_env->next;
-	//}
+	}
 }
 
 void	cl()
@@ -75,8 +75,11 @@ int	main(int ac, char **av, char **envp)
 		if (!line)
 			signal_handler(SIGTERM);
 		add_history(line);
+		// if (tokenize(&process, &env, line) == 1)
+		// 	print_lists(&process, &env);
 		if (tokenize(&process, &env, line) == 1)
-			print_lists(&process, &env);
+			process_start(process, env, envp);
+		//print_lists(&process, &env);
 		free_process_list(&process);
 		free(line);
 	}

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 21:27:03 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/23 14:18:13 by moonseonghu      ###   ########.fr       */
+/*   Created: 2023/10/11 17:12:59 by seonghmo          #+#    #+#             */
+/*   Updated: 2023/10/11 17:35:45 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *s)
+int	ft_strlen(char *s)
 {
 	int	len;
 

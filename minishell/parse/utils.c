@@ -1,4 +1,6 @@
-#include "parse.h"
+
+#include "../include/parse.h"
+
 
 int	in_charset(char c, char *charset)
 {

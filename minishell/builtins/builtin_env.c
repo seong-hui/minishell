@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 21:27:03 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/23 14:18:13 by moonseonghu      ###   ########.fr       */
+/*   Created: 2023/10/19 20:33:16 by moonseonghu       #+#    #+#             */
+/*   Updated: 2023/10/24 14:07:13 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *s)
-{
-	int	len;
+#include "../include/builtins.h"
 
-	len = 0;
-	while (s && s[len])
-		len++;
-	return (len);
+void builtin_env(t_process *process, t_env *env, int fd)
+{
+
+    while(env)
+    {
+         ft_putstr_fd(env->key, fd);
+         ft_putstr_fd("=", fd);
+         ft_putendl_fd(env->value, fd);
+        env = env->next;
+    }
 }

@@ -1,4 +1,4 @@
-#include "parse.h"
+#include "../include/parse.h"
 
 int	get_file_len(char *line)
 {
@@ -56,6 +56,27 @@ void	add_redir(t_redir **redir, char *file, int type)
 	}
 	else
 		*redir = new_redir;
+}
+
+void	check_redir_files(t_process *process)
+{
+	int		fd;
+	t_redir	*cur_redir;
+
+	fd = 0;
+	cur_redir = process->redir;
+	while (cur_redir)
+	{
+		if (cur_redir->type == T_REDIR_INPUT)
+			fd = open(cur_redir->file, O_RDONLY);
+		else if (cur_redir->type == T_REDIR_OUTPUT)
+			fd = open(cur_redir->file, O_WRONLY | O_CREAT, 0644);
+		else if (cur_redir->type == T_REDIR_APPEND)
+			fd = open(cur_redir->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		if (fd < 0)
+			return (print_file_error(cur_redir->file));
+		cur_redir = cur_redir->next;
+	}
 }
 
 void	parse_redir(t_process *process)

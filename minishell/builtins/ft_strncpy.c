@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 21:27:03 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/23 14:18:13 by moonseonghu      ###   ########.fr       */
+/*   Created: 2023/10/14 21:06:27 by seonghmo          #+#    #+#             */
+/*   Updated: 2023/10/14 21:12:08 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *s)
+char	*ft_strncpy(char *dest, char *src, unsigned int n)
 {
-	int	len;
+	unsigned int	i;
 
-	len = 0;
-	while (s && s[len])
-		len++;
-	return (len);
+	i = 0;
+	while (src[i] != '\0' && i < n)
+	{
+		dest[i] = src[i];
+		++i;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }

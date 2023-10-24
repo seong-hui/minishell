@@ -1,4 +1,7 @@
-#include "parse.h"
+
+#include "../include/parse.h"
+
+void	print_lists(t_process **process, t_env **env);
 
 void	add_process(t_process **process, char *cmd_line)
 {
@@ -73,14 +76,13 @@ void	split_process(t_process **process, char *line)
 	while (line[i])
 	{
 		pipe = skip_quote_with_pipe(&line[i]);
+		if (line[i + pipe] == '|' && !line[i + pipe + 1])
+			return (print_syntax_error("invalid syntax"));
 		line[i + pipe] = '\0';
 		if (!is_all_blank(&line[i]))
 			add_process(process, ft_strdup(&line[i]));
 		else
-		{
-			print_syntax_error("minishell: syntax error: invalid syntax");
-			return ;
-		}
+			return (print_syntax_error("invalid syntax"));
 		i += pipe;
 		if (i != line_len)
 			i++;
@@ -106,7 +108,7 @@ void	check_quote(char *line)
 		i++;
 	}
 	if (quote != 0)
-		print_syntax_error("minishell: syntax error: quote not closed");
+		print_syntax_error("quote not closed");
 }
 
 int	tokenize(t_process **process, t_env **env, char *line)
@@ -128,6 +130,9 @@ int	tokenize(t_process **process, t_env **env, char *line)
 		parse_cmd(cur);
 		replace_process_resources(cur, env);
 		check_syntax(cur);
+		if (g_exit_code != 0)
+			return (0);
+		check_redir_files(cur);
 		if (g_exit_code != 0)
 			return (0);
 		cur = cur->next;

@@ -1,21 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 21:27:03 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/23 14:18:13 by moonseonghu      ###   ########.fr       */
+/*   Created: 2023/09/11 16:05:32 by moonseonghu       #+#    #+#             */
+/*   Updated: 2023/10/16 04:33:47 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *s)
-{
-	int	len;
+#include "builtins.h"
 
-	len = 0;
-	while (s && s[len])
-		len++;
-	return (len);
-}
+
+
+
