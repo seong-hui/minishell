@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 15:36:18 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/11 20:14:41 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/24 17:49:54 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	get_copy_len(char const *s1, char const *set)
 {
 	int		end;
 
-	if (!*s1)
+	if (!s1)
 		return (0);
 	end = 0;
 	while (s1[end])

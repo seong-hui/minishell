@@ -26,11 +26,8 @@ void	free_process_list(t_process **process)
 		free_redir_list(cur->redir);
 		free(cur->cmd_line);
 		i = 0;
-		while (cur->cmd[i])
-		{
-			//printf("%s\n", cur->cmd[i]);
+		while (cur->cmd && cur->cmd[i])
 			free(cur->cmd[i++]);
-		}
 		free(cur->cmd);
 		next = cur->next;
 		cur->next = NULL;

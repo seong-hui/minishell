@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:22:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 16:12:01 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/24 21:12:06 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	check_builtins(t_process *process, t_env *env, int fd)
 		builtin_cd(process);
 	else if (!ft_strncmp(process->cmd[0], "pwd", ft_strlen("pwd")))
 		builtin_pwd();
-	else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
-		builtin_export(process, env);
+	// else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
+	// 	builtin_export(process, env);
 	// else if (!ft_strncmp(token[0], "unset", ft_strlen("unset")))
 	// 	builtin_unset(token);
 	else if (!ft_strncmp(process->cmd[0], "env", ft_strlen("env")))

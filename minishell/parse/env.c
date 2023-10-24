@@ -1,6 +1,8 @@
 
 #include "../include/parse.h"
 
+char	*get_path_value(char *envp);
+char	*get_path_key(char *envp);
 
 void	add_env(t_env **env, char *key, char *value)
 {
@@ -67,16 +69,20 @@ char	*search_env_value(t_env **env, char *search)
 void	create_env_list(t_env **env, char **envp)
 {
 	int		i;
-	char	**paths;
+	char	*key;
+	char	*value;
 
 	while (*envp)
 	{
-		paths = ft_split(*envp, '=');
-		add_env(env, ft_strdup(paths[0]), ft_strdup(paths[1]));
+		key = get_path_key(*envp);
+		value = get_path_value(&(*envp)[ft_strlen(key) + 1]);
+		if (value == NULL)
+			add_env(env, ft_strdup(key), ft_strdup(""));
+		else
+			add_env(env, ft_strdup(key), ft_strdup(value));
 		i = -1;
-		while (paths[++i])
-			free(paths[i]);
-		free(paths);
+		free(key);
+		free(value);
 		envp++;
 	}
 }

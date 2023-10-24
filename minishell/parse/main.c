@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/24 14:11:55 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/24 21:24:06 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	print_lists(t_process **process, t_env **env)
 		cur_process = cur_process->next;
 	}
 	t_env *cur_env = *env;
-	// printf("\n[[ENV LIST]]\n\n");
-	// while (cur_env)
-	// {
-	// 	printf("%s=%s\n", cur_env->key, cur_env->value);
+	printf("\n[[ENV LIST]]\n\n");
+	while (cur_env)
+	{
+		printf("%s=%s\n", cur_env->key, cur_env->value);
 		cur_env = cur_env->next;
-	//}
+	}
 }
 
 void	cl()
@@ -79,6 +79,7 @@ int	main(int ac, char **av, char **envp)
 		// 	print_lists(&process, &env);
 		if (tokenize(&process, &env, line) == 1)
 			process_start(process, env, envp);
+		//print_lists(&process, &env);
 		free_process_list(&process);
 		free(line);
 	}
