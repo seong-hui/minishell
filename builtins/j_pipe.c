@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   j_pipe.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 15:37:50 by jonhan            #+#    #+#             */
-/*   Updated: 2023/10/24 21:05:21 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/16 21:34:21 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

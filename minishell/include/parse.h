@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:29:40 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/24 17:57:10 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/24 21:03:01 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # include <signal.h>
 #include <termios.h>
 
+
+# define T_SIMPLE 0
+# define T_PIPE 1
 # define T_REDIR_INPUT 2
 # define T_REDIR_OUTPUT 3
 # define T_REDIR_HEREDOC 4

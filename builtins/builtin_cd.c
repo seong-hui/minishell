@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:24:50 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 21:04:21 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/15 19:00:39 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/builtins.h"
+#include "builtins.h"
 
 char	*get_cur_dir(void)
 {
@@ -51,7 +51,7 @@ int	check_command(char *command)
         perror("chdir");
         exit(1);
     }
-    //printf("Current directory: %s\n", par_dir);
+    printf("Current directory: %s\n", par_dir);
 	return (1);
 }
 

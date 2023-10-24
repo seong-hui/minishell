@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 19:33:09 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 21:04:50 by jooypark         ###   ########seoul.kr  */
+/*   Created: 2023/10/11 17:12:59 by seonghmo          #+#    #+#             */
+/*   Updated: 2023/10/11 17:35:45 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/builtins.h"
-
-void	builtin_export(t_process *process, t_env *env)
+int	ft_strlen(char *s)
 {
+	int	len;
 
+	len = 0;
+	while (s && s[len])
+		len++;
+	return (len);
 }
