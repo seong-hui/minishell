@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:35:59 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 14:15:09 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/24 15:49:31 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "parse.h"
 
 char	**ft_split(char const *s, char c);
-void	builtin_echo(t_process *process);
+void	builtin_echo(t_process *process, int fd);
 void builtin_pwd(void);
 void builtin_cd(t_process *process);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
