@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 19:03:26 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 14:24:32 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/24 15:38:02 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,18 @@ void first_child(t_process *process, int *cur_fd, t_env *env, char *cmd, char **
 		dup2(process->infile_fd, STDIN_FILENO);
 	if (process->outfile_fd > 1)
 		dup2(process->outfile_fd, STDOUT_FILENO);
-	else if (process->next)
+	else 
 		dup2(cur_fd[1], STDOUT_FILENO);
-	close(cur_fd[1]);
+	// close(cur_fd[1]);
 	if (is_builtin(process))
 	{
-		check_biltins(process, env, cur_fd[1]);
+		check_builtins(process, env, cur_fd[1]);
+		close(cur_fd[1]);
 		exit(0);
 	}
 	else
 	{
+		close(cur_fd[1]);
 		if (execve(cmd, process->cmd, envp) == -1)
 		 	perror("execve");
 	}
@@ -86,15 +88,17 @@ void middle_child(t_process *process, int *prev_fd, int *cur_fd, t_env *env, cha
 		dup2(process->outfile_fd, STDOUT_FILENO);
 	else
 		dup2(cur_fd[1], STDOUT_FILENO);
-	close(cur_fd[1]);
+	// close(cur_fd[1]);
 	close(prev_fd[0]);
 	if (is_builtin(process))
 	{
-		check_biltins(process, env, cur_fd[1]);
+		check_builtins(process, env, cur_fd[1]);
+		close(cur_fd[1]);
 		exit(0);
 	}
 	else 
 	{
+		close(cur_fd[1]);
 		if (execve(cmd, process->cmd, envp) == -1)
 		 	perror("execve");
 	}
@@ -112,7 +116,7 @@ void last_child(t_process *process, int *prev_fd, t_env *env, char *cmd, char **
 	close(prev_fd[0]);
 	if (is_builtin(process))
 	{
-			check_biltins(process, env, 1);
+			check_builtins(process, env, process->outfile_fd);
 			exit(0);
 	}
 	else
@@ -156,7 +160,6 @@ void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env
 	
 	while (i < cmd_size)
 	{
-		//printf("%d %d\n", i ,pid);
 		fd_redirection(process, process->redir);
 		if (i > 0)
 		{
@@ -170,18 +173,20 @@ void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env
             perror("pipe");
             exit(1);
         }
+		//printf("prev_fd[0]: %d prev_fd[1]: %d cur_fd[0]: %d cur_fd[1]: %d\n", prev_fd[0], prev_fd[1], cur_fd[0] ,cur_fd[1]);
 		pid = fork();
 		if (pid < 0)
 			exit(1);
 		if (pid == 0)
 		{
-			char *cmd = get_cmd(execute_path, process->cmd[0]);
-			if (i == 0)
-				first_child(process, cur_fd, env, cmd, envp);
-			else if (i == cmd_size - 1)
+			 char *cmd = get_cmd(execute_path, process->cmd[0]);
+			if (i == cmd_size - 1)
 				last_child(process, prev_fd, env, cmd, envp);
+			else if (i == 0)
+				first_child(process, cur_fd, env, cmd, envp);
 			else
 				middle_child(process, prev_fd, cur_fd, env, cmd, envp);
+			
 		}
 		process = process->next;
 		i++;
