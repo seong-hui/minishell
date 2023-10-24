@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 19:03:26 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/23 20:36:44 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/24 15:50:25 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,31 @@ void fd_redirection(t_process *process, t_redir *redir)
 	}
 }
 
-void first_child(t_process *process, int *cur_fd)
+void first_child(t_process *process, int *cur_fd, t_env *env, char *cmd, char **envp)
 {
 	close(cur_fd[0]);
 	if (process->infile_fd > 0)
 		dup2(process->infile_fd, STDIN_FILENO);
 	if (process->outfile_fd > 1)
 		dup2(process->outfile_fd, STDOUT_FILENO);
-	else if (process->next)
+	else 
 		dup2(cur_fd[1], STDOUT_FILENO);
-	close(cur_fd[1]);
-	// if (execve(cmd, process->cmd, env) == -1)
-	// 	 perror("execve");
+	// close(cur_fd[1]);
+	if (is_builtin(process))
+	{
+		check_builtins(process, env, cur_fd[1]);
+		close(cur_fd[1]);
+		exit(0);
+	}
+	else
+	{
+		close(cur_fd[1]);
+		if (execve(cmd, process->cmd, envp) == -1)
+		 	perror("execve");
+	}
 }
 
-void middle_child(t_process *process, int *prev_fd, int *cur_fd)
+void middle_child(t_process *process, int *prev_fd, int *cur_fd, t_env *env, char *cmd, char **envp)
 {
 	close(cur_fd[0]);
 	close(prev_fd[1]);
@@ -78,13 +88,23 @@ void middle_child(t_process *process, int *prev_fd, int *cur_fd)
 		dup2(process->outfile_fd, STDOUT_FILENO);
 	else
 		dup2(cur_fd[1], STDOUT_FILENO);
-	close(cur_fd[1]);
+	// close(cur_fd[1]);
 	close(prev_fd[0]);
-	// if (execve(cmd, process->cmd, env) == -1)
-	// 	exit(1);
+	if (is_builtin(process))
+	{
+		check_builtins(process, env, cur_fd[1]);
+		close(cur_fd[1]);
+		exit(0);
+	}
+	else 
+	{
+		close(cur_fd[1]);
+		if (execve(cmd, process->cmd, envp) == -1)
+		 	perror("execve");
+	}
 }
 
-void last_child(t_process *process, int *prev_fd)
+void last_child(t_process *process, int *prev_fd, t_env *env, char *cmd, char **envp)
 {
 	close(prev_fd[1]);
 	if (process->infile_fd > 0)
@@ -94,8 +114,16 @@ void last_child(t_process *process, int *prev_fd)
 	if (process->outfile_fd > 1)
 		dup2(process->outfile_fd, STDOUT_FILENO);
 	close(prev_fd[0]);
-	// if (execve(cmd, process->cmd, env) == -1)
-	// 	exit(1);
+	if (is_builtin(process))
+	{
+			check_builtins(process, env, process->outfile_fd);
+			exit(0);
+	}
+	else
+	{
+		if (execve(cmd, process->cmd, envp) == -1)
+		 	perror("execve");
+	}
 }
 
 void	close_pipe(int i, int *prev_fd, int *cur_fd)
@@ -118,7 +146,7 @@ void	close_pipe(int i, int *prev_fd, int *cur_fd)
 	}
 }
 
-void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env)
+void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env, char **envp)
 {
 	pid_t	pid;
 	int		i;
@@ -130,12 +158,9 @@ void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env
 		exit(1);
 	i = 0;
 	
-	while (process)
+	while (i < cmd_size)
 	{
 		fd_redirection(process, process->redir);
-		
-		//printf("%d %d %d\n", i, process->infile_fd, process->outfile_fd);
-		
 		if (i > 0)
 		{
 			close(prev_fd[0]);
@@ -148,43 +173,23 @@ void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env
             perror("pipe");
             exit(1);
         }
-		//pipe(process->cur_fd);
-		printf("%d %d | %d %d|\n", prev_fd[0], prev_fd[1], cur_fd[0], cur_fd[1]);
-		
+		//printf("prev_fd[0]: %d prev_fd[1]: %d cur_fd[0]: %d cur_fd[1]: %d\n", prev_fd[0], prev_fd[1], cur_fd[0] ,cur_fd[1]);
 		pid = fork();
 		if (pid < 0)
 			exit(1);
 		if (pid == 0)
 		{
-			char *cmd = get_cmd(execute_path, process->cmd[0]);
-			if (i == 0)
-				first_child(process, cur_fd);
-			else if (i == cmd_size - 1)
-				last_child(process, prev_fd);
+			 char *cmd = get_cmd(execute_path, process->cmd[0]);
+			if (i == cmd_size - 1)
+				last_child(process, prev_fd, env, cmd, envp);
+			else if (i == 0)
+				first_child(process, cur_fd, env, cmd, envp);
 			else
-				middle_child(process, prev_fd, cur_fd);
-			if (is_builtin(process))
-				check_biltins(process, env, 1);
-			else
-			{
-				if (execve(cmd, process->cmd, execute_path) == -1)
-		 			perror("execve");
-				printf("[test]\n");
-			}
-		}
-		//  if (i > 0)
-        // {
-        //     close(prev_fd[0]);
-        //     close(prev_fd[1]);
-        // }
-
-		// close(prev_fd[0]);
-		// close(prev_fd[1]);
+				middle_child(process, prev_fd, cur_fd, env, cmd, envp);
 			
-			// close(process->cur_fd[0]);
-			// close(process->cur_fd[1]);
-			process = process->next;
-			i++;
+		}
+		process = process->next;
+		i++;
 	}
 	close_pipe(i, prev_fd, cur_fd);
 }
@@ -251,19 +256,18 @@ char	**get_path(t_env *env)
 }
 
 
-int fork_toExcute(t_process *process, t_env *env, int cmd_size)
+int fork_toExcute(t_process *process, t_env *env, int cmd_size, char **envp)
 {
 	char **execute_path;
 	execute_path = get_path(env);
-	//check_heredoc(process);
-	make_pipe(process, cmd_size, execute_path, env);
+	make_pipe(process, cmd_size, execute_path, env, envp);
 	return (0);
 }
 
 void no_fork_toExecute(t_process *process, t_env *env)
 {
 
-	check_biltins(process, env, 1);
+	check_builtins(process, env, 1);
 }
 
 int is_builtin(t_process *process)
@@ -285,7 +289,7 @@ int is_builtin(t_process *process)
 	return (0);
 }
 
-void process_start(t_process **process, t_env *env)
+void process_start(t_process *process, t_env *env, char **envp)
 {
 	t_process *head = process;
     int process_len;
@@ -300,6 +304,6 @@ void process_start(t_process **process, t_env *env)
 	}
 	else // 그 외는 다 포크해서 실행하기
 	{
-		fork_toExcute(head, env, process_len);
+		fork_toExcute(head, env, process_len, envp);
 	}
 }

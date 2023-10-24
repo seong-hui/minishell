@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/23 23:04:00 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/24 14:11:55 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,8 @@ int	main(int ac, char **av, char **envp)
 		// if (tokenize(&process, &env, line) == 1)
 		// 	print_lists(&process, &env);
 		if (tokenize(&process, &env, line) == 1)
-			process_start(process, env);
-		//print_lists(&process, &env);
-		//free_process_list(&process);
+			process_start(process, env, envp);
+		free_process_list(&process);
 		free(line);
 	}
 	free_env_list(env);

@@ -118,7 +118,7 @@ char	*replace_str(char *str, t_env **env)
 			else
 			{
 				env_value = search_env_value(env, env_key);
-				printf("%s\n", env_value);
+				//printf("%s\n", env_value);
 				if (env_value != NULL)
 				{
 					while (*env_value)
