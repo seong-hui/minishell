@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:16:33 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 21:04:58 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/24 21:11:50 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

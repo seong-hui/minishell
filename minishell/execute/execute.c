@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 19:03:26 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 19:54:11 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/24 21:21:44 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,52 +46,54 @@ void fd_redirection(t_process *process, t_redir *redir)
 	}
 }
 
-void first_child(t_process *process, int *cur_fd, t_env *env, char *cmd, char **envp)
-=======
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 19:03:26 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/17 21:02:19 by moonseonghu      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../include/builtins.h"
-
-char	*get_cmd(char **path, char *cmd);
 
 
-void fd_redirection(t_process *process)
+
+
+void fd_redirection(t_process *process, t_redir *redir)
+
 {
-	printf("%d\n", process->redir->type);
-	
-	if (process->redir->type == 2) //infile이 있을 때
+	process->infile_fd = 0;
+	process->outfile_fd = 1;
+	while(redir)
 	{
-		process->infile_fd = open(process->redir->file, O_RDONLY);
-		 if (process->infile_fd == -1) {
-            perror("Failed to open infile");
-            exit(1);
-        }
+		if (redir->type == 2) //infile이 있을 때
+		{
+			process->infile_fd = open(redir->file, O_RDONLY);
+		 	if (process->infile_fd == -1) {
+            	perror("Failed to open infile");
+            	exit(1);
+        	}
+		}
+		else if (redir->type == 3) //outfile이 있을 때 
+		{
+			process->outfile_fd = open(redir->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		 	if (process->outfile_fd == -1) 
+		 	{
+            	perror("Failed to open outfile");
+            	exit(1);
+		 	}
+		}
+		else if (redir->type == 5) //APPEND 처리 따로 해야함
+		{
+			process->outfile_fd = open(redir->file, O_RDWR | O_CREAT | O_APPEND, 0644);
+		 	if (process->outfile_fd == -1) 
+		 	{
+            	perror("Failed to open outfile");
+            	exit(1);
+		 	}
+		}
+		redir = redir->next;
 	}
-	if (process->redir->type == 3) //outfile이 있을 때
-	{
-		process->outfile_fd = open(process->redir->file, O_RDWR | O_CREAT | O_TRUNC, 0644);
-		 if (process->outfile_fd == -1) {
-            perror("Failed to open outfile");
-            exit(1);
-		 }
-	}
-	printf("test1\n");
 }
 
-void first_child(t_process *process, char **envp, char *cmd, int *prev_fd, int *cur_fd)
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
+void first_child(t_process *process, int *cur_fd, t_env *env, char *cmd, char **envp)
 {
 	close(cur_fd[0]);
 	if (process->infile_fd > 0)
 		dup2(process->infile_fd, STDIN_FILENO);
 	if (process->outfile_fd > 1)
 		dup2(process->outfile_fd, STDOUT_FILENO);
-<<<<<<< HEAD
 	else 
 		dup2(cur_fd[1], STDOUT_FILENO);
 	// close(cur_fd[1]);
@@ -111,16 +112,42 @@ void first_child(t_process *process, char **envp, char *cmd, int *prev_fd, int *
 }
 
 void middle_child(t_process *process, int *prev_fd, int *cur_fd, t_env *env, char *cmd, char **envp)
-=======
 	else
 		dup2(cur_fd[1], STDOUT_FILENO);
-	close(cur_fd[1]);
-	if (execve(cmd, process->cmd, envp) == -1)
-		 perror("execve");
+	// close(cur_fd[1]);
+	if (is_builtin(process))
+	{
+		check_builtins(process, env, cur_fd[1]);
+		close(cur_fd[1]);
+		exit(0);
+	}
+	else
+	{
+		close(cur_fd[1]);
+		if (execve(cmd, process->cmd, envp) == -1)
+			print_command_error(process->cmd[0]);
+	}
+}
+
+void middle_child(t_process *process, int *prev_fd, int *cur_fd, t_env *env, char *cmd, char **envp)
+	else
+		dup2(cur_fd[1], STDOUT_FILENO);
+	// close(cur_fd[1]);
+	if (is_builtin(process))
+	{
+		check_builtins(process, env, cur_fd[1]);
+		close(cur_fd[1]);
+		exit(0);
+	}
+	else
+	{
+		close(cur_fd[1]);
+		if (execve(cmd, process->cmd, envp) == -1)
+		 	perror("execve");
+	}
 }
 
 void middle_child(t_process *process, char **envp, char *cmd, int *prev_fd, int *cur_fd)
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
 {
 	close(cur_fd[0]);
 	close(prev_fd[1]);
@@ -132,8 +159,6 @@ void middle_child(t_process *process, char **envp, char *cmd, int *prev_fd, int 
 		dup2(process->outfile_fd, STDOUT_FILENO);
 	else
 		dup2(cur_fd[1], STDOUT_FILENO);
-<<<<<<< HEAD
-	// close(cur_fd[1]);
 	close(prev_fd[0]);
 	if (is_builtin(process))
 	{
@@ -150,15 +175,24 @@ void middle_child(t_process *process, char **envp, char *cmd, int *prev_fd, int 
 }
 
 void last_child(t_process *process, int *prev_fd, t_env *env, char *cmd, char **envp)
-=======
+{
 	close(cur_fd[1]);
 	close(prev_fd[0]);
-	if (execve(cmd, process->cmd, envp) == -1)
-		exit(1);
+	if (is_builtin(process))
+	{
+		check_builtins(process, env, cur_fd[1]);
+		close(cur_fd[1]);
+		exit(0);
+	}
+	else 
+	{
+		close(cur_fd[1]);
+		if (execve(cmd, process->cmd, envp) == -1)
+		 	perror("execve");
+	}
 }
 
 void last_child(t_process *process, char **envp, char *cmd, int *prev_fd, int *cur_fd)
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
 {
 	close(prev_fd[1]);
 	if (process->infile_fd > 0)
@@ -208,7 +242,6 @@ void	close_fife(int i, int *prev_fd, int *cur_fd)
 	close(cur_fd[0]);
 	close(cur_fd[1]);
 	printf("%d\n", i);
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
 	while (i > 0)
 	{
 		waitpid(-1, 0, 0);
@@ -219,27 +252,19 @@ void	close_fife(int i, int *prev_fd, int *cur_fd)
 
 void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env, char **envp)
 =======
-		printf("%d\n", i);
 	}
-	
 }
 
 void	make_pipe(t_process *process, int cmd_size, char **envp)
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
 {
 	pid_t	pid;
 	int		i;
 	int prev_fd[2];
 	int cur_fd[2];
-<<<<<<< HEAD
-	
-=======
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
 
 	if (pipe(prev_fd) == -1)
 		exit(1);
 	i = 0;
-<<<<<<< HEAD
 	
 	while (i < cmd_size)
 	{
@@ -257,7 +282,6 @@ void	make_pipe(t_process *process, int cmd_size, char **envp)
             exit(1);
         }
 		//printf("prev_fd[0]: %d prev_fd[1]: %d cur_fd[0]: %d cur_fd[1]: %d\n", prev_fd[0], prev_fd[1], cur_fd[0] ,cur_fd[1]);
-=======
 	pipe(cur_fd);
 	
 	while (i < cmd_size)
@@ -271,18 +295,16 @@ void	make_pipe(t_process *process, int cmd_size, char **envp)
 		printf("%d %d | %d %d|\n", prev_fd[0], prev_fd[1], cur_fd[0], cur_fd[1]);
 		prev_fd[0] = cur_fd[0];
 		prev_fd[1] = cur_fd[1];
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
 		pid = fork();
 		if (pid < 0)
 			exit(1);
 		if (pid == 0)
 		{
-<<<<<<< HEAD
-			 char *cmd = get_cmd(execute_path, process->cmd[0]);
-			if (i == cmd_size - 1)
-				last_child(process, prev_fd, env, cmd, envp);
-			else if (i == 0)
-				first_child(process, cur_fd, env, cmd, envp);
+			char *cmd = get_cmd(envp, process->cmd[0]);
+			if (i == 0)
+				first_child(process, envp, cmd, prev_fd, cur_fd);
+			else if (i == cmd_size - 1)
+				last_child(process, envp, cmd, prev_fd, cur_fd);
 			else
 				middle_child(process, prev_fd, cur_fd, env, cmd, envp);
 			
@@ -290,22 +312,8 @@ void	make_pipe(t_process *process, int cmd_size, char **envp)
 		process = process->next;
 		i++;
 	}
-	close_pipe(i, prev_fd, cur_fd);
-=======
-			char *cmd = get_cmd(envp, process->cmd[0]);
-			if (i == 0)
-				first_child(process, envp, cmd, prev_fd, cur_fd);
-			else if (i == cmd_size - 1)
-				last_child(process, envp, cmd, prev_fd, cur_fd);
-			else
-				middle_child(process, envp, cmd, prev_fd, cur_fd);
-		}
-			process = process->next;
-			i++;
-	}
 	close_fife(i, prev_fd, cur_fd);
 	printf("test");
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
 }
 
 int	ft_lstsize(t_process *lst)
@@ -315,10 +323,7 @@ int	ft_lstsize(t_process *lst)
 	size = 0;
 	while (lst)
 	{
-<<<<<<< HEAD
-=======
 		printf("%s\n", lst->cmd_line);
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
 		size++;
 		lst = lst->next;
 	}
@@ -355,9 +360,7 @@ char	*get_cmd(char **path, char *cmd)
 	return (0);
 }
 
-<<<<<<< HEAD
-
-char	**get_path(t_env *env)
+int fork_toExcute(t_process *process, char **envp, int cmd_size)
 {
 	char	**path;
 
@@ -385,39 +388,11 @@ int fork_toExcute(t_process *process, t_env *env, int cmd_size, char **envp)
 
 void no_fork_toExecute(t_process *process, t_env *env)
 {
-
-	check_builtins(process, env, 1);
-=======
-int fork_toExcute(t_process *process, char **envp, int cmd_size)
-{
 	
-	make_pipe(process, cmd_size, envp);
-	return (0);
-}
-
-void no_fork_toExecute(t_process *process)
-{
-	
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
 }
 
 int is_builtin(t_process *process)
 {
-<<<<<<< HEAD
-	if (!ft_strncmp(process->cmd[0], "echo", ft_strlen("echo")))
-		return (1);
-	else if (!ft_strncmp(process->cmd[0], "cd", ft_strlen("cd")))
-		return (1);
-	else if (!ft_strncmp(process->cmd[0], "pwd", ft_strlen("pwd")))
-		return (1);
-	else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
-		return (1);
-	else if (!ft_strncmp(process->cmd[0], "unset", ft_strlen("unset")))
-	return (1);
-	else if (!ft_strncmp(process->cmd[0], "env", ft_strlen("env")))
-		return (1);
-	else if (!ft_strncmp(process->cmd[0], "exit", ft_strlen("exit")))
-		return (1);
 	return (0);
 }
 
@@ -436,24 +411,6 @@ void process_start(t_process *process, t_env *env, char **envp)
 	}
 	else // 그 외는 다 포크해서 실행하기
 	{
-		fork_toExcute(head, env, process_len, envp);
-=======
-	return (0);
-}
-
-void process_start(t_process *process, char **envp)
-{
-    int process_len;
-
-    process_len = ft_lstsize(process);
-	printf("[%d]\n", process_len);
-    if (process_len == 1 && is_builtin(process)) //process 1개 && builtin인 경우
-	{
-		no_fork_toExecute(process);
-	}
-	else // 그 외는 다 포크해새 실행하기
-	{
 		fork_toExcute(process, envp, process_len);
->>>>>>> 70bcc58bf02d3999aa1e72f95622baece5918269
 	}
 }

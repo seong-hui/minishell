@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/24 20:52:44 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/24 21:24:06 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	main(int ac, char **av, char **envp)
 			process_start(process, env, envp);
 		//print_lists(&process, &env);
 		free_process_list(&process);
-		//process_start(process, envp);
 		free(line);
 	}
 	free_env_list(env);
