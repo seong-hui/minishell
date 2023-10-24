@@ -6,18 +6,21 @@ LDFLAGS = -L${HOME}/.brew/opt/readline/lib
 LDLIBS = -lreadline
 
 
+
 SRCS = ./parse/main.c \
 	   ./parse/tokenize.c \
 	   ./parse/redirection.c \
 	   ./parse/utils.c \
 	   ./parse/cmd.c \
 	   ./parse/env.c \
+	   ./parse/path.c \
 	   ./parse/replace.c \
 	   ./parse/syntax.c \
 	   ./parse/free.c \
 	   ./parse/signal.c \
 	   ./parse/terminal.c \
 	   ./execute/execute.c\
+	   ./execute/error.c \
 	   ./builtins/builtins.c\
 	   ./builtins/builtin_cd.c\
 	   ./builtins/builtin_echo.c\

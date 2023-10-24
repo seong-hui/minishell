@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:16:33 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/23 23:43:35 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/24 21:11:50 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
