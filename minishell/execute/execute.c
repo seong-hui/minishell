@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 19:03:26 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 15:50:25 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/24 20:41:01 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,8 +278,8 @@ int is_builtin(t_process *process)
 		return (1);
 	else if (!ft_strncmp(process->cmd[0], "pwd", ft_strlen("pwd")))
 		return (1);
-	else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
-		return (1);
+	// else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
+	// 	return (1);
 	else if (!ft_strncmp(process->cmd[0], "unset", ft_strlen("unset")))
 	return (1);
 	else if (!ft_strncmp(process->cmd[0], "env", ft_strlen("env")))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:35:59 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 15:49:31 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/24 20:40:01 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <sys/wait.h>
 #include "parse.h"
 
-char	**ft_split(char const *s, char c);
 void	builtin_echo(t_process *process, int fd);
 void builtin_pwd(void);
 void builtin_cd(t_process *process);
@@ -29,6 +28,9 @@ void	check_builtins(t_process *process, t_env *env, int fd);
 void process_start(t_process *process, t_env *env, char **envp);
 void builtin_env(t_process *process, t_env *env, int fd);
 void fd_redirection(t_process *process, t_redir *redir);
+void	builtin_export(t_process *process, t_env *env, int fd);
+void builtin_env(t_process *process, t_env *env, int fd);
+void builtin_unset(t_process *process, t_env *env, int fd);
 
 #endif
 

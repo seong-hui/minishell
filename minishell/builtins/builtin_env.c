@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 20:33:16 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/10/24 14:07:13 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/24 20:51:11 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void builtin_env(t_process *process, t_env *env, int fd)
 {
 
-    while(env)
+    while (env)
     {
          ft_putstr_fd(env->key, fd);
          ft_putstr_fd("=", fd);

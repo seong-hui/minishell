@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 16:29:40 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/23 23:15:00 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/24 20:38:10 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,6 @@ void	set_terminal_print_off(void);
 void	set_terminal_print_on(void);
 
 void process_start(t_process *process, t_env *env, char **envp);
+void	add_env(t_env **env, char *key, char *value);
+void	delete_env(t_env **env, char *del_key);
 #endif
