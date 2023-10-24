@@ -28,7 +28,7 @@ void	free_process_list(t_process **process)
 		i = 0;
 		while (cur->cmd[i])
 		{
-			printf("%s\n", cur->cmd[i]);
+			//printf("%s\n", cur->cmd[i]);
 			free(cur->cmd[i++]);
 		}
 		free(cur->cmd);
