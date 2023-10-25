@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/24 21:44:30 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/25 19:33:20 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void fd_redirection(t_process *process, t_redir *redir);
 void	builtin_export(t_process *process, t_env *env, int fd);
 void builtin_env(t_process *process, t_env *env, int fd);
 void builtin_unset(t_process *process, t_env *env, int fd);
+char	*get_path_key(char *envp);
+char	*get_path_value(char *envp);
 
 #endif
 

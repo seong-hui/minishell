@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/24 21:43:52 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/25 22:45:05 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 void	check_builtins(t_process *process, t_env *env, int fd)
 {
-	//printf("[%s]\n", process->cmd[0]);
 	if (!ft_strncmp(process->cmd[0], "echo", ft_strlen("echo")))
 		builtin_echo(process, fd);
 	else if (!ft_strncmp(process->cmd[0], "cd", ft_strlen("cd")))

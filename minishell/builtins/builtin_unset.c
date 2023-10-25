@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 20:03:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 21:08:07 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/24 23:08:52 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,25 @@ void builtin_unset(t_process *process, t_env *env, int fd)
 	start = env;
 	while(process->cmd[i])
 	{
-		if ((process->cmd[i][0] == '_' && process->cmd[i][1]) 
+		if ((process->cmd[i][0] == '_' && process->cmd[i][1])
 			|| ft_isalpha(process->cmd[i][0]))
 			{
+				env = start;
 				while (env)
 				{
-					if (!ft_strcmp(env->key, process->cmd[i]))
-						delete_env(env, env->key);
+					if (ft_strcmp(env->key, process->cmd[i]) == 0)
+					{
+						delete_env(&start, env->key);
+						break;
+					}
 					else
 						env = env->next;
 				}
-			
 			}
 		else
 		{
-			ft_putchar_fd(process->cmd[i], fd);
-			ft_putchar_fd(": not a valid identifier", fd);
-			perror(process->cmd[i]);
+			ft_putstr_fd(process->cmd[i], fd);
+			ft_putstr_fd(": not a valid identifier\n", fd);
 		}
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/24 21:44:11 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/25 18:46:19 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,8 +267,8 @@ int fork_toExcute(t_process *process, t_env *env, int cmd_size, char **envp)
 
 void no_fork_toExecute(t_process *process, t_env *env)
 {
-
-	check_builtins(process, env, 1);
+	fd_redirection(process, process->redir);
+	check_builtins(process, env, process->outfile_fd);
 }
 
 int is_builtin(t_process *process)
@@ -279,8 +279,8 @@ int is_builtin(t_process *process)
 		return (1);
 	else if (!ft_strncmp(process->cmd[0], "pwd", ft_strlen("pwd")))
 		return (1);
-	// else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
-	// 	return (1);
+	else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
+		return (1);
 	else if (!ft_strncmp(process->cmd[0], "unset", ft_strlen("unset")))
 	return (1);
 	else if (!ft_strncmp(process->cmd[0], "env", ft_strlen("env")))
