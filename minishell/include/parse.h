@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/06 16:29:40 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/24 21:35:55 by seonghmo         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/10/24 22:26:05 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef PARSE_H
 # define PARSE_H
@@ -77,4 +78,7 @@ void    signal_handler(int signo);
 void    set_terminal_print_off(void);
 void    set_terminal_print_on(void);
 void process_start(t_process *process, t_env *env, char **envp);
+void	add_env(t_env **env, char *key, char *value);
+void	delete_env(t_env **env, char *del_key);
+char	*search_env_value(t_env **env, char *search);
 #endif

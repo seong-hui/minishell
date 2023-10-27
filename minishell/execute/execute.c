@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/15 19:03:26 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 21:28:12 by seonghmo         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/10/25 18:46:19 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../include/execute.h"
 
@@ -266,8 +267,8 @@ int fork_toExcute(t_process *process, t_env *env, int cmd_size, char **envp)
 
 void no_fork_toExecute(t_process *process, t_env *env)
 {
-
-	check_builtins(process, env, 1);
+	fd_redirection(process, process->redir);
+	check_builtins(process, env, process->outfile_fd);
 }
 
 int is_builtin(t_process *process)
