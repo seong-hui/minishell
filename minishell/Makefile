@@ -28,6 +28,7 @@ SRCS = ./parse/main.c \
 	   ./builtins/builtin_env.c\
 	   ./builtins/builtin_export.c\
 	   ./builtins/builtin_unset.c\
+	   ./builtins/builtin_exit.c\
 	   ./builtins/ft_strncpy.c
 
 OBJS = $(SRCS:.c=.o)

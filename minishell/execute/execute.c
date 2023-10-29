@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/25 18:46:19 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/26 16:56:44 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void first_child(t_process *process, int *cur_fd, t_env *env, char *cmd, char **
 	// close(cur_fd[1]);
 	if (is_builtin(process))
 	{
-		check_builtins(process, env, cur_fd[1]);
+		check_builtins(process, env, cur_fd[1], 0);
 		close(cur_fd[1]);
 		exit(0);
 	}
@@ -93,7 +93,7 @@ void middle_child(t_process *process, int *prev_fd, int *cur_fd, t_env *env, cha
 	close(prev_fd[0]);
 	if (is_builtin(process))
 	{
-		check_builtins(process, env, cur_fd[1]);
+		check_builtins(process, env, cur_fd[1], 0);
 		close(cur_fd[1]);
 		exit(0);
 	}
@@ -117,7 +117,7 @@ void last_child(t_process *process, int *prev_fd, t_env *env, char *cmd, char **
 	close(prev_fd[0]);
 	if (is_builtin(process))
 	{
-			check_builtins(process, env, process->outfile_fd);
+			check_builtins(process, env, process->outfile_fd, 0);
 			exit(0);
 	}
 	else
@@ -268,7 +268,7 @@ int fork_toExcute(t_process *process, t_env *env, int cmd_size, char **envp)
 void no_fork_toExecute(t_process *process, t_env *env)
 {
 	fd_redirection(process, process->redir);
-	check_builtins(process, env, process->outfile_fd);
+	check_builtins(process, env, process->outfile_fd, 1);
 }
 
 int is_builtin(t_process *process)
