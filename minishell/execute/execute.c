@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/30 21:56:44 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/30 22:21:01 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,14 @@ void fd_redirection(t_process *process, t_redir *redir)
 		}
 		else if (redir->type == T_REDIR_HEREDOC) // infile이 있을 때
 		{
+			printf("%s\n", redir->tmp);
 			process->infile_fd = open(redir->tmp, O_RDONLY);
 			if (process->infile_fd == -1)
 			{
 				perror("Failed to open infile");
 				exit(1);
 			}
+			unlink(redir->tmp);
 		}
 		else if (redir->type == T_REDIR_OUTPUT) // outfile이 있을 때
 		{
@@ -124,7 +126,7 @@ void last_child(t_process *process, int *prev_fd, t_env *env, char *cmd, char **
 	if (process->outfile_fd > 1)
 		dup2(process->outfile_fd, STDOUT_FILENO);
 	close(prev_fd[0]);
-	printf("(%d) (%d) %s %s\n", process->infile_fd, process->outfile_fd, cmd, process->cmd[0]);
+	// printf("(%d) (%d) %s %s\n", process->infile_fd, process->outfile_fd, cmd, process->cmd[0]);
 	if (is_builtin(process))
 	{
 		check_builtins(process, env, process->outfile_fd);
