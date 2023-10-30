@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/30 22:21:01 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/30 22:31:03 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void fd_redirection(t_process *process, t_redir *redir)
 		}
 		else if (redir->type == T_REDIR_HEREDOC) // infile이 있을 때
 		{
-			printf("%s\n", redir->tmp);
 			process->infile_fd = open(redir->tmp, O_RDONLY);
 			if (process->infile_fd == -1)
 			{
