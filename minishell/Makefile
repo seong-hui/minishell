@@ -21,6 +21,7 @@ SRCS = ./parse/main.c \
 	   ./parse/terminal.c \
 	   ./execute/execute.c\
 	   ./execute/error.c \
+	   ./execute/heredoc.c \
 	   ./builtins/builtins.c\
 	   ./builtins/builtin_cd.c\
 	   ./builtins/builtin_echo.c\

@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/24 22:26:05 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/30 16:30:03 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_redir
 	int				type;
 	char			*file;
 	struct s_redir	*next;
+    char            *tmp;
 }	t_redir;
 
 typedef struct s_env

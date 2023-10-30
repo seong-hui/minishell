@@ -6,13 +6,13 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/26 19:39:36 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/30 19:13:31 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void check_builtins(t_process *process, t_env *env, int fd, int is_single)
+void check_builtins(t_process *process, t_env *env, int fd)
 {
 	if (!ft_strncmp(process->cmd[0], "echo", ft_strlen("echo")))
 		builtin_echo(process, fd);
