@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 21:57:13 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/24 21:29:45 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 22:58:40 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,22 @@ void	signal_handler(int signo)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	if (signo == SIGTERM)
+	else if (signo == SIGTERM)
 	{
 		printf("\033[1A");
         printf("\033[10C");
-        printf(" exit\n");
-		exit (0);
+        printf(" exit");
+		exit(0);
 	}
+}
+
+void heredoc_signal()
+{
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	printf("\n");
+	exit(1);
 }
 
 void	detect_signal(void)

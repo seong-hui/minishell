@@ -3,33 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:26:42 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/10/30 19:14:20 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/31 22:12:17 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTE_H
-#define EXECUTE_H
+# define EXECUTE_H
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <sys/wait.h>
-#include "parse.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include "parse.h"
 
-// char	**ft_split(char const *s, char c);
-// void	builtin_echo(t_process *process);
-// void builtin_pwd(t_process *process);
-// void builtin_cd(t_process *process);
-// char	*ft_strncpy(char *dest, char *src, unsigned int n);
-// void	check_biltins(t_process *process);
-// void process_start(t_process *process, char **env);
-void check_builtins(t_process *process, t_env *env, int fd);
-int is_builtin(t_process *process);
-int ft_lstsize(t_process *lst);
-void check_heredoc(t_process *process);
+void	check_builtins(t_process *process, t_env *env, int fd);
+int		is_builtin(t_process *process);
+int		ft_lstsize(t_process *lst);
+void	check_heredoc(t_process *process);
+void fd_redirection(t_process *process, t_redir *redir);
+void make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env, char **envp);
+char *get_cmd(char **path, char *cmd);
+char **get_path(t_env *env);
+void first_child(t_process *process, int *cur_fd, t_env *env, char *cmd, char **envp);
+void middle_child(t_process *process, int *prev_fd, int *cur_fd, t_env *env, char *cmd, char **envp);
+void last_child(t_process *process, int *prev_fd, t_env *env, char *cmd, char **envp);
+//void	wait_process(int pid);
+void	exit_code_handler(int status, int *flag_printed, int pid, int child);
+void	print_file_error(char *file);
+void	print_command_error(char *cmd);
+
+
+
+void heredoc_signal(void);
 
 #endif

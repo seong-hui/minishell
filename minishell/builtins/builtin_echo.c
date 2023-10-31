@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:27:04 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 21:10:57 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:43:29 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ void	builtin_echo(t_process *process, int fd)
 		if (flag && !check_option(process->cmd[i]))
 		{
 			ft_putstr_fd(process->cmd[i], fd);
-			if (process->cmd[i + 1]) 
+			if (process->cmd[i + 1])
 				ft_putstr_fd(" ", fd);
 			flag = 0;
 		}
-		else if (!flag) 
+		else if (!flag)
 		{
 			ft_putstr_fd(process->cmd[i], fd);
 			if (process->cmd[i + 1])

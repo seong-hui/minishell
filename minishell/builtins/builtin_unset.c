@@ -3,38 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 20:03:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 23:08:52 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/31 14:34:30 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void builtin_unset(t_process *process, t_env *env, int fd)
+void	builtin_unset(t_process *process, t_env *env, int fd)
 {
-	int i = 1;
-	t_env *start;
-	
+	int		i;
+	t_env	*start;
+
 	start = env;
-	while(process->cmd[i])
+	i = 1;
+	while (process->cmd[i])
 	{
 		if ((process->cmd[i][0] == '_' && process->cmd[i][1])
 			|| ft_isalpha(process->cmd[i][0]))
+		{
+			env = start;
+			while (env)
 			{
-				env = start;
-				while (env)
+				if (ft_strcmp(env->key, process->cmd[i]) == 0)
 				{
-					if (ft_strcmp(env->key, process->cmd[i]) == 0)
-					{
-						delete_env(&start, env->key);
-						break;
-					}
-					else
-						env = env->next;
+					delete_env(&start, env->key);
+					break ;
 				}
+				else
+					env = env->next;
 			}
+		}
 		else
 		{
 			ft_putstr_fd(process->cmd[i], fd);
@@ -42,5 +43,5 @@ void builtin_unset(t_process *process, t_env *env, int fd)
 		}
 		i++;
 	}
-	return;
+	return ;
 }
