@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/30 19:51:26 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/31 18:19:36 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include "execute.h"
 
 void builtin_echo(t_process *process, int fd);
-void builtin_pwd(void);
+void builtin_pwd(int fd);
 void builtin_cd(t_process *process);
 char *ft_strncpy(char *dest, char *src, unsigned int n);
 void check_builtins(t_process *process, t_env *env, int fd);
@@ -35,5 +35,7 @@ void builtin_unset(t_process *process, t_env *env, int fd);
 void builtin_exit(t_process *process);
 char *get_path_key(char *envp);
 char *get_path_value(char *envp);
+void	print_exit_error1(char *file);
+void	print_exit_error2(void);
 
 #endif

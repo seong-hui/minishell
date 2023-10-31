@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/31 14:33:11 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/31 17:53:43 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 # include <signal.h>
-#include <termios.h>
+# include <termios.h>
 
 # define T_SIMPLE 0
 # define T_PIPE 1
@@ -82,4 +82,9 @@ void process_start(t_process *process, t_env *env, char **envp);
 void	add_env(t_env **env, char *key, char *value);
 void	delete_env(t_env **env, char *del_key);
 char	*search_env_value(t_env **env, char *search);
+void	set_terminal_print_off(void);
+
+void all_signal();
+
+void	main_sigint_handler(int sign);
 #endif

@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:24:50 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 21:11:05 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:21:11 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	check_command(char *command)
         perror("chdir");
         exit(1);
     }
-    //printf("Current directory: %s\n", par_dir);
 	return (1);
 }
 

@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall
+CFLAGS = -fsanitize=address
 COMFILE_FLAGS = -I${HOME}/.brew/opt/readline/include
 LDFLAGS = -L${HOME}/.brew/opt/readline/lib
 LDLIBS = -lreadline
@@ -20,15 +20,20 @@ SRCS = ./parse/main.c \
 	   ./execute/execute.c\
 	   ./execute/error.c \
 	   ./execute/heredoc.c \
-	   ./builtins/builtins.c\
-	   ./builtins/builtin_cd.c\
-	   ./builtins/builtin_echo.c\
-	   ./builtins/builtin_pwd.c\
-	   ./builtins/builtin_env.c\
-	   ./builtins/builtin_export.c\
-	   ./builtins/builtin_unset.c\
-	   ./builtins/builtin_exit.c\
-	   ./builtins/ft_strncpy.c
+	   ./builtins/builtins.c \
+	   ./builtins/builtin_cd.c \
+	   ./builtins/builtin_echo.c \
+	   ./builtins/builtin_pwd.c \
+	   ./builtins/builtin_env.c \
+	   ./builtins/builtin_export.c \
+	   ./builtins/builtin_unset.c \
+	   ./builtins/builtin_exit.c \
+	   ./builtins/ft_strncpy.c \
+	   ./execute/pipe.c \
+	   ./execute/process.c \
+	   ./execute/redirection.c \
+	   ./execute/execute_utils.c \
+	   ./builtins/builtin_error.c
 
 OBJS = $(SRCS:.c=.o)
 

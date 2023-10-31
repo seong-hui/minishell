@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/31 14:29:27 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/10/31 18:23:05 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,18 @@ void	cl()
 	system("leaks minishell");
 }
 
+
+
+void	minishell_exit(void)
+{
+	write(2, "\033[1A", 4);
+	write(2, "\033[11C", 5);
+	write(2, "exit\n", 5);
+	set_terminal_print_on();
+	exit(g_exit_code = 0);
+}
+
+
 int	main(int ac, char **av, char **envp)
 {
 	char		*line;
@@ -67,21 +79,30 @@ int	main(int ac, char **av, char **envp)
 	create_env_list(&env, envp);
 	detect_signal();
 	set_terminal_print_off();
+	//정재윤이 추가한 부분 -> while문 들어가기 전에 시그널 처리 한 번 해야됨.
+	//쭈영 질문 예상 -> 왜 그렇게 해야돼?
+	//전체적으로 시그널을 만들어준 다음 히어독 or execve에서 입력을 받을 때 시그널 처리가 다르기 때문에
+	//heredoc 함수나 pipe 함수에 들어가서 다시 시그널 처리를 해줄거임
+	signal_handler(SIGTERM);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		process = NULL;
 		line = readline("minishell$ ");
 		if (!line)
-			signal_handler(SIGTERM);
+		{
+			//정재윤이 추가한 부분 -> Ctrl + d를 눌렀을 때 
+			if (line == (void *)0)
+				minishell_exit();
+		}
 		add_history(line);
-		// if (tokenize(&process, &env, line) == 1)
-		// 	print_lists(&process, &env);
 		if (tokenize(&process, &env, line) == 1)
 			process_start(process, env, envp);
 		//print_lists(&process, &env);
 		free_process_list(&process);
 		free(line);
 	}
+	set_terminal_print_on();
 	free_env_list(env);
 	return (0);
 }

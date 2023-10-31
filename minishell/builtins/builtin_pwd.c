@@ -6,21 +6,25 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:16:33 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/24 21:11:50 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:33:59 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void builtin_pwd(void)
+void	builtin_pwd(int fd)
 {
-	char *pwd;
+	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
 	if (pwd)
 	{
-		printf("%s\n" , pwd);
-		free(pwd); //안 터졌을 때. 
+		ft_putendl_fd(pwd, fd);
+		free(pwd);
 	}
-	return;
+	else
+	{
+		ft_putendl_fd("minishell : pwd error", 2);
+	}
+	return ;
 }
