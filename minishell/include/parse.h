@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/30 22:12:09 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/10/31 14:33:11 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int     ft_strcmp(const char *s1, const char *s2);
 void    create_env_list(t_env **env, char **envp);
 void    replace_process_resources(t_process *process, t_env **env);
 char    *search_env_value(t_env **env, char *search);
-void    check_syntax(t_process *process);
+int    check_syntax(t_process *process);
 void    check_redir_files(t_process *process);
 void    free_redir_list(t_redir *redir);
 void    free_process_list(t_process **process);
