@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/24 21:24:06 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:29:27 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	main(int ac, char **av, char **envp)
 	set_terminal_print_off();
 	while (1)
 	{
-		g_exit_code = 0;
 		process = NULL;
 		line = readline("minishell$ ");
 		if (!line)

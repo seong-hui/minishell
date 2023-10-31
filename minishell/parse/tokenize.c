@@ -65,7 +65,7 @@ int	is_all_blank(char *line)
 	return (1);
 }
 
-void	split_process(t_process **process, char *line)
+int	split_process(t_process **process, char *line)
 {
 	int	i;
 	int	pipe;
@@ -77,19 +77,20 @@ void	split_process(t_process **process, char *line)
 	{
 		pipe = skip_quote_with_pipe(&line[i]);
 		if (line[i + pipe] == '|' && !line[i + pipe + 1])
-			return (print_syntax_error("invalid syntax"));
+			return (print_syntax_error("invalid syntax"), 0);
 		line[i + pipe] = '\0';
 		if (!is_all_blank(&line[i]))
 			add_process(process, ft_strdup(&line[i]));
 		else
-			return (print_syntax_error("invalid syntax"));
+			return (print_syntax_error("invalid syntax"), 0);
 		i += pipe;
 		if (i != line_len)
 			i++;
 	}
+	return (1);
 }
 
-void	check_quote(char *line)
+int	check_quote(char *line)
 {
 	int	i;
 	int	quote;
@@ -108,7 +109,8 @@ void	check_quote(char *line)
 		i++;
 	}
 	if (quote != 0)
-		print_syntax_error("quote not closed");
+		return (print_syntax_error("quote not closed"), 0);
+	return (1);
 }
 
 int	tokenize(t_process **process, t_env **env, char *line)
@@ -117,11 +119,9 @@ int	tokenize(t_process **process, t_env **env, char *line)
 
 	if (is_all_blank(line))
 		return (0);
-	check_quote(line);
-	if (g_exit_code != 0)
+	if (!check_quote(line))
 		return (0);
-	split_process(process, line);
-	if (g_exit_code != 0)
+	if (!split_process(process, line))
 		return (0);
 	cur = *process;
 	while (cur)
@@ -129,11 +129,7 @@ int	tokenize(t_process **process, t_env **env, char *line)
 		parse_redir(cur);
 		parse_cmd(cur);
 		replace_process_resources(cur, env);
-		check_syntax(cur);
-		if (g_exit_code != 0)
-			return (0);
-		check_redir_files(cur);
-		if (g_exit_code != 0)
+		if (!check_syntax(cur))
 			return (0);
 		cur = cur->next;
 	}

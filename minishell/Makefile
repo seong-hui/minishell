@@ -1,11 +1,9 @@
 CC = cc
 
-CFLAGS = -g3 -fsanitize=address
+CFLAGS = -Wall
 COMFILE_FLAGS = -I${HOME}/.brew/opt/readline/include
 LDFLAGS = -L${HOME}/.brew/opt/readline/lib
 LDLIBS = -lreadline
-
-
 
 SRCS = ./parse/main.c \
 	   ./parse/tokenize.c \

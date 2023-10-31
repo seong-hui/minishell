@@ -36,14 +36,12 @@ char	*get_env_key(char *str)
 	char	*key;
 
 	i = 0;
-	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+	if (str[0] && (ft_isdigit(str[0]) || (str[0] == '?')))
+		i = 1;
+	else
 	{
-		if (i == 0 && ft_isdigit(str[i]))
-		{
-			i = 1;
-			break ;
-		}
-		i++;
+		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+			i++;
 	}
 	key = ft_strndup(str, i);
 	return (key);
@@ -74,7 +72,10 @@ int	count_replace_str_len(char *str, t_env **env)
 				len++;
 			else
 			{
-				env_value = search_env_value(env, env_key);
+				if (ft_strcmp(env_key, "?") == 0)
+					env_value = ft_itoa((long long)g_exit_code);
+				else
+					env_value = search_env_value(env, env_key);
 				if (env_value != NULL)
 					len += ft_strlen(env_value);
 				i += ft_strlen(env_key);
@@ -117,8 +118,10 @@ char	*replace_str(char *str, t_env **env)
 				replaced[j++] = '$';
 			else
 			{
-				env_value = search_env_value(env, env_key);
-				//printf("%s\n", env_value);
+				if (ft_strcmp(env_key, "?") == 0)
+					env_value = ft_itoa((long long)g_exit_code);
+				else
+					env_value = search_env_value(env, env_key);
 				if (env_value != NULL)
 				{
 					while (*env_value)
