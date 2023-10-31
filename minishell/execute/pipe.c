@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:20:12 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/31 20:51:14 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 21:41:46 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,8 @@ void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env
 		pid = fork();
 		if (pid < 0)
 			exit(1);
-		if (pid == 0)
+		if (pid == 0 && process->cmd[0])
 		{
-			if (process->cmd[0])
-			{
 			cmd = get_cmd(execute_path, process->cmd[0]);
 			if (i == cmd_size - 1)
 				last_child(process, prev_fd, env, cmd, envp);
@@ -107,7 +105,6 @@ void	make_pipe(t_process *process, int cmd_size, char **execute_path, t_env *env
 				first_child(process, cur_fd, env, cmd, envp);
 			else
 				middle_child(process, prev_fd, cur_fd, env, cmd, envp);
-			}
 		}
 		process = process->next;
 		i++;

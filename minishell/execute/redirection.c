@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:15:18 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/31 17:33:46 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 22:45:02 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void fd_redirection(t_process *process, t_redir *redir)
 				exit(1);
 			}
 		}
-		else if (redir->type == T_REDIR_HEREDOC) // infile이 있을 때
+		else if (redir->type == T_REDIR_HEREDOC && process->cmd[0]) // infile이 있을 때
 		{
 			process->infile_fd = open(redir->tmp, O_RDONLY);
 			if (process->infile_fd == -1)

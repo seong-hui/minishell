@@ -18,7 +18,6 @@ SRCS = ./parse/main.c \
 	   ./parse/signal.c \
 	   ./parse/terminal.c \
 	   ./execute/execute.c\
-	   ./execute/error.c \
 	   ./execute/heredoc.c \
 	   ./builtins/builtins.c \
 	   ./builtins/builtin_cd.c \
@@ -33,6 +32,7 @@ SRCS = ./parse/main.c \
 	   ./execute/process.c \
 	   ./execute/redirection.c \
 	   ./execute/execute_utils.c \
+	   ./execute/execute_error.c \
 	   ./builtins/builtin_error.c
 
 OBJS = $(SRCS:.c=.o)

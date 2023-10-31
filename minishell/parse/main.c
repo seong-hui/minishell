@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/31 18:23:05 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 22:09:01 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,18 +83,14 @@ int	main(int ac, char **av, char **envp)
 	//쭈영 질문 예상 -> 왜 그렇게 해야돼?
 	//전체적으로 시그널을 만들어준 다음 히어독 or execve에서 입력을 받을 때 시그널 처리가 다르기 때문에
 	//heredoc 함수나 pipe 함수에 들어가서 다시 시그널 처리를 해줄거임
-	signal_handler(SIGTERM);
+	//signal_handler(SIGTERM);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		process = NULL;
 		line = readline("minishell$ ");
 		if (!line)
-		{
-			//정재윤이 추가한 부분 -> Ctrl + d를 눌렀을 때 
-			if (line == (void *)0)
-				minishell_exit();
-		}
+			signal_handler(SIGTERM);
 		add_history(line);
 		if (tokenize(&process, &env, line) == 1)
 			process_start(process, env, envp);

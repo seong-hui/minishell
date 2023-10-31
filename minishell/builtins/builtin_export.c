@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:33:09 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/31 14:32:23 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 21:45:22 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,7 @@ void	add_export(t_process *process, t_env *env)
 				add_env(&env, key, value);
 		}
 		else
-		{
-			write(2, "export: ", ft_strlen("export: "));
-			write(2, process->cmd[i], ft_strlen(process->cmd[i]));
-			write(2, " : not a valid identifier\n", ft_strlen(" : not a valid identifier\n"));
-		}
+			print_export_error(process->cmd[i]);
 		i++;
 	}
 }

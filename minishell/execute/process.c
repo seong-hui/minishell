@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:23:48 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/31 17:33:44 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 21:48:34 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	first_child(t_process *process, int *cur_fd, t_env *env, char *cmd, char **
 	{
 		close(cur_fd[1]);
 		if (execve(cmd, process->cmd, envp) == -1)
-			perror("execve");
+			print_command_error(process->cmd[0]);
 	}
 }
 
@@ -58,7 +58,7 @@ void	middle_child(t_process *process, int *prev_fd, int *cur_fd, t_env *env, cha
 	{
 		close(cur_fd[1]);
 		if (execve(cmd, process->cmd, envp) == -1)
-			perror("execve");
+			print_command_error(process->cmd[0]);
 	}
 }
 
@@ -80,13 +80,12 @@ void	last_child(t_process *process, int *prev_fd, t_env *env, char *cmd, char **
 	close(prev_fd[0]);
 	if (is_builtin(process))
 	{
-		printf("fuck\n");
 		check_builtins(process, env, process->outfile_fd);
 		exit(0);
 	}
 	else
 	{
 		if (execve(cmd, process->cmd, envp) == -1)
-			perror("execve");
+			print_command_error(process->cmd[0]);
 	}
 }

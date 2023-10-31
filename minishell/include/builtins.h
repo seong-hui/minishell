@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/31 18:19:36 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 21:44:50 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ char *get_path_key(char *envp);
 char *get_path_value(char *envp);
 void	print_exit_error1(char *file);
 void	print_exit_error2(void);
+void	print_export_error(char *file);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:26:42 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/10/31 17:44:13 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/10/31 22:12:17 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,13 @@ char **get_path(t_env *env);
 void first_child(t_process *process, int *cur_fd, t_env *env, char *cmd, char **envp);
 void middle_child(t_process *process, int *prev_fd, int *cur_fd, t_env *env, char *cmd, char **envp);
 void last_child(t_process *process, int *prev_fd, t_env *env, char *cmd, char **envp);
-//ßvoid	wait_process(int pid);
+//void	wait_process(int pid);
 void	exit_code_handler(int status, int *flag_printed, int pid, int child);
+void	print_file_error(char *file);
+void	print_command_error(char *cmd);
+
+
+
+void heredoc_signal(void);
 
 #endif
