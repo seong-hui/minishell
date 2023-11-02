@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/31 17:53:43 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:58:22 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ typedef struct s_process
     struct s_process  *next;
     int             infile_fd;
     int             outfile_fd;
-    char				*cmd_line;
+    char			*cmd_line;
+    char            *cmd_path;
 }   t_process;
 
 int tokenize(t_process **process, t_env **env, char *line);

@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:34:19 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/31 21:49:51 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/02 23:12:59 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,3 @@ void	print_command_error(char *cmd)
 	g_exit_code = 127;
 	exit(g_exit_code);
 }
-
