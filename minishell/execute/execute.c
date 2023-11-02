@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/02 21:50:29 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/02 22:41:46 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ void	process_start(t_process *process, t_env *env, char **envp)
 
 	head = process;
 	head_redir = process->redir;
+	if (!process)
+		return ;
+	e_info.cmd_size = ft_lstsize(process);
 	check_heredoc(process);
 	if (!head->cmd[0])
 	{
@@ -50,9 +53,6 @@ void	process_start(t_process *process, t_env *env, char **envp)
 		unlink_file(process->redir);
 		return ;
 	}
-	if (!process)
-		return ;
-	e_info.cmd_size = ft_lstsize(process);
 	e_info.envp = envp;
 	if (e_info.cmd_size == 1 && is_builtin(head))
 		no_fork_toexecute(head, env);

@@ -27,13 +27,14 @@ SRCS = ./parse/main.c \
 	   ./builtins/builtin_export.c \
 	   ./builtins/builtin_unset.c \
 	   ./builtins/builtin_exit.c \
-	   ./builtins/ft_strncpy.c \
+	   ./builtins/builtin_utils.c  \
 	   ./execute/pipe.c \
 	   ./execute/process.c \
 	   ./execute/redirection.c \
 	   ./execute/execute_utils.c \
 	   ./execute/execute_error.c \
-	   ./builtins/builtin_error.c
+	   ./builtins/builtin_error.c \
+	   ./execute/heredoc_utils.c
 
 OBJS = $(SRCS:.c=.o)
 

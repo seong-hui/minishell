@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:15:18 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/02 22:13:09 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/02 23:13:33 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	fd_redirection(t_process *process, t_redir *redir)
 	{
 		if (redir->type == T_REDIR_INPUT)
 			redir_input(process, redir);
-		else if (redir->type == T_REDIR_HEREDOC)
+		else if (redir->type == T_REDIR_HEREDOC && process->cmd[0])
 			redir_heredoc(process, redir);
 		else if (redir->type == T_REDIR_OUTPUT)
 			redir_output(process, redir);

@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:26:42 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/02 21:44:39 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/02 23:12:38 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void last_child(t_process *process, t_env *env, t_excute e_info);
 void	exit_code_handler(int status, int *flag_printed, int pid, int child);
 void	print_file_error(char *file);
 void	print_command_error(char *cmd);
+void	wait_child(int i, int exit_code);
+int	child_exit_status(int exit_code);
 
 
 
