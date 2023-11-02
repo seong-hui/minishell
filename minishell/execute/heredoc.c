@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:11:51 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/10/31 23:43:57 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/02 21:43:57 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 void	execute_heredoc(t_process *process, t_redir *redir)
 {
 	char	*buffer;
-	
 
 	while (1)
 	{
@@ -53,7 +52,7 @@ char	*make_tmp_heredoc(void)
 	return (NULL);
 }
 
-void wait_pid(int pid)
+void	wait_pid(int pid)
 {
 	int	flag_printed;
 	int	status;
@@ -77,7 +76,6 @@ void	check_heredoc(t_process *process)
 
 
 	i = 0;
-	
 	while (process)
 	{
 		tmp_redir = process->redir;
@@ -85,6 +83,7 @@ void	check_heredoc(t_process *process)
 		{
 			if (tmp_redir->type == T_REDIR_HEREDOC)
 			{
+				tmp_redir->tmp = make_tmp_heredoc();
 				pid = fork();
 				if (pid < 0)
 					exit(1);
