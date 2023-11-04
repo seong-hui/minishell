@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:26:42 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/02 23:12:38 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 15:24:34 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_execute
 	int				i;
 }	t_excute;
 
-void	check_builtins(t_process *process, t_env *env, int fd);
+void	check_builtins(t_process *process, t_env *env, int fd, t_excute e_info);
 int		is_builtin(t_process *process);
 int		ft_lstsize(t_process *lst);
 void	check_heredoc(t_process *process);
