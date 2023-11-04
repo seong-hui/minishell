@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 21:57:13 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/31 22:58:40 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 22:15:10 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,29 @@ void	signal_handler(int signo)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_exit_code = 1;
 	}
 	else if (signo == SIGTERM)
 	{
 		printf("\033[1A");
-        printf("\033[10C");
-        printf(" exit");
+		printf("\033[10C");
+		printf(" exit\n");
 		exit(0);
 	}
 }
 
-void heredoc_signal()
+void	heredoc_signal(void)
 {
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
 	printf("\n");
+	g_exit_code = 1;
 	exit(1);
 }
 
 void	detect_signal(void)
 {
 	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

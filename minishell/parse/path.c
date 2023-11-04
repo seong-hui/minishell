@@ -7,7 +7,7 @@ char	*get_path_value(char *envp)
 	int		value_len;
 
 	value_len = 0;
-	while (envp && envp[value_len])
+	while (envp[value_len])
 		value_len++;
 	value = (char *)malloc(sizeof(char) * (value_len + 1));
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:28:07 by jooypark          #+#    #+#             */
-/*   Updated: 2023/10/31 14:31:58 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/04 22:15:40 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,22 @@ void	print_syntax_error(char *str)
 	g_exit_code = 258;
 }
 
-int	check_syntax(t_process *process)
+int	check_syntax(t_process **process)
 {
-	t_redir	*cur_redir;
+	t_process	*cur;
+	t_redir		*cur_redir;
 
-	// if (process == NULL || process->cmd == NULL || process->cmd[0] == NULL
-	// 	|| process->cmd[0][0] == '\0')
-	// 	return (print_syntax_error("invalid syntax"));
-	cur_redir = process->redir;
-	while (cur_redir)
+	cur = *process;
+	while (cur)
 	{
-		if (cur_redir->file == NULL || cur_redir->file[0] == '\0')
-			return (print_syntax_error("invalid syntax"), 0);
-		cur_redir = cur_redir->next;
+		cur_redir = cur->redir;
+		while (cur_redir)
+		{
+			if (cur_redir->file == NULL || cur_redir->file[0] == '\0')
+				return (print_syntax_error("invalid syntax"), 0);
+			cur_redir = cur_redir->next;
+		}
+		cur = cur->next;
 	}
 	return (1);
 }

@@ -53,6 +53,23 @@ void	delete_env(t_env **env, char *del_key)
 	free_env(delete_env);
 }
 
+char	*get_env_key(char *str)
+{
+	int		i;
+	char	*key;
+
+	i = 0;
+	if (str[0] && (ft_isdigit(str[0]) || (str[0] == '?')))
+		i = 1;
+	else
+	{
+		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+			i++;
+	}
+	key = ft_strndup(str, i);
+	return (key);
+}
+
 char	*search_env_value(t_env **env, char *search)
 {
 	t_env	*target;
