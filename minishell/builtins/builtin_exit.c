@@ -6,29 +6,22 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:30:44 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/10/31 18:25:46 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 15:44:13 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-int	ft_cmdsize(char **cmd)
-{
-	int	len;
-
-	len = 0;
-	while (cmd[len])
-		len++;
-	return (len);
-}
-
-unsigned long long	ft_atoi_for_exit2(char *str, int *flag, int i, int sign)
+unsigned long long	ft_atoi_cal(char *str, int *flag, int sign)
 {
 	unsigned long long	re;
+	int					i;
 
+	re = 0;
+	i = 0;
 	while (str[i])
 	{
-		if (ft_isdigit(str[i]) && flag == 0)
+		if (ft_isdigit(str[i]))
 		{
 			re = re * 10 + (str[i] - '0');
 			if (sign == 1 && re > 9223372036854775807)
@@ -54,7 +47,6 @@ int	ft_atoi_for_exit(char *str, int *flag)
 
 	i = 0;
 	sign = 1;
-	re = 0;
 	while (str[i] && ((str[i] >= 9 && str[i] <= 13) || str[i] == ' '))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
@@ -63,29 +55,7 @@ int	ft_atoi_for_exit(char *str, int *flag)
 			sign = -1;
 		i++;
 	}
-	while (str[i])
-	{
-		if (ft_isdigit(str[i]))
-		{
-			re = re * 10 + (str[i] - '0');
-			if (sign == 1 && re > 9223372036854775807)
-			{
-				*flag = 1;
-				break ;
-			}
-			else if (sign == -1 && re > 9223372036854775807 + 1)
-			{
-				*flag = 1;
-				break ;
-			}
-		}
-		else
-		{
-			*flag = 1;
-			break ;
-		}
-		i++;
-	}
+	re = ft_atoi_cal(str + i, flag, sign);
 	return ((int)re * sign);
 }
 

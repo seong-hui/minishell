@@ -6,11 +6,32 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:24:50 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/31 14:21:11 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 22:08:57 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
+
+void	update_pwd(t_env *env, char *old_pwd)
+{
+	char	*pwd;
+
+	replace_env(&env, "OLDPWD", old_pwd);
+	pwd = getcwd(NULL, 0);
+	if (pwd)
+		replace_env(&env, "PWD", pwd);
+}
+
+void	update_oldpwd(t_env *env)
+{
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (pwd)
+	{
+		replace_env(&env, "OLDPWD", pwd);
+	}
+}
 
 char	*get_cur_dir(void)
 {
@@ -18,59 +39,40 @@ char	*get_cur_dir(void)
 
 	cur_dir = getcwd(NULL, 0);
 	if (!cur_dir)
-	{
-		perror("getcwd");
-		exit(1);
-	}
+		perror("minishell : getcwd");
 	return (cur_dir);
 }
 
-int	check_command(char *command)
-{
-	char	*cur_dir;
-	char	*par_dir;
-	char	*last_slash;
-
-	if (ft_strncmp(command, "..", ft_strlen("..")))
-		return (0);
-		par_dir = (char *)malloc(1024);
-	if (par_dir == NULL)
-	{
-		perror("malloc");
-		exit(1);
-	}
-	cur_dir = get_cur_dir();
-	last_slash = ft_strrchr(cur_dir, '/');
-	if (last_slash)
-	{
-		ft_strncpy(par_dir, cur_dir, last_slash - cur_dir);
-		par_dir[last_slash - cur_dir] = '\0';
-	}
-	if (chdir(par_dir) != 0)
-	{
-        perror("chdir");
-        exit(1);
-    }
-	return (1);
-}
-
-void	builtin_cd(t_process *process)
+void	builtin_cd(t_process *process, t_env *env)
 {
 	char	*path;
 	char	*cur_dir;
+	char	*old_pwd;
 
+	old_pwd = search_env_value(&env, "PWD");
 	path = process->cmd[1];
 	if (path == NULL || *path == '\0')
 	{
-		if (chdir(getenv("HOME")) != 0)
-			perror("chdir");
+		if (chdir(search_env_value(&env, "HOME")) != 0)
+		{
+			if (!search_env_value(&env, "HOME"))
+				ft_putendl_fd("minishell: cd: HOME not set", 2);
+			else
+			{
+				ft_putstr_fd("minishell: cd: ", 2);
+				perror(search_env_value(&env, "HOME"));
+			}
+		}
+		else
+			update_pwd(env, old_pwd);
 	}
 	else
 	{
-		if (! check_command(process->cmd[1]))
+		if (chdir(path) != 0)
 		{
-			if (chdir(path) != 0)
-				perror(path);
+			ft_putstr_fd("minishell: cd: ", 2);
+			perror(path);
 		}
+		update_pwd(env, old_pwd);
 	}
 }
