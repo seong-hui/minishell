@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/04 15:22:45 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 16:32:44 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ void	check_builtins(t_process *process, t_env *env, int fd, t_excute e_info)
 			builtin_pwd(fd);
 		else if (!ft_strncmp(process->cmd[0], "env", ft_strlen("env")))
 			builtin_env(process, env, fd);
-		else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export"))
-			&& e_info.cmd_size == 1)
-			builtin_export(process, env, fd);
+		else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
+			builtin_export(process, env, fd, e_info);
 		else if (!ft_strncmp(process->cmd[0], "unset", ft_strlen("unset"))
 			&& e_info.cmd_size == 1)
 			builtin_unset(process, env, fd);

@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:24:50 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/31 14:21:11 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 17:10:30 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,40 +18,8 @@ char	*get_cur_dir(void)
 
 	cur_dir = getcwd(NULL, 0);
 	if (!cur_dir)
-	{
-		perror("getcwd");
-		exit(1);
-	}
+		perror("minishell : getcwd");
 	return (cur_dir);
-}
-
-int	check_command(char *command)
-{
-	char	*cur_dir;
-	char	*par_dir;
-	char	*last_slash;
-
-	if (ft_strncmp(command, "..", ft_strlen("..")))
-		return (0);
-		par_dir = (char *)malloc(1024);
-	if (par_dir == NULL)
-	{
-		perror("malloc");
-		exit(1);
-	}
-	cur_dir = get_cur_dir();
-	last_slash = ft_strrchr(cur_dir, '/');
-	if (last_slash)
-	{
-		ft_strncpy(par_dir, cur_dir, last_slash - cur_dir);
-		par_dir[last_slash - cur_dir] = '\0';
-	}
-	if (chdir(par_dir) != 0)
-	{
-        perror("chdir");
-        exit(1);
-    }
-	return (1);
 }
 
 void	builtin_cd(t_process *process)
@@ -63,14 +31,14 @@ void	builtin_cd(t_process *process)
 	if (path == NULL || *path == '\0')
 	{
 		if (chdir(getenv("HOME")) != 0)
-			perror("chdir");
+			perror("minicshell : chdir");
 	}
 	else
 	{
-		if (! check_command(process->cmd[1]))
+		if (chdir(path) != 0)
 		{
-			if (chdir(path) != 0)
-				perror(path);
+			ft_putstr_fd("minishell: cd: ", 2);
+			perror(path);
 		}
 	}
 }

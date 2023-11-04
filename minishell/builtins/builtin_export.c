@@ -6,45 +6,11 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:33:09 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/31 21:45:22 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 16:22:09 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
-
-t_env	*sort_list(t_env *env)
-{
-	t_env	*start;
-	char	*tmp;
-
-	start = env;
-	while (env->next)
-	{
-		if (ft_strcmp(env->key, env->next->key) > 0)
-		{
-			tmp = env->key;
-			env->key = env->next->key;
-			env->next->key = tmp;
-			env = start;
-		}
-		else
-			env = env->next;
-	}
-	env = start;
-	return (env);
-}
-
-void	check_value(char *env_str)
-{
-	int	i;
-
-	i = 0;
-	while (env_str[i])
-	{
-		if (env_str[i] == '=')
-			return ;
-	}
-}
 
 void	replace_env(t_env **env, char *key, char *value)
 {
@@ -65,30 +31,15 @@ void	replace_env(t_env **env, char *key, char *value)
 	}
 }
 
-int	search_env_key(t_env **env, char *search)
-{
-	t_env	*target;
-
-	target = *env;
-	while (target)
-	{
-		if (ft_strcmp(target->key, search) == 0)
-			return (1);
-		target = target->next;
-	}
-	return (0);
-}
-
 void	add_export(t_process *process, t_env *env)
 {
 	int		i;
 	char	*key;
 	char	*value;
-	char	**tmp;
 	char	*cmd;
 
-	i = 1;
-	while (process->cmd[i])
+	i = 0;
+	while (process->cmd[++i])
 	{
 		cmd = process->cmd[i];
 		key = get_path_key(cmd);
@@ -106,8 +57,19 @@ void	add_export(t_process *process, t_env *env)
 		}
 		else
 			print_export_error(process->cmd[i]);
-		i++;
 	}
+}
+
+void	copy_key_value(t_env *env, t_env *new_env)
+{
+	if (env->key)
+		new_env->key = ft_strdup(env->key);
+	else
+		new_env->key = NULL;
+	if (env->value)
+		new_env->value = ft_strdup(env->value);
+	else
+		new_env->value = NULL;
 }
 
 t_env	*copy_env(t_env *env)
@@ -121,18 +83,8 @@ t_env	*copy_env(t_env *env)
 	{
 		new_env = (t_env *)malloc(sizeof(t_env));
 		if (!new_env)
-		{
-			free_env_list(copy);
-			return (NULL);
-		}
-		if (env->key)
-			new_env->key = ft_strdup(env->key);
-		else
-			new_env->key = NULL;
-		if (env->value)
-			new_env->value = ft_strdup(env->value);
-		else
-			new_env->value = NULL;
+			exit(1);
+		copy_key_value(env, new_env);
 		new_env->next = NULL;
 		if (copy == NULL)
 			copy = new_env;
@@ -148,8 +100,7 @@ t_env	*copy_env(t_env *env)
 	return (copy);
 }
 
-
-void	builtin_export(t_process *process, t_env *env, int fd)
+void	builtin_export(t_process *process, t_env *env, int fd, t_excute e_info)
 {
 	t_env	*env_s;
 
@@ -173,8 +124,6 @@ void	builtin_export(t_process *process, t_env *env, int fd)
 			env_s = env_s->next;
 		}
 	}
-	else
-	{
+	else if (e_info.cmd_size == 1)
 		add_export(process, env);
-	}
 }

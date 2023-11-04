@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 20:33:16 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/10/31 14:23:37 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 15:29:08 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ void	builtin_env(t_process *process, t_env *env, int fd)
 		if (env->value)
 		{
 			ft_putstr_fd("=", fd);
-			ft_putstr_fd(env->value, fd);
+			ft_putendl_fd(env->value, fd);
 		}
-		ft_putstr_fd("\n", fd);
 		env = env->next;
 	}
 }

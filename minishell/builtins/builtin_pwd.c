@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:16:33 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/10/31 18:33:59 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 16:47:04 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	builtin_pwd(int fd)
 		free(pwd);
 	}
 	else
-	{
-		ft_putendl_fd("minishell : pwd error", 2);
-	}
+		perror("minishell : pwd");
 	return ;
 }
