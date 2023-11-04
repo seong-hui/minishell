@@ -6,13 +6,13 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/31 20:22:00 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 15:22:45 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void	check_builtins(t_process *process, t_env *env, int fd)
+void	check_builtins(t_process *process, t_env *env, int fd, t_excute e_info)
 {
 	if (process->cmd[0])
 	{
@@ -24,11 +24,14 @@ void	check_builtins(t_process *process, t_env *env, int fd)
 			builtin_pwd(fd);
 		else if (!ft_strncmp(process->cmd[0], "env", ft_strlen("env")))
 			builtin_env(process, env, fd);
-		else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
+		else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export"))
+			&& e_info.cmd_size == 1)
 			builtin_export(process, env, fd);
-		else if (!ft_strncmp(process->cmd[0], "unset", ft_strlen("unset")))
+		else if (!ft_strncmp(process->cmd[0], "unset", ft_strlen("unset"))
+			&& e_info.cmd_size == 1)
 			builtin_unset(process, env, fd);
-		else if (!ft_strncmp(process->cmd[0], "exit", ft_strlen("exit")))
+		else if (!ft_strncmp(process->cmd[0], "exit", ft_strlen("exit"))
+			&& e_info.cmd_size == 1)
 			builtin_exit(process);
 	}
 	return ;

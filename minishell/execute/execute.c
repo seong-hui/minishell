@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/02 22:41:46 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 15:24:41 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	fork_toexcute(t_process *process, t_env *env, t_excute e_info)
 	return (0);
 }
 
-void	no_fork_toexecute(t_process *process, t_env *env)
+void	no_fork_toexecute(t_process *process, t_env *env, t_excute e_info)
 {
 	fd_redirection(process, process->redir);
-	check_builtins(process, env, process->outfile_fd);
+	check_builtins(process, env, process->outfile_fd, e_info);
 }
 
 void	unlink_file(t_redir *redir)
@@ -55,7 +55,7 @@ void	process_start(t_process *process, t_env *env, char **envp)
 	}
 	e_info.envp = envp;
 	if (e_info.cmd_size == 1 && is_builtin(head))
-		no_fork_toexecute(head, env);
+		no_fork_toexecute(head, env, e_info);
 	else
 		fork_toexcute(head, env, e_info);
 }
