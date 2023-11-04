@@ -1,7 +1,6 @@
 
 #include "../include/parse.h"
 
-
 void	trim_spaces(t_process *process)
 {
 	int		i;
@@ -28,23 +27,6 @@ void	trim_spaces(t_process *process)
 		cur_redir->file = trimmed;
 		cur_redir = cur_redir->next;
 	}
-}
-
-char	*get_env_key(char *str)
-{
-	int		i;
-	char	*key;
-
-	i = 0;
-	if (str[0] && (ft_isdigit(str[0]) || (str[0] == '?')))
-		i = 1;
-	else
-	{
-		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-			i++;
-	}
-	key = ft_strndup(str, i);
-	return (key);
 }
 
 int	count_replace_str_len(char *str, t_env **env)

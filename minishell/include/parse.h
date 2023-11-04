@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/10/31 17:53:43 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/02 22:28:07 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,10 @@ int     ft_strcmp(const char *s1, const char *s2);
 void    create_env_list(t_env **env, char **envp);
 void    replace_process_resources(t_process *process, t_env **env);
 char    *search_env_value(t_env **env, char *search);
-int    check_syntax(t_process *process);
+int    check_syntax(t_process **process);
 void    check_redir_files(t_process *process);
 void    free_redir_list(t_redir *redir);
+void	free_process(t_process *process);
 void    free_process_list(t_process **process);
 void    free_env(t_env *env);
 void    free_env_list(t_env *env);
@@ -83,6 +84,8 @@ void	add_env(t_env **env, char *key, char *value);
 void	delete_env(t_env **env, char *del_key);
 char	*search_env_value(t_env **env, char *search);
 void	set_terminal_print_off(void);
+
+void	remove_empty(t_process **process);
 
 void all_signal();
 

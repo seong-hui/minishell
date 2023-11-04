@@ -14,24 +14,30 @@ void	free_redir_list(t_redir *redir)
 	}
 }
 
+void	free_process(t_process *process)
+{
+	int			i;
+
+	free_redir_list(process->redir);
+	free(process->cmd_line);
+	i = 0;
+	while (process->cmd && process->cmd[i])
+		free(process->cmd[i++]);
+	free(process->cmd);
+	free(process);
+}
+
 void	free_process_list(t_process **process)
 {
 	t_process	*cur;
 	t_process	*next;
-	int			i;
 
 	cur = *process;
 	while (cur)
 	{
-		free_redir_list(cur->redir);
-		free(cur->cmd_line);
-		i = 0;
-		while (cur->cmd && cur->cmd[i])
-			free(cur->cmd[i++]);
-		free(cur->cmd);
 		next = cur->next;
 		cur->next = NULL;
-		free(cur);
+		free_process(cur);
 		cur = next;
 	}
 }
