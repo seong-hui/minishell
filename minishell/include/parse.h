@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/02 16:58:22 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 20:33:06 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_redir
 	int				type;
 	char			*file;
 	struct s_redir	*next;
-    char            *tmp;
+	char			*tmp;
 }	t_redir;
 
 typedef struct s_env
@@ -45,17 +45,18 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
+	int				equal_sign;
 }	t_env;
 
 typedef struct s_process
 {
-    t_redir         *redir;
-    char            **cmd;
-    struct s_process  *next;
-    int             infile_fd;
-    int             outfile_fd;
-    char			*cmd_line;
-    char            *cmd_path;
+	t_redir         *redir;
+	char            **cmd;
+	struct s_process  *next;
+	int             infile_fd;
+	int             outfile_fd;
+	char			*cmd_line;
+	char            *cmd_path;
 }   t_process;
 
 int tokenize(t_process **process, t_env **env, char *line);
@@ -80,7 +81,7 @@ void    signal_handler(int signo);
 void    set_terminal_print_off(void);
 void    set_terminal_print_on(void);
 void process_start(t_process *process, t_env *env, char **envp);
-void	add_env(t_env **env, char *key, char *value);
+void	add_env(t_env **env, char *key, char *value, int equl);
 void	delete_env(t_env **env, char *del_key);
 char	*search_env_value(t_env **env, char *search);
 void	set_terminal_print_off(void);

@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/04 16:26:37 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/04 22:10:56 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 #include "execute.h"
 
 void builtin_echo(t_process *process, int fd);
-void builtin_pwd(int fd);
-void builtin_cd(t_process *process);
+void	builtin_pwd(int fd, t_env *env);
+void	builtin_cd(t_process *process, t_env *env);
 char *ft_strncpy(char *dest, char *src, unsigned int n);
 void	no_fork_toexecute(t_process *process, t_env *env, t_excute e_info);
 void process_start(t_process *process, t_env *env, char **envp);
@@ -43,5 +43,10 @@ t_env	*sort_list(t_env *env);
 void	check_value(char *env_str);
 int	search_env_key(t_env **env, char *search);
 void	print_unset_error(char *file);
+void	replace_env(t_env **env, char *key, char *value);
+char	*search_env_value(t_env **env, char *search);
+t_env	*copy_env(t_env *env);
+void	replace_env_value(t_env **env, char *key, char *value, int equl);
+void	copy_key_value(t_env *env, t_env *new_env);
 
 #endif
