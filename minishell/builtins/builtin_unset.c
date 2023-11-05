@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 20:03:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/04 21:58:51 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/05 16:50:37 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	unset_env(t_env *env, t_process *process, int i, t_env *start)
 {
 	if (!ft_strcmp(process->cmd[i], "_"))
+	{
+		g_exit_code = 0;
 		return ;
+	}
 	while (env)
 	{
 		if (ft_strcmp(env->key, process->cmd[i]) == 0)
@@ -26,6 +29,7 @@ void	unset_env(t_env *env, t_process *process, int i, t_env *start)
 		else
 			env = env->next;
 	}
+	g_exit_code = 0;
 }
 
 void	builtin_unset(t_process *process, t_env *env, int fd)

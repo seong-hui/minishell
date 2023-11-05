@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/04 15:24:41 by seonghmo         ###   ########.fr       */
+/*   Created: 2023/10/05 17:32:17 by seonghmo          #+#    #+#             */
+/*   Updated: 2023/11/05 16:03:25 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
