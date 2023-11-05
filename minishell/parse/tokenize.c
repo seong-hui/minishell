@@ -1,6 +1,8 @@
 
 #include "../include/parse.h"
 
+int	split_process(t_process **process, char *line);
+
 int	is_all_blank(char *line)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/02 22:28:07 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/05 15:56:04 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,11 @@ void process_start(t_process *process, t_env *env, char **envp);
 void	add_env(t_env **env, char *key, char *value, int equl);
 void	delete_env(t_env **env, char *del_key);
 char	*search_env_value(t_env **env, char *search);
+char	*get_env_key(char *str);
 void	set_terminal_print_off(void);
 
 void	remove_empty(t_process **process);
+int	is_all_blank(char *line);
 
 void all_signal();
 
