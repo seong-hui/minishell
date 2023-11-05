@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 22:18:50 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/04 22:25:33 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/05 20:41:20 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,32 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	}
 	return (0);
+}
+
+void	trim_spaces(t_process *process)
+{
+	int		i;
+	char	*trimmed;
+	t_redir	*cur_redir;
+
+	if (!process->cmd)
+		return ;
+	i = 0;
+	while (process->cmd[i])
+	{
+		trimmed = ft_strtrim(process->cmd[i], " \n\t");
+		free(process->cmd[i]);
+		process->cmd[i] = trimmed;
+		i++;
+	}
+	if (!process->redir)
+		return ;
+	cur_redir = process->redir;
+	while (cur_redir)
+	{
+		trimmed = ft_strtrim(cur_redir->file, " \n\t");
+		free(cur_redir->file);
+		cur_redir->file = trimmed;
+		cur_redir = cur_redir->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:28:07 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/04 22:15:40 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/05 20:48:51 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,3 @@ int	check_syntax(t_process **process)
 	}
 	return (1);
 }
-

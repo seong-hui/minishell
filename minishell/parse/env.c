@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/05 20:47:52 by jooypark          #+#    #+#             */
+/*   Updated: 2023/11/05 20:47:53 by jooypark         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/parse.h"
 
@@ -78,7 +89,7 @@ char	*search_env_value(t_env **env, char *search)
 	while (target)
 	{
 		if (ft_strcmp(target->key, search) == 0)
-			return (target->value);
+			return (ft_strdup(target->value));
 		target = target->next;
 	}
 	return (NULL);
