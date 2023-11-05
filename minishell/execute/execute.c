@@ -6,47 +6,56 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/02 20:47:21 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/04 15:24:41 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-int	fork_toexcute(t_process *process, t_env *env, int cmd_size, char **envp)
+int	fork_toexcute(t_process *process, t_env *env, t_excute e_info)
 {
-	char	**execute_path;
-
-	execute_path = get_path(env);
-	make_pipe(process, cmd_size, execute_path, env, envp);
+	e_info.execute_path = get_path(env);
+	make_pipe(process, env, e_info);
 	return (0);
 }
 
-void	no_fork_toexecute(t_process *process, t_env *env)
+void	no_fork_toexecute(t_process *process, t_env *env, t_excute e_info)
 {
 	fd_redirection(process, process->redir);
-	check_builtins(process, env, process->outfile_fd);
+	check_builtins(process, env, process->outfile_fd, e_info);
 }
 
+void	unlink_file(t_redir *redir)
+{
+	while (redir)
+	{
+		if (redir->tmp)
+			unlink(redir->tmp);
+		redir = redir->next;
+	}
+}
 
 void	process_start(t_process *process, t_env *env, char **envp)
 {
 	t_process	*head;
 	t_redir		*head_redir;
-	int			process_len;
+	t_excute	e_info;
 
 	head = process;
 	head_redir = process->redir;
-	check_heredoc(process);
-	if (!process->cmd[0])
-	{
-		fd_redirection(process, process->redir);
-		return ;
-	}
 	if (!process)
 		return ;
-	process_len = ft_lstsize(process);
-	if (process_len == 1 && is_builtin(head))
-		no_fork_toexecute(head, env);
+	e_info.cmd_size = ft_lstsize(process);
+	check_heredoc(process);
+	if (!head->cmd[0])
+	{
+		fd_redirection(process, process->redir);
+		unlink_file(process->redir);
+		return ;
+	}
+	e_info.envp = envp;
+	if (e_info.cmd_size == 1 && is_builtin(head))
+		no_fork_toexecute(head, env, e_info);
 	else
-		fork_toexcute(head, env, process_len, envp);
+		fork_toexcute(head, env, e_info);
 }

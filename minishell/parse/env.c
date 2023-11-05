@@ -4,7 +4,7 @@
 char	*get_path_value(char *envp);
 char	*get_path_key(char *envp);
 
-void	add_env(t_env **env, char *key, char *value)
+void	add_env(t_env **env, char *key, char *value, int equl)
 {
 	t_env	*new_env;
 	t_env	*last_env;
@@ -12,6 +12,7 @@ void	add_env(t_env **env, char *key, char *value)
 	new_env = (t_env *)malloc(sizeof(t_env));
 	new_env->key = key;
 	new_env->value = value;
+	new_env->equal_sign = equl;
 	new_env->next = NULL;
 	if (*env != NULL)
 	{
@@ -94,9 +95,9 @@ void	create_env_list(t_env **env, char **envp)
 		key = get_path_key(*envp);
 		value = get_path_value(&(*envp)[ft_strlen(key) + 1]);
 		if (value == NULL)
-			add_env(env, ft_strdup(key), ft_strdup(""));
+			add_env(env, ft_strdup(key), ft_strdup(""), 1);
 		else
-			add_env(env, ft_strdup(key), ft_strdup(value));
+			add_env(env, ft_strdup(key), ft_strdup(value), 1);
 		i = -1;
 		free(key);
 		free(value);
