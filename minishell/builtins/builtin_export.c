@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:33:09 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/04 22:25:14 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/05 16:46:13 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	handle_exception(t_process *process, int i)
 {
 	if ((process->cmd[i][0] == '_' && !process->cmd[i][1]))
+	{
+		g_exit_code = 0;
 		return ;
+	}
 	else
 		print_export_error(process->cmd[i]);
 }
@@ -23,11 +26,15 @@ void	handle_exception(t_process *process, int i)
 void	handle_edit_env(t_env *env, char *key, char *value, int equl)
 {
 	if (!ft_strcmp(key, "_"))
+	{
+		g_exit_code = 0;
 		return ;
+	}
 	if (search_env_key(&env, key))
 		replace_env_value(&env, key, value, equl);
 	else
 		add_env(&env, key, value, equl);
+	g_exit_code = 0;
 }
 
 void	add_export(t_process *process, t_env *env)
@@ -48,7 +55,7 @@ void	add_export(t_process *process, t_env *env)
 			value = get_path_value(&process->cmd[i][ft_strlen(key) + 1]);
 			equl = 1;
 		}
-		if ((process->cmd[i][0] == '_' && process->cmd[i][1]) 
+		if ((process->cmd[i][0] == '_' && process->cmd[i][1])
 			|| ft_isalpha(process->cmd[i][0]))
 			handle_edit_env(env, key, value, equl);
 		else

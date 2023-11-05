@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/04 22:10:56 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/05 19:54:05 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,7 @@ char	*search_env_value(t_env **env, char *search);
 t_env	*copy_env(t_env *env);
 void	replace_env_value(t_env **env, char *key, char *value, int equl);
 void	copy_key_value(t_env *env, t_env *new_env);
+void	print_pwd_error(char *file);
+void	print_cd_error(char *file);
 
 #endif

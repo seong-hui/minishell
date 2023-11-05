@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 22:04:44 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/04 22:08:15 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/05 16:04:52 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	replace_env(t_env **env, char *key, char *value)
 	t_env	*tmp_env;
 
 	tmp_env = *env;
-
 	while (tmp_env)
 	{
 		if (ft_strcmp(tmp_env->key, key) == 0)
