@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/05 15:56:04 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/05 20:46:28 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ typedef struct s_process
 	char            *cmd_path;
 }   t_process;
 
+typedef struct s_expand
+{
+	char	*cmd;
+	int		len;
+	int		idx;
+	int		quote;
+}	t_expand;
+
 int tokenize(t_process **process, t_env **env, char *line);
 void    parse_redir(t_process *process);
 void    parse_cmd(t_process *process);
@@ -68,7 +76,6 @@ void    create_env_list(t_env **env, char **envp);
 void    replace_process_resources(t_process *process, t_env **env);
 char    *search_env_value(t_env **env, char *search);
 int    check_syntax(t_process **process);
-void    check_redir_files(t_process *process);
 void    free_redir_list(t_redir *redir);
 void	free_process(t_process *process);
 void    free_process_list(t_process **process);
@@ -90,8 +97,20 @@ void	set_terminal_print_off(void);
 
 void	remove_empty(t_process **process);
 int	is_all_blank(char *line);
+void	trim_spaces(t_process *process);
 
 void all_signal();
+
+int	replace_len(char *str, t_env **env);
+char	*replace_str(char *str, t_env **env);
+char	*replace_limiter(char *file);
+char	*replace_redir_file(char *file, int type, t_env **env);
+void	replace_process_resources(t_process *process, t_env **env);
+
+void	update_quote(char c, int *quote);
+int	expand_len(int *len, char *str, t_env **env, int quote);
+void	expand_cmd(char *replaced, t_expand *expand, t_env **env);
+void	init_expand(t_expand *expand, char *str, t_env **env);
 
 void	main_sigint_handler(int sign);
 #endif

@@ -1,210 +1,82 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/05 16:00:07 by jooypark          #+#    #+#             */
+/*   Updated: 2023/11/05 20:46:11 by jooypark         ###   ########seoul.kr  */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../include/parse.h"
 
-void	trim_spaces(t_process *process)
+void	init_expand(t_expand *expand, char *str, t_env **env)
 {
-	int		i;
-	char	*trimmed;
-	t_redir	*cur_redir;
-
-	if (!process->cmd)
-		return ;
-	i = 0;
-	while (process->cmd[i])
-	{
-		trimmed = ft_strtrim(process->cmd[i], " \n\t");
-		free(process->cmd[i]);
-		process->cmd[i] = trimmed;
-		i++;
-	}
-	if (!process->redir)
-		return ;
-	cur_redir = process->redir;
-	while (cur_redir)
-	{
-		trimmed = ft_strtrim(cur_redir->file, " \n\t");
-		free(cur_redir->file);
-		cur_redir->file = trimmed;
-		cur_redir = cur_redir->next;
-	}
+	expand->cmd = str;
+	expand->len = replace_len(str, env);
+	expand->idx = 0;
+	expand->quote = 0;
 }
 
-int	count_replace_str_len(char *str, t_env **env)
+void	update_quote(char c, int *quote)
+{
+	if (*quote == 0)
+		*quote = c;
+	else if (*quote == c)
+		*quote = 0;
+}
+
+int	expand_len(int *len, char *str, t_env **env, int quote)
 {
 	int		i;
-	int		len;
 	char	*env_key;
 	char	*env_value;
-	int		quote;
 
 	i = 0;
-	len = 0;
-	quote = 0;
-	while (str[i])
-	{
-		if ((str[i] == '\'' || str[i] == '"') && quote == 0)
-			quote = str[i];
-		else if ((str[i] == '\'' || str[i] == '"') && quote == str[i])
-			quote = 0;
-		else if (str[i] == '$' && quote != '\'')
-		{
-			env_key = get_env_key(&str[i + 1]);
-			if ((ft_strlen(env_key) == 0) && (quote != 0
-					|| !(str[i + 1] == '\'' || str[i + 1] == '"')))
-				len++;
-			else
-			{
-				if (ft_strcmp(env_key, "?") == 0)
-					env_value = ft_itoa((long long)g_exit_code);
-				else
-					env_value = search_env_value(env, env_key);
-				if (env_value != NULL)
-					len += ft_strlen(env_value);
-				i += ft_strlen(env_key);
-			}
-			free(env_key);
-		}
-		else
-			len++;
-		i++;
-	}
-	return (len);
-}
-
-char	*replace_str(char *str, t_env **env)
-{
-	int		i;
-	int		j;
-	int		len;
-	char	*env_key;
-	char	*env_value;
-	int		quote;
-	char	*replaced;
-
-	len = count_replace_str_len(str, env);
-	replaced = (char *)malloc(sizeof(char) * (len + 1));
-	i = 0;
-	j = 0;
-	quote = 0;
-	while (j < len)
-	{
-		if ((str[i] == '\'' || str[i] == '"') && quote == 0)
-			quote = str[i];
-		else if ((str[i] == '\'' || str[i] == '"') && quote == str[i])
-			quote = 0;
-		else if (str[i] == '$' && quote != '\'')
-		{
-			env_key = get_env_key(&str[i + 1]);
-			if ((ft_strlen(env_key) == 0) && (quote != 0
-					|| !(str[i + 1] == '\'' || str[i + 1] == '"')))
-				replaced[j++] = '$';
-			else
-			{
-				if (ft_strcmp(env_key, "?") == 0)
-					env_value = ft_itoa((long long)g_exit_code);
-				else
-					env_value = search_env_value(env, env_key);
-				if (env_value != NULL)
-				{
-					while (*env_value)
-						replaced[j++] = *env_value++;
-				}
-				i += ft_strlen(env_key);
-			}
-			free(env_key);
-		}
-		else
-			replaced[j++] = str[i];
-		i++;
-	}
-	replaced[j] = 0;
-	return (replaced);
-}
-
-char	*replace_limiter(char *file)
-{
-	int	i;
-	int	j;
-	int	quote;
-	char	*replaced;
-
-	i = 0;
-	j = 0;
-	quote = 0;
-	replaced = (char *)malloc(sizeof(char) * (ft_strlen(file) + 1));
-	while (file[i])
-	{
-		if ((file[i] == '\'' || file[i] == '"'))
-		{
-			if (quote == 0)
-				quote = file[i];
-			else if (file[i] == quote)
-				quote = 0;
-		}
-		else if (file[i] == '$')
-		{
-			if (quote != 0 || !(file[i + 1] == '\'' || file[i + 1] == '"'))
-				replaced[j++] = file[i];
-		}
-		else
-			replaced[j++] = file[i];
-		i++;
-	}
-	replaced[j] = '\0';
-	return (replaced);
-}
-
-char	*replace_redir_file(char *file, int type, t_env **env)
-{
-	int		i;
-	int		is_dollar;
-	char	*replaced;
-
-	if (type != T_REDIR_HEREDOC)
-		replaced = replace_str(file, env);
+	env_key = get_env_key(&str[i + 1]);
+	if ((ft_strlen(env_key) == 0) && (quote != 0
+			|| !(str[i + 1] == '\'' || str[i + 1] == '"')))
+		(*len)++;
 	else
 	{
-		i = 0;
-		is_dollar = 0;
-		while (file[i])
-		{
-			if (file[i] == '$')
-				is_dollar = 1;
-			i++;
-		}
-		if (is_dollar == 0)
-			replaced = replace_str(file, env);
+		if (ft_strcmp(env_key, "?") == 0)
+			env_value = ft_itoa((long long)g_exit_code);
 		else
-			replaced = replace_limiter(file);
+			env_value = search_env_value(env, env_key);
+		if (env_value != NULL)
+			*len += ft_strlen(env_value);
+		i += ft_strlen(env_key);
 	}
-	return (replaced);
+	free(env_key);
+	return (i);
 }
 
-void	replace_process_resources(t_process *process, t_env **env)
+void	expand_cmd(char *replaced, t_expand *expand, t_env **env)
 {
 	int		i;
-	char	*replaced;
-	t_redir	*cur_redir;
+	char	*env_key;
+	char	*env_value;
 
-	trim_spaces(process);
-	if (!process->cmd)
-		return ;
-	i = 0;
-	while (process->cmd[i])
+	env_key = get_env_key(expand->cmd + 1);
+	if ((ft_strlen(env_key) == 0) && (expand->quote != 0
+			|| !(*(expand->cmd + 1) == '\'' || *(expand->cmd + 1) == '"')))
+		replaced[expand->idx++] = '$';
+	else
 	{
-		replaced = replace_str(process->cmd[i], env);
-		free(process->cmd[i]);
-		process->cmd[i] = replaced;
-		i++;
+		if (ft_strcmp(env_key, "?") == 0)
+			env_value = ft_itoa((long long)g_exit_code);
+		else
+			env_value = search_env_value(env, env_key);
+		if (env_value != NULL)
+		{
+			i = -1;
+			while (env_value[++i])
+				replaced[expand->idx++] = env_value[i];
+			free(env_value);
+		}
+		expand->cmd += ft_strlen(env_key);
 	}
-	if (!process->redir)
-		return ;
-	cur_redir = process->redir;
-	while (cur_redir)
-	{
-		replaced = replace_redir_file(cur_redir->file, cur_redir->type, env);
-		free(cur_redir->file);
-		cur_redir->file = replaced;
-		cur_redir = cur_redir->next;
-	}
+	free(env_key);
 }
