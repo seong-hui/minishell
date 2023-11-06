@@ -6,21 +6,24 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:11:51 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/02 23:13:20 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:51:33 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+
 void	execute_heredoc(t_process *process, t_redir *redir)
 {
 	char	*buffer;
 
+	buffer = NULL;
 	while (1)
 	{
 		buffer = readline("> ");
 		if (buffer == NULL)
 		{
+			g_exit_code = 0;
 			break ;
 		}
 		if (!ft_strcmp(buffer, redir->file))
@@ -50,15 +53,16 @@ char	*make_tmp_heredoc(void)
 	return (NULL);
 }
 
-void	handle_heredoc(t_redir	*redir, t_process *proc, pid_t pid, int *i)
+void	handle_heredoc(t_redir	*redir, t_process *proc, pid_t *pid, int *i)
 {
 	redir->tmp = make_tmp_heredoc();
-	pid = fork();
-	if (pid < 0)
+	(*pid) = fork();
+	if ((*pid) < 0)
 		exit(1);
-	i += 1;
+	(*i)++;
+	signal(SIGTERM, heredoc_signal);
 	signal(SIGINT, heredoc_signal);
-	if (pid == 0)
+	if ((*pid) == 0)
 	{
 		proc->infile_fd = open(redir->tmp, O_RDWR | O_CREAT | O_TRUNC, 0644);
 		execute_heredoc(proc, redir);
@@ -83,7 +87,7 @@ void	check_heredoc(t_process *process)
 		while (tmp_redir)
 		{
 			if (tmp_redir->type == T_REDIR_HEREDOC)
-				handle_heredoc(tmp_redir, process, pid, &i);
+				handle_heredoc(tmp_redir, process, &pid, &i);
 			waitpid(pid, &exit_code, 0);
 			if (child_exit_status(exit_code))
 				break ;
@@ -94,4 +98,5 @@ void	check_heredoc(t_process *process)
 		process = process->next;
 	}
 	wait_child(i, exit_code);
+	detect_signal();
 }
