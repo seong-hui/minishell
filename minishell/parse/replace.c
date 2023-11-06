@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 20:43:31 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/05 20:43:32 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 21:30:31 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,17 @@ int	replace_len(char *str, t_env **env)
 {
 	int		len;
 	int		quote;
-	char	*env_key;
 
 	len = 0;
 	quote = 0;
 	while (*str)
 	{
-		if (*str == '\'' || *str == '"')
-			update_quote(*str, &quote);
+		if ((*str == '\'' || *str == '"') && quote == 0)
+			quote = *str;
+		else if ((*str == '\'' || *str == '"') && quote == *str)
+			quote = 0;
 		else if (*str == '$' && quote != '\'')
-		{
-			env_key = get_env_key(str + 1);
-			if ((ft_strlen(env_key) == 0) && (quote != 0
-					|| !(*(str + 1) == '\'' || *(str + 1) == '"')))
-				len++;
-			else
-				str += expand_len(&len, str, env, quote);
-		}
+			str += expand_len(&len, str, env, quote);
 		else
 			len++;
 		str++;
@@ -42,16 +36,20 @@ int	replace_len(char *str, t_env **env)
 
 char	*replace_str(char *str, t_env **env)
 {
-	char		*env_key;
 	char		*replaced;
 	t_expand	expand;
 
 	init_expand(&expand, str, env);
 	replaced = (char *)malloc(sizeof(char) * (expand.len + 1));
+	if (!replaced)
+		exit(1);
 	while (expand.idx < expand.len)
 	{
-		if (*expand.cmd == '\'' || *expand.cmd == '"')
-			update_quote(*expand.cmd, &expand.quote);
+		if ((*expand.cmd == '\'' || *expand.cmd == '"') && expand.quote == 0)
+			expand.quote = *expand.cmd;
+		else if ((*expand.cmd == '\'' || *expand.cmd == '"')
+			&& expand.quote == *expand.cmd)
+			expand.quote = 0;
 		else if (*expand.cmd == '$' && expand.quote != '\'')
 			expand_cmd(replaced, &expand, env);
 		else
@@ -71,10 +69,14 @@ char	*replace_limiter(char *file)
 	i = 0;
 	quote = 0;
 	replaced = (char *)malloc(sizeof(char) * (ft_strlen(file) + 1));
+	if (!replaced)
+		exit(1);
 	while (*file)
 	{
-		if (*file == '\'' || *file == '"')
-			update_quote(*file, &quote);
+		if ((*file == '\'' || *file == '"') && quote == 0)
+			quote = *file;
+		else if ((*file == '\'' || *file == '"') && quote == *file)
+			quote = 0;
 		else if (*file == '$')
 		{
 			if (quote != 0 || !(*(file + 1) == '\'' || *(file + 1) == '"'))

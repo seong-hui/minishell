@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 21:57:13 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 18:39:12 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 20:57:55 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ void	exec_signal(int signo)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 	}
-
 }
-
 
 void	heredoc_signal(int signo)
 {
@@ -65,10 +63,9 @@ void	heredoc_signal(int signo)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		exit(1);
+		exit(0);
 	}
 }
-
 
 void	detect_signal(void)
 {
