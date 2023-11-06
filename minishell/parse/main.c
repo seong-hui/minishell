@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/04 15:16:10 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 18:17:02 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	run_prompt(t_env *env, char **envp)
 		line = readline("minishell$ ");
 		if (!line)
 			signal_handler(SIGTERM);
+		signal(SIGINT, signal_handler);
 		add_history(line);
 		if (tokenize(&process, &env, line) == 1)
 			process_start(process, env, envp);

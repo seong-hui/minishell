@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:20:12 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/02 23:13:26 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/06 18:36:24 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void	make_pipe(t_process *process, t_env *env, t_excute exe_info)
 		exit(1);
 	exe_info.prev_fd[0] = dup(STDIN_FILENO);
 	exe_info.i = 0;
+	signal(SIGINT, exec_signal);
+	signal(SIGQUIT, exec_signal);
 	while (exe_info.i < exe_info.cmd_size)
 	{
 		fd_redirection(process, process->redir);
@@ -101,4 +103,5 @@ void	make_pipe(t_process *process, t_env *env, t_excute exe_info)
 		exe_info.i += 1;
 	}
 	close_pipe(exe_info.i, exe_info.prev_fd, cur_fd, pid);
+	detect_signal();
 }

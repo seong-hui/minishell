@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/05 20:46:28 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 17:37:17 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_expand
 	int		quote;
 }	t_expand;
 
+
 int tokenize(t_process **process, t_env **env, char *line);
 void    parse_redir(t_process *process);
 void    parse_cmd(t_process *process);
@@ -100,6 +101,7 @@ int	is_all_blank(char *line);
 void	trim_spaces(t_process *process);
 
 void all_signal();
+void	exec_signal(int signo);
 
 int	replace_len(char *str, t_env **env);
 char	*replace_str(char *str, t_env **env);
