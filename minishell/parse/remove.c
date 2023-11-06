@@ -27,6 +27,8 @@ char	**remove_empty_cmd(char **cmd)
 	if (count == 0)
 		return (NULL);
 	new_cmd = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!new_cmd)
+		exit(1);
 	i = 0;
 	j = 0;
 	while (cmd[i])

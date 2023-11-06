@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 16:00:07 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/05 20:46:11 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 21:29:22 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,6 @@ void	init_expand(t_expand *expand, char *str, t_env **env)
 	expand->len = replace_len(str, env);
 	expand->idx = 0;
 	expand->quote = 0;
-}
-
-void	update_quote(char c, int *quote)
-{
-	if (*quote == 0)
-		*quote = c;
-	else if (*quote == c)
-		*quote = 0;
 }
 
 int	expand_len(int *len, char *str, t_env **env, int quote)
@@ -46,7 +38,10 @@ int	expand_len(int *len, char *str, t_env **env, int quote)
 		else
 			env_value = search_env_value(env, env_key);
 		if (env_value != NULL)
+		{
 			*len += ft_strlen(env_value);
+			free(env_value);
+		}
 		i += ft_strlen(env_key);
 	}
 	free(env_key);

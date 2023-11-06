@@ -6,24 +6,23 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 20:47:52 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/05 20:47:53 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 20:03:13 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 
-char	*get_path_value(char *envp);
-char	*get_path_key(char *envp);
-
-void	add_env(t_env **env, char *key, char *value, int equl)
+void	add_env(t_env **env, char *key, char *value, int equal)
 {
 	t_env	*new_env;
 	t_env	*last_env;
 
 	new_env = (t_env *)malloc(sizeof(t_env));
+	if (!new_env)
+		exit(1);
 	new_env->key = key;
 	new_env->value = value;
-	new_env->equal_sign = equl;
+	new_env->equal_sign = equal;
 	new_env->next = NULL;
 	if (*env != NULL)
 	{

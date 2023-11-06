@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:11:51 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/06 21:31:30 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/06 21:46:06 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	*make_tmp_heredoc(void)
 		tmp_heredoc = ft_strdup(ft_strjoin("tmp_file", ft_itoa(i)));
 		if (open(tmp_heredoc, O_RDONLY) == -1)
 			return (tmp_heredoc);
+		free(tmp_heredoc);
 		i++;
 	}
 	return (NULL);

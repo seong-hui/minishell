@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 22:16:55 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/04 22:21:04 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 19:58:53 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,14 @@ void	add_process(t_process **process, char *cmd_line)
 	t_process	*last_process;
 
 	new_process = (t_process *)malloc(sizeof(t_process));
+	if (!new_process)
+		exit(1);
 	new_process->redir = NULL;
-	new_process->cmd_line = cmd_line;
 	new_process->cmd = NULL;
+	new_process->cmd_line = cmd_line;
+	new_process->cmd_path = NULL;
+	new_process->infile_fd = 0;
+	new_process->outfile_fd = 0;
 	new_process->next = NULL;
 	if (*process != NULL)
 	{
