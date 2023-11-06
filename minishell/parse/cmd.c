@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 15:17:01 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/04 21:38:34 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 21:17:31 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char	*add_new_cmd(char *line)
 		len++;
 	}
 	new_cmd = (char *)malloc(sizeof(char) * (len + 1));
+	if (!new_cmd)
+		exit(1);
 	i = 0;
 	while (i < len)
 	{
@@ -81,6 +83,8 @@ void	parse_cmd(t_process *process)
 
 	count = count_cmd(process->cmd_line);
 	process->cmd = (char **)malloc(sizeof(char *) * (count + 1));
+	if (!process->cmd)
+		exit(1);
 	i = 0;
 	j = 0;
 	while (j < count)

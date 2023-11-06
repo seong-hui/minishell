@@ -6,13 +6,11 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 20:49:18 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/05 20:49:19 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 20:00:22 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
-
-int	split_process(t_process **process, char *line);
 
 int	is_all_blank(char *line)
 {

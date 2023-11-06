@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 20:48:25 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/05 20:48:26 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 21:32:07 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	free_redir_list(t_redir *redir)
 	while (redir)
 	{
 		free(redir->file);
+		free(redir->tmp);
 		next = redir->next;
 		redir->next = NULL;
 		free(redir);
@@ -32,6 +33,7 @@ void	free_process(t_process *process)
 
 	free_redir_list(process->redir);
 	free(process->cmd_line);
+	free(process->cmd_path);
 	i = 0;
 	while (process->cmd && process->cmd[i])
 		free(process->cmd[i++]);

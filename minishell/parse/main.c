@@ -6,15 +6,30 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 18:17:02 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 21:29:57 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
 
-void	cl()
+void	process_start(t_process *process, t_env *env, char **envp);
+
+void	cl(void)
 {
-	system("leaks minishell");
+	system("leaks --list minishell");
+}
+
+void	print_process(t_process **process)
+{
+	t_process *cur = *process;
+
+	while (cur)
+	{
+		int i = 0;
+		while (cur->cmd && cur->cmd[i])
+			printf("cmd[%d]: %s\n", i, cur->cmd[i++]);
+		cur = cur->next;
+	}
 }
 
 void	run_prompt(t_env *env, char **envp)
@@ -32,11 +47,11 @@ void	run_prompt(t_env *env, char **envp)
 		add_history(line);
 		if (tokenize(&process, &env, line) == 1)
 			process_start(process, env, envp);
+		//print_process(&process);
 		free_process_list(&process);
 		free(line);
 	}
 }
-
 
 int	main(int ac, char **av, char **envp)
 {

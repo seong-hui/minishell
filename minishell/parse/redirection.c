@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 22:13:58 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/04 22:14:00 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 19:39:37 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@ void	add_redir(t_redir **redir, char *file, int type)
 	t_redir	*last_redir;
 
 	new_redir = (t_redir *)malloc(sizeof(t_redir));
+	if (!new_redir)
+		exit (1);
 	new_redir->type = type;
 	new_redir->file = file;
+	new_redir->tmp = NULL;
 	new_redir->next = NULL;
 	if (*redir != NULL)
 	{
