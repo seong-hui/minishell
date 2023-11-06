@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:20:12 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/06 18:36:24 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 19:46:03 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ void	child_process(t_process *proc, t_env *env, t_excute info, int *cur_fd)
 	else
 		middle_child(proc, cur_fd, env, info);
 }
+
+
+
 
 void	make_pipe(t_process *process, t_env *env, t_excute exe_info)
 {

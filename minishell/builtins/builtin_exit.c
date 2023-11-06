@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:30:44 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/04 15:44:13 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/06 19:30:24 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ unsigned long long	ft_atoi_cal(char *str, int *flag, int sign)
 			re = re * 10 + (str[i] - '0');
 			if (sign == 1 && re > 9223372036854775807)
 				*flag = 1;
-			else if (sign == -1 && re > 9223372036854775807 + 1)
+			else if (sign == -1 && re - 1 > 9223372036854775807)
 				*flag = 1;
 		}
 		else

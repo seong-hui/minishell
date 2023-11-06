@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:33:09 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/05 16:46:13 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/06 21:26:02 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ void	add_export(t_process *process, t_env *env)
 			handle_edit_env(env, key, value, equl);
 		else
 			handle_exception(process, i);
+		free(key);
+		if (value)
+			free(value);
 	}
 }
 
@@ -79,12 +82,14 @@ void	copy_key_value(t_env *env, t_env *new_env)
 void	builtin_export(t_process *process, t_env *env, int fd, t_excute e_info)
 {
 	t_env	*env_s;
+	t_env *start_copy;
 
 	env_s = env;
 	if (!process->cmd[1])
 	{
 		env_s = copy_env(env_s);
 		env_s = sort_list(env_s);
+		start_copy = env_s;
 		while (env_s)
 		{
 			ft_putstr_fd("declare -x ", fd);
@@ -97,6 +102,12 @@ void	builtin_export(t_process *process, t_env *env, int fd, t_excute e_info)
 				ft_putstr_fd("\"", fd);
 			}
 			ft_putstr_fd("\n", fd);
+			env_s = env_s->next;
+		}
+		env_s = start_copy;
+		while (env_s)
+		{
+			free_env(env_s);
 			env_s = env_s->next;
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:11:51 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/06 18:51:33 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/06 21:31:30 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
