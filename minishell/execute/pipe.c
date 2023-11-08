@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:20:12 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/06 18:36:24 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/08 15:45:51 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-static void	close_pipe(int i, int *prev_fd, int *cur_fd, int pid)
+static void	close_pipe(int *prev_fd, int *cur_fd, int pid)
 {
 	int	flag_printed;
 	int	status;
@@ -82,26 +82,25 @@ void	make_pipe(t_process *process, t_env *env, t_excute exe_info)
 	int		cur_fd[2];
 
 	if (pipe(exe_info.prev_fd) == -1)
-		exit(1);
+		exit_and_setcode();
 	exe_info.prev_fd[0] = dup(STDIN_FILENO);
-	exe_info.i = 0;
-	signal(SIGINT, exec_signal);
-	signal(SIGQUIT, exec_signal);
+	handle_signal();
 	while (exe_info.i < exe_info.cmd_size)
 	{
 		fd_redirection(process, process->redir);
+		if (redir_check(&process, &exe_info))
+			continue ;
 		if (exe_info.i > 0)
 			handle_fd(exe_info.prev_fd, cur_fd);
 		if (pipe(cur_fd) == -1)
-			exit(1);
+			exit_and_setcode();
 		pid = fork();
 		if (pid < 0)
-			exit(1);
+			exit_and_setcode();
 		if (pid == 0 && process->cmd[0])
 			child_process(process, env, exe_info, cur_fd);
 		process = process->next;
 		exe_info.i += 1;
 	}
-	close_pipe(exe_info.i, exe_info.prev_fd, cur_fd, pid);
-	detect_signal();
+	close_pipe(exe_info.prev_fd, cur_fd, pid);
 }

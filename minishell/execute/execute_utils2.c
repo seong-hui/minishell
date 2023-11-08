@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/23 19:36:37 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 20:54:26 by seonghmo         ###   ########.fr       */
+/*   Created: 2023/11/08 15:41:14 by seonghmo          #+#    #+#             */
+/*   Updated: 2023/11/08 15:42:39 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/execute.h"
 
-char	*ft_strdup(const char *s)
+void	exit_and_setcode(void)
 {
-	char	*copy;
-	int		s_len;
-	int		i;
+	g_exit_code = 1;
+	exit(g_exit_code);
+}
 
-	if (!s)
-		return (NULL);
-	s_len = ft_strlen(s);
-	copy = (char *)malloc((s_len + 1) * sizeof(char));
-	if (!copy)
-		return (0);
-	i = 0;
-	while (i <= s_len)
+int	redir_check(t_process **process, t_excute *exe_info)
+{
+	t_process	*cur;
+
+	cur = *process;
+	if (cur->infile_fd < 0 || cur->outfile_fd < 0)
 	{
-		copy[i] = s[i];
-		i++;
+		exe_info->i += 1;
+		cur = cur->next;
+		*process = cur;
+		return (1);
 	}
-	return (copy);
+	return (0);
 }

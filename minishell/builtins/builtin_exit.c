@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:30:44 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/04 15:44:13 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/07 17:02:25 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ unsigned long long	ft_atoi_cal(char *str, int *flag, int sign)
 			re = re * 10 + (str[i] - '0');
 			if (sign == 1 && re > 9223372036854775807)
 				*flag = 1;
-			else if (sign == -1 && re > 9223372036854775807 + 1)
+			else if (sign == -1 && re - 1 > 9223372036854775807)
 				*flag = 1;
 		}
 		else
@@ -59,7 +59,7 @@ int	ft_atoi_for_exit(char *str, int *flag)
 	return ((int)re * sign);
 }
 
-void	builtin_exit(t_process *process)
+void	builtin_exit(t_process *process, t_excute e_info)
 {
 	int	cmd_len;
 	int	i;
@@ -69,12 +69,13 @@ void	builtin_exit(t_process *process)
 	flag = 0;
 	cmd_len = ft_cmdsize(process->cmd);
 	g_exit_code = 0;
-	if (cmd_len == 1)
+	if (cmd_len == 1 && e_info.cmd_size == 1)
 	{
 		ft_putstr_fd("exit\n", 2);
 		exit(g_exit_code);
 	}
-	ft_putstr_fd("exit\n", 2);
+	if (e_info.cmd_size == 1)
+		ft_putstr_fd("exit\n", 2);
 	g_exit_code = (unsigned char)ft_atoi_for_exit(process->cmd[1], &flag);
 	if (flag)
 		print_exit_error1(process->cmd[1]);

@@ -1,34 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   builtin_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/23 19:36:37 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 20:54:26 by seonghmo         ###   ########.fr       */
+/*   Created: 2023/11/08 15:38:29 by seonghmo          #+#    #+#             */
+/*   Updated: 2023/11/08 15:46:38 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/builtins.h"
 
-char	*ft_strdup(const char *s)
+int	search_env_key(t_env **env, char *search)
 {
-	char	*copy;
-	int		s_len;
-	int		i;
+	t_env	*target;
 
-	if (!s)
-		return (NULL);
-	s_len = ft_strlen(s);
-	copy = (char *)malloc((s_len + 1) * sizeof(char));
-	if (!copy)
-		return (0);
-	i = 0;
-	while (i <= s_len)
+	target = *env;
+	while (target)
 	{
-		copy[i] = s[i];
+		if (ft_strcmp(target->key, search) == 0)
+			return (1);
+		target = target->next;
+	}
+	return (0);
+}
+
+int	check_vaild_key(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+			return (0);
 		i++;
 	}
-	return (copy);
+	return (1);
 }

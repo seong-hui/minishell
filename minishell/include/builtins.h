@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:29:13 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/05 20:08:59 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:43:17 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	fd_redirection(t_process *process, t_redir *redir);
 void	builtin_export(t_process *process, t_env *env, int fd, t_excute e_info);
 void	builtin_env(t_process *process, t_env *env, int fd);
 void	builtin_unset(t_process *process, t_env *env, int fd);
-void	builtin_exit(t_process *process);
+void	builtin_exit(t_process *process, t_excute e_info);
 char	*get_path_key(char *envp);
 char	*get_path_value(char *envp);
 void	print_exit_error1(char *file);
@@ -45,5 +45,9 @@ void	replace_env_value(t_env **env, char *key, char *value, int equl);
 void	copy_key_value(t_env *env, t_env *new_env);
 void	print_pwd_error(char *file);
 void	print_cd_error(char *file);
+void	free_copy_env(t_env *env_s);
+void	copy_key_value(t_env *env, t_env *new_env);
+int		search_env_key(t_env **env, char *search);
+int		check_vaild_key(char *str);
 
 #endif

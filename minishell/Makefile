@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall
+CFLAGS = -Wall -Werror -Wextra
 COMFILE_FLAGS = -I${HOME}/.brew/opt/readline/include
 LDFLAGS = -L${HOME}/.brew/opt/readline/lib
 LDLIBS = -lreadline
@@ -34,10 +34,12 @@ SRCS = ./parse/main.c \
 	   ./execute/process.c \
 	   ./execute/redirection.c \
 	   ./execute/execute_utils.c \
+	   ./execute/execute_utils2.c \
 	   ./execute/execute_error.c \
 	   ./builtins/builtin_error.c \
 	   ./execute/heredoc_utils.c \
 	   ./builtins/builtin_utils2.c \
+	   ./builtins/builtin_utils3.c \
 	   ./builtins/builtin_error2.c 
 
 OBJS = $(SRCS:.c=.o)
