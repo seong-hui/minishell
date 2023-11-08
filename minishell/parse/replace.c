@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 20:43:31 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 21:30:31 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/07 20:17:59 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,7 @@ char	*replace_limiter(char *file)
 			replaced[i++] = *file;
 		file++;
 	}
-	replaced[i] = '\0';
-	return (replaced);
+	return (replaced[i] = '\0', replaced);
 }
 
 char	*replace_redir_file(char *file, int type, t_env **env)
