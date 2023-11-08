@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_utils.c                                    :+:      :+:    :+:   */
+/*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 23:11:45 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/07 19:05:40 by seonghmo         ###   ########.fr       */
+/*   Created: 2023/11/08 15:41:14 by seonghmo          #+#    #+#             */
+/*   Updated: 2023/11/08 15:42:39 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-void	wait_child(int i, int exit_code)
+void	exit_and_setcode(void)
 {
-	while (i > 0)
-	{
-		wait(&exit_code);
-		i--;
-	}
+	g_exit_code = 1;
+	exit(g_exit_code);
 }
 
-int	child_exit_status(int exit_code)
+int	redir_check(t_process **process, t_excute *exe_info)
 {
-	if (WIFEXITED(exit_code))
+	t_process	*cur;
+
+	cur = *process;
+	if (cur->infile_fd < 0 || cur->outfile_fd < 0)
 	{
-		if (exit_code != 0)
-		{
-			g_exit_code = exit_code >> 8;
-			return (1);
-		}
+		exe_info->i += 1;
+		cur = cur->next;
+		*process = cur;
+		return (1);
 	}
 	return (0);
 }

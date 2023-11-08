@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:26:42 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/06 20:48:27 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/08 15:42:49 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,17 @@ typedef struct s_execute
 	int				i;
 }	t_excute;
 
+typedef struct s_here
+{
+	int				i;
+	pid_t			pid;
+}	t_here;
+
+
 void	check_builtins(t_process *process, t_env *env, int fd, t_excute e_info);
 int		is_builtin(t_process *process);
 int		ft_lstsize(t_process *lst);
-void	check_heredoc(t_process *process);
+void	check_heredoc(t_process *process, t_env *env);
 void	fd_redirection(t_process *process, t_redir *redir);
 void	make_pipe(t_process *process, t_env *env, t_excute exe_info);
 char	*get_cmd(char **path, char *cmd);
@@ -42,5 +49,9 @@ void	print_file_error(char *file);
 void	print_command_error(char *cmd);
 void	wait_child(int i, int exit_code);
 int		child_exit_status(int exit_code);
+void	unlink_file(t_redir *redir);
+char	**copy_envp(char **envp);
+void	exit_and_setcode(void);
+int		redir_check(t_process **process, t_excute *exe_info);
 
 #endif

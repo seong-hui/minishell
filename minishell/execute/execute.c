@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:32:17 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/06 21:11:53 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/08 14:32:19 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,13 @@ void	arr_free(char **str)
 	}
 }
 
-// void	free_e_info(t_excute *e_info)
-// {
-// 	int			i;
-
-// 	free_redir_list(e_info->redir);
-// 	free(e_info->cmd_line);
-// 	i = 0;
-// 	while (process->cmd && process->cmd[i])
-// 		free(process->cmd[i++]);
-// 	free(process->cmd);
-// 	free(process);
-// }
-
-
-void free_execute(t_excute exe_info)
-{
-	if (exe_info.execute_path)
-		arr_free(exe_info.execute_path);
-}
-
 int	fork_toexcute(t_process *process, t_env *env, t_excute e_info)
 {
 	e_info.execute_path = get_path(env);
+	e_info.i = 0;
 	make_pipe(process, env, e_info);
-	free_execute(e_info);
+	if (e_info.execute_path)
+		arr_free(e_info.execute_path);
 	return (0);
 }
 
@@ -62,31 +44,30 @@ void	no_fork_toexecute(t_process *process, t_env *env, t_excute e_info)
 	check_builtins(process, env, process->outfile_fd, e_info);
 }
 
-void	unlink_file(t_redir *redir)
+int	check_rider(t_process *process)
 {
-	while (redir)
-	{
-		if (redir->tmp)
-			unlink(redir->tmp);
-		redir = redir->next;
-	}
-}
+	int			count;
+	t_redir		*head_redir;
+	t_process	*head;
 
-char ** copy_envp(char **envp)
-{
-	int	i;
-	char **tmp;
-	char **start;
-
-	i = 0;
-	start = tmp;
-	while(envp[i])
+	head_redir = process->redir;
+	head = process;
+	while (head)
 	{
-		tmp[i] = ft_strdup(envp[i]);
-		i++;
+		count = 0;
+		while (head_redir)
+		{
+			count++;
+			head_redir = head_redir->next;
+		}
+		if (count > 16)
+		{
+			ft_putendl_fd("minishell: maximum here-document count exceeded", 2);
+			return (0);
+		}
+		head = head->next;
 	}
-	tmp = start;
-	return (tmp);
+	return (1);
 }
 
 void	process_start(t_process *process, t_env *env, char **envp)
@@ -100,7 +81,8 @@ void	process_start(t_process *process, t_env *env, char **envp)
 	if (!process)
 		return ;
 	e_info.cmd_size = ft_lstsize(process);
-	check_heredoc(process);
+	if (check_rider(process) == 1)
+		check_heredoc(process, env);
 	if (!head->cmd[0])
 	{
 		fd_redirection(process, process->redir);

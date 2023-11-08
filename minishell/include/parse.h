@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:09:19 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 21:29:27 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/07 20:09:27 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int		tokenize(t_process **process, t_env **env, char *line);
 void	add_process(t_process **process, char *cmd_line);
 int		skip_quote_with_pipe(char *line);
 int		split_process(t_process **process, char *line);
+void	handle_signal(void);
 
 // redirection.c
 void	add_redir(t_redir **redir, char *file, int type);

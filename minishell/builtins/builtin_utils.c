@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 21:06:27 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/04 22:04:57 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:38:45 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ int	ft_cmdsize(char **cmd)
 	return (len);
 }
 
+void	exchange_sign(t_env *env)
+{
+	int		tmp_sign;
+
+	tmp_sign = env->equal_sign;
+	env->equal_sign = env->next->equal_sign;
+	env->next->equal_sign = tmp_sign;
+}
+
 t_env	*sort_list(t_env *env)
 {
 	t_env	*start;
@@ -57,6 +66,7 @@ t_env	*sort_list(t_env *env)
 			env->value = env->next->value;
 			env->next->key = tmp_key;
 			env->next->value = tmp_value;
+			exchange_sign(env);
 			env = start;
 		}
 		else
@@ -76,18 +86,4 @@ void	check_value(char *env_str)
 		if (env_str[i] == '=')
 			return ;
 	}
-}
-
-int	search_env_key(t_env **env, char *search)
-{
-	t_env	*target;
-
-	target = *env;
-	while (target)
-	{
-		if (ft_strcmp(target->key, search) == 0)
-			return (1);
-		target = target->next;
-	}
-	return (0);
 }

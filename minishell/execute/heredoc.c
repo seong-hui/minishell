@@ -6,14 +6,13 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:11:51 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/06 21:46:06 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:39:46 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-
-void	execute_heredoc(t_process *process, t_redir *redir)
+void	execute_heredoc(t_process *process, t_redir *redir, t_env *env)
 {
 	char	*buffer;
 
@@ -31,6 +30,7 @@ void	execute_heredoc(t_process *process, t_redir *redir)
 			free(buffer);
 			break ;
 		}
+		buffer = replace_str(buffer, &env);
 		ft_putstr_fd(buffer, process->infile_fd);
 		ft_putstr_fd("\n", process->infile_fd);
 		free(buffer);
@@ -41,11 +41,14 @@ char	*make_tmp_heredoc(void)
 {
 	char	*tmp_heredoc;
 	int		i;
+	char	*i_str;
 
 	i = 0;
 	while (1)
 	{
-		tmp_heredoc = ft_strdup(ft_strjoin("tmp_file", ft_itoa(i)));
+		i_str = ft_itoa(i);
+		tmp_heredoc = ft_strjoin("tmp_file", i_str);
+		free(i_str);
 		if (open(tmp_heredoc, O_RDONLY) == -1)
 			return (tmp_heredoc);
 		free(tmp_heredoc);
@@ -54,42 +57,45 @@ char	*make_tmp_heredoc(void)
 	return (NULL);
 }
 
-void	handle_heredoc(t_redir	*redir, t_process *proc, pid_t *pid, int *i)
+void	handle_heredoc(t_redir	*redir, t_process *proc, t_here *he, t_env *env)
 {
 	redir->tmp = make_tmp_heredoc();
-	(*pid) = fork();
-	if ((*pid) < 0)
+	he->pid = fork();
+	if (he->pid < 0)
 		exit(1);
-	(*i)++;
+	he->i += 1;
 	signal(SIGTERM, heredoc_signal);
 	signal(SIGINT, heredoc_signal);
-	if ((*pid) == 0)
+	if (he->pid == 0)
 	{
 		proc->infile_fd = open(redir->tmp, O_RDWR | O_CREAT | O_TRUNC, 0644);
-		execute_heredoc(proc, redir);
+		free(redir->tmp);
+		execute_heredoc(proc, redir, env);
 		close(proc->infile_fd);
 		exit(0);
 	}
 	else
+	{
 		signal(SIGINT, SIG_IGN);
+	}
 }
 
-void	check_heredoc(t_process *process)
+void	check_heredoc(t_process *process, t_env *env)
 {
 	t_redir	*tmp_redir;
-	int		i;
-	pid_t	pid;
 	int		exit_code;
+	t_here	here;
 
-	i = 0;
+	here.i = 0;
+	g_exit_code = 0;
 	while (process)
 	{
 		tmp_redir = process->redir;
 		while (tmp_redir)
 		{
 			if (tmp_redir->type == T_REDIR_HEREDOC)
-				handle_heredoc(tmp_redir, process, &pid, &i);
-			waitpid(pid, &exit_code, 0);
+				handle_heredoc(tmp_redir, process, &here, env);
+			waitpid(here.pid, &exit_code, 0);
 			if (child_exit_status(exit_code))
 				break ;
 			tmp_redir = tmp_redir->next;
@@ -98,6 +104,6 @@ void	check_heredoc(t_process *process)
 			break ;
 		process = process->next;
 	}
-	wait_child(i, exit_code);
+	wait_child(here.i, exit_code);
 	detect_signal();
 }

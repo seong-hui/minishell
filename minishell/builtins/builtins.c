@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 16:43:19 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/05 16:05:39 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:56:20 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ void	check_builtins(t_process *process, t_env *env, int fd, t_excute e_info)
 		else if (!ft_strncmp(process->cmd[0], "unset", ft_strlen("unset"))
 			&& e_info.cmd_size == 1)
 			builtin_unset(process, env, fd);
-		else if (!ft_strncmp(process->cmd[0], "exit", ft_strlen("exit"))
-			&& e_info.cmd_size == 1)
-			builtin_exit(process);
+		else if (!ft_strncmp(process->cmd[0], "exit", ft_strlen("exit")))
+			builtin_exit(process, e_info);
 	}
 	return ;
 }

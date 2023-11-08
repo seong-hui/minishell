@@ -6,14 +6,15 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:33:09 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/06 21:26:02 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/08 15:39:17 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void	handle_exception(t_process *process, int i)
+void	handle_exception(t_process *process, int i, char *key)
 {
+	free(key);
 	if ((process->cmd[i][0] == '_' && !process->cmd[i][1]))
 	{
 		g_exit_code = 0;
@@ -27,14 +28,18 @@ void	handle_edit_env(t_env *env, char *key, char *value, int equl)
 {
 	if (!ft_strcmp(key, "_"))
 	{
+		free(key);
 		g_exit_code = 0;
 		return ;
 	}
 	if (search_env_key(&env, key))
+	{
 		replace_env_value(&env, key, value, equl);
+		if (!equl)
+			free(key);
+	}
 	else
 		add_env(&env, key, value, equl);
-	g_exit_code = 0;
 }
 
 void	add_export(t_process *process, t_env *env)
@@ -45,44 +50,43 @@ void	add_export(t_process *process, t_env *env)
 	int		equl;
 
 	i = 0;
-	equl = 0;
 	value = NULL;
 	while (process->cmd[++i])
 	{
+		equl = 0;
 		key = get_path_key(process->cmd[i]);
 		if (ft_strlen(process->cmd[i]) >= ft_strlen(key) + 1)
 		{
 			value = get_path_value(&process->cmd[i][ft_strlen(key) + 1]);
 			equl = 1;
 		}
-		if ((process->cmd[i][0] == '_' && process->cmd[i][1])
-			|| ft_isalpha(process->cmd[i][0]))
+		if (check_vaild_key(key)
+			&& ((process->cmd[i][0] == '_' && process->cmd[i][1])
+			|| ft_isalpha(process->cmd[i][0])))
 			handle_edit_env(env, key, value, equl);
 		else
-			handle_exception(process, i);
-		free(key);
-		if (value)
-			free(value);
+			handle_exception(process, i, key);
 	}
 }
 
-void	copy_key_value(t_env *env, t_env *new_env)
+void	export_putstr(t_env *env_s, int fd)
 {
-	if (env->key)
-		new_env->key = ft_strdup(env->key);
-	else
-		new_env->key = NULL;
-	if (env->value)
-		new_env->value = ft_strdup(env->value);
-	else
-		new_env->value = NULL;
-	new_env->equal_sign = env->equal_sign;
+	ft_putstr_fd("declare -x ", fd);
+	ft_putstr_fd(env_s->key, fd);
+	if (env_s->equal_sign)
+	{
+		ft_putstr_fd("=", fd);
+		ft_putstr_fd("\"", fd);
+		ft_putstr_fd(env_s->value, fd);
+		ft_putstr_fd("\"", fd);
+	}
+	ft_putstr_fd("\n", fd);
 }
 
 void	builtin_export(t_process *process, t_env *env, int fd, t_excute e_info)
 {
 	t_env	*env_s;
-	t_env *start_copy;
+	t_env	*start_copy;
 
 	env_s = env;
 	if (!process->cmd[1])
@@ -92,24 +96,16 @@ void	builtin_export(t_process *process, t_env *env, int fd, t_excute e_info)
 		start_copy = env_s;
 		while (env_s)
 		{
-			ft_putstr_fd("declare -x ", fd);
-			ft_putstr_fd(env_s->key, fd);
-			if (env_s->equal_sign)
+			if (!ft_strcmp(env_s->key, "_"))
 			{
-				ft_putstr_fd("=", fd);
-				ft_putstr_fd("\"", fd);
-				ft_putstr_fd(env_s->value, fd);
-				ft_putstr_fd("\"", fd);
+				env_s = env_s->next;
+				continue ;
 			}
-			ft_putstr_fd("\n", fd);
+			export_putstr(env_s, fd);
 			env_s = env_s->next;
 		}
 		env_s = start_copy;
-		while (env_s)
-		{
-			free_env(env_s);
-			env_s = env_s->next;
-		}
+		free_copy_env (env_s);
 	}
 	else if (e_info.cmd_size == 1)
 		add_export(process, env);

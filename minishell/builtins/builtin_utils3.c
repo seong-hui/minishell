@@ -1,35 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_utils.c                                    :+:      :+:    :+:   */
+/*   builtin_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 23:11:45 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/07 19:05:40 by seonghmo         ###   ########.fr       */
+/*   Created: 2023/11/08 15:38:29 by seonghmo          #+#    #+#             */
+/*   Updated: 2023/11/08 15:46:38 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/execute.h"
+#include "../include/builtins.h"
 
-void	wait_child(int i, int exit_code)
+int	search_env_key(t_env **env, char *search)
 {
-	while (i > 0)
-	{
-		wait(&exit_code);
-		i--;
-	}
-}
+	t_env	*target;
 
-int	child_exit_status(int exit_code)
-{
-	if (WIFEXITED(exit_code))
+	target = *env;
+	while (target)
 	{
-		if (exit_code != 0)
-		{
-			g_exit_code = exit_code >> 8;
+		if (ft_strcmp(target->key, search) == 0)
 			return (1);
-		}
+		target = target->next;
 	}
 	return (0);
+}
+
+int	check_vaild_key(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+			return (0);
+		i++;
+	}
+	return (1);
 }

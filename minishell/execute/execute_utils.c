@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:21:18 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/02 23:13:02 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/07 19:28:51 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,31 @@ char	**get_path(t_env *env)
 		env = env->next;
 	}
 	return (path);
+}
+
+void	unlink_file(t_redir *redir)
+{
+	while (redir)
+	{
+		if (redir->tmp)
+			unlink(redir->tmp);
+		redir = redir->next;
+	}
+}
+
+char	**copy_envp(char **envp)
+{
+	int		i;
+	char	**tmp;
+	char	**start;
+
+	i = 0;
+	start = tmp;
+	while (envp[i])
+	{
+		tmp[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	tmp = start;
+	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:24:50 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/06 20:53:28 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/07 16:36:22 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,6 @@ void	update_pwd(t_env *env, char *old_pwd)
 	pwd = getcwd(NULL, 0);
 	if (pwd)
 		replace_env(&env, "PWD", pwd);
-}
-
-void	update_oldpwd(t_env *env)
-{
-	char	*pwd;
-
-	pwd = getcwd(NULL, 0);
-	if (pwd)
-	{
-		replace_env(&env, "OLDPWD", pwd);
-	}
 }
 
 char	*get_cur_dir(void)
@@ -53,6 +42,7 @@ void	handle_home_error(t_env *env, char *old_pwd)
 	path = search_env_value(&env, "HOME");
 	if (chdir(path) != 0)
 	{
+		free(old_pwd);
 		if (!path)
 			ft_putendl_fd("minishell: cd: HOME not set", 2);
 		else
@@ -63,7 +53,7 @@ void	handle_home_error(t_env *env, char *old_pwd)
 	}
 	else
 		update_pwd(env, old_pwd);
-	free (path);
+	free(path);
 }
 
 void	builtin_cd(t_process *process, t_env *env)
@@ -76,10 +66,8 @@ void	builtin_cd(t_process *process, t_env *env)
 	old_pwd = NULL;
 	cur_dir = NULL;
 	path = NULL;
-	old_pwd = search_env_value(&env, "PWD");
-	// if (!old_pwd)
-	// 	old_pwd = getcwd(NULL, 0);
-	path = ft_strdup(process->cmd[1]);
+	old_pwd = getcwd(NULL, 0);
+	path = process->cmd[1];
 	if (path == NULL || *path == '\0')
 		handle_home_error(env, old_pwd);
 	else
@@ -90,7 +78,4 @@ void	builtin_cd(t_process *process, t_env *env)
 		update_pwd(env, old_pwd);
 		free(cur_dir);
 	}
-	if (path)
-		free(path);
-	free(old_pwd);
 }
