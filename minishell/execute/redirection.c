@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:15:18 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 15:47:18 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/09 18:56:00 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	fd_redirection(t_process *process, t_redir *redir)
 				close(process->infile_fd);
 			if (process->outfile_fd != STDOUT_FILENO)
 				close(process->outfile_fd);
+			unlink_file(redir);
 			return (0);
 		}
 		redir = redir->next;

@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:21:18 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 15:13:00 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/09 17:10:49 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_cmd(char **path, char *cmd)
 	if (fd != -1)
 		return (ft_strdup(cmd));
 	tmp_cmd = ft_strjoin("/", cmd);
-	while (path[i])
+	while (path && path[i])
 	{
 		tmp = ft_strjoin(path[i], tmp_cmd);
 		fd = access(tmp, X_OK);
@@ -51,7 +51,7 @@ char	*get_cmd(char **path, char *cmd)
 		i++;
 	}
 	free(tmp_cmd);
-	return (0);
+	return (NULL);
 }
 
 char	**get_path(t_env *env)

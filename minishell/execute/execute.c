@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:32:17 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 15:48:30 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/09 18:57:24 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,14 @@ void	process_start(t_process *process, t_env *env, char **envp)
 	e_info.cmd_size = ft_lstsize(process);
 	if (check_rider(process))
 		check_heredoc(process, env);
-	if (!head->cmd[0])
+	if (!head->cmd[0] || g_exit_code == 1)
 		unlink_file(process->redir);
-	e_info.envp = envp;
-	if (e_info.cmd_size == 1 && is_builtin(head))
-		no_fork_toexecute(head, env, e_info);
-	else
-		fork_toexcute(head, env, e_info);
+	if (!g_exit_code == 1)
+	{
+		e_info.envp = envp;
+		if (e_info.cmd_size == 1 && is_builtin(head))
+			no_fork_toexecute(head, env, e_info);
+		else
+			fork_toexcute(head, env, e_info);
+	}
 }
