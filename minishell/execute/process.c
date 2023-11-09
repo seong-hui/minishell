@@ -6,13 +6,13 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:23:48 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/08 20:19:06 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/09 15:15:11 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-void first_child(t_process *proc, int *cur_fd, t_env *env, t_excute e_info)
+void	first_child(t_process *proc, int *cur_fd, t_env *env, t_excute e_info)
 {
 	close(cur_fd[0]);
 	if (proc->infile_fd > 0)
@@ -35,7 +35,7 @@ void first_child(t_process *proc, int *cur_fd, t_env *env, t_excute e_info)
 	}
 }
 
-void middle_child(t_process *proc, int *cur_fd, t_env *env, t_excute e_info)
+void	middle_child(t_process *proc, int *cur_fd, t_env *env, t_excute e_info)
 {
 	close(cur_fd[0]);
 	close(e_info.prev_fd[1]);
@@ -62,25 +62,19 @@ void middle_child(t_process *proc, int *cur_fd, t_env *env, t_excute e_info)
 	}
 }
 
-void last_child(t_process *process, t_env *env, t_excute e_info)
+void	last_child(t_process *process, t_env *env, t_excute e_info)
 {
 	close(e_info.prev_fd[1]);
 	if (process->infile_fd > 0)
-	{
 		dup2(process->infile_fd, STDIN_FILENO);
-		// close(process->infile_fd);
-	}
 	else
 		dup2(e_info.prev_fd[0], STDIN_FILENO);
 	if (process->outfile_fd > 1)
-	{
 		dup2(process->outfile_fd, STDOUT_FILENO);
-	}
 	close(e_info.prev_fd[0]);
 	if (is_builtin(process))
 	{
 		check_builtins(process, env, process->outfile_fd, e_info);
-		// close(process->outfile_fd);
 		exit(0);
 	}
 	else
