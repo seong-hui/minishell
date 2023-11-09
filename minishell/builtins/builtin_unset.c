@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 20:03:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/08 14:54:48 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/09 16:31:11 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	unset_env(t_env *env, t_process *process, int i, t_env *start)
 		else
 			env = env->next;
 	}
-	g_exit_code = 0;
 }
 
 void	builtin_unset(t_process *process, t_env *env, int fd)
