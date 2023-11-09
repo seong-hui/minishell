@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:15:18 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 15:17:13 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/09 15:47:18 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	redir_append(t_process *process, t_redir *redir)
 }
 
 int	fd_redirection(t_process *process, t_redir *redir)
-
 {
 	process->infile_fd = 0;
 	process->outfile_fd = 1;
@@ -81,7 +80,13 @@ int	fd_redirection(t_process *process, t_redir *redir)
 		else if (redir->type == T_REDIR_APPEND)
 			redir_append(process, redir);
 		if (process->infile_fd < 0 || process->outfile_fd < 0)
+		{
+			if (process->infile_fd != STDIN_FILENO)
+				close(process->infile_fd);
+			if (process->outfile_fd != STDOUT_FILENO)
+				close(process->outfile_fd);
 			return (0);
+		}
 		redir = redir->next;
 	}
 	return (1);

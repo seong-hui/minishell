@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:32:17 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 15:19:19 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/09 15:48:30 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	arr_free(char **str)
 int	fork_toexcute(t_process *process, t_env *env, t_excute e_info)
 {
 	e_info.execute_path = get_path(env);
-	e_info.i = 0;
+	e_info.i = -1;
 	make_pipe(process, env, e_info);
 	if (e_info.execute_path)
 		arr_free(e_info.execute_path);

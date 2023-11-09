@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:20:12 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 15:16:45 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/09 15:52:00 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,16 +87,14 @@ void	make_pipe(t_process *process, t_env *env, t_excute exe_info)
 {
 	pid_t	pid;
 	int		cur_fd[2];
-	int		flag;
 
 	if (pipe(exe_info.prev_fd) == -1)
 		exit_and_setcode();
 	pid = 0;
 	handle_signal();
-	while (exe_info.i < exe_info.cmd_size)
+	while (++exe_info.i < exe_info.cmd_size)
 	{
-		flag = fd_redirection(process, process->redir);
-		if (flag)
+		if (fd_redirection(process, process->redir))
 		{
 			if (exe_info.i > 0 && cur_fd[0] > 0 && cur_fd[1] > 1)
 				handle_fd(exe_info.prev_fd, cur_fd);
@@ -107,13 +105,9 @@ void	make_pipe(t_process *process, t_env *env, t_excute exe_info)
 				exit_and_setcode();
 			if (pid == 0)
 				child_process(process, env, exe_info, cur_fd);
-			if (process->infile_fd != STDIN_FILENO)
-				close(process->infile_fd);
-			if (process->outfile_fd != STDOUT_FILENO)
-				close(process->outfile_fd);
+			close_fd(process);
 		}
 		process = process->next;
-		exe_info.i += 1;
 	}
 	close_pipe(exe_info.prev_fd, cur_fd, pid);
 }

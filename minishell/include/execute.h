@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:26:42 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/09 15:28:06 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/09 15:51:33 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ int		child_exit_status(int exit_code);
 void	unlink_file(t_redir *redir);
 char	**copy_envp(char **envp);
 void	exit_and_setcode(void);
+void	close_fd(t_process *process);
 
 #endif
