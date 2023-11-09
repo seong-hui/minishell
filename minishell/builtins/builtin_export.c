@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:33:09 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/08 15:39:17 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/09 16:02:27 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	builtin_export(t_process *process, t_env *env, int fd, t_excute e_info)
 			env_s = env_s->next;
 		}
 		env_s = start_copy;
-		free_copy_env (env_s);
+		free_env_list(env_s);
 	}
 	else if (e_info.cmd_size == 1)
 		add_export(process, env);

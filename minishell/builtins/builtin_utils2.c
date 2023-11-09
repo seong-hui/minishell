@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 22:04:44 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/07 17:06:28 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/09 16:03:02 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,6 @@ void	replace_env_value(t_env **env, char *key, char *value, int equl)
 			}
 			tmp_env = tmp_env->next;
 		}
-	}
-}
-
-void	free_copy_env(t_env *env_s)
-{
-	while (env_s)
-	{
-		free_env(env_s);
-		env_s = env_s->next;
 	}
 }
 
