@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:34:19 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/02 23:12:59 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:12:58 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

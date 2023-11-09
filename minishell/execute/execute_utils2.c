@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 15:41:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/08 15:42:39 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:51:53 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,10 @@ void	exit_and_setcode(void)
 	exit(g_exit_code);
 }
 
-int	redir_check(t_process **process, t_excute *exe_info)
+void	close_fd(t_process *process)
 {
-	t_process	*cur;
-
-	cur = *process;
-	if (cur->infile_fd < 0 || cur->outfile_fd < 0)
-	{
-		exe_info->i += 1;
-		cur = cur->next;
-		*process = cur;
-		return (1);
-	}
-	return (0);
+	if (process->infile_fd != STDIN_FILENO)
+		close(process->infile_fd);
+	if (process->outfile_fd != STDOUT_FILENO)
+		close(process->outfile_fd);
 }

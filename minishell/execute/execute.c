@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:32:17 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/08 14:32:19 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:48:30 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,17 @@ void	arr_free(char **str)
 	{
 		while (str[i])
 		{
-			free (str[i]);
+			free(str[i]);
 			i++;
 		}
-		free (str);
+		free(str);
 	}
 }
 
 int	fork_toexcute(t_process *process, t_env *env, t_excute e_info)
 {
 	e_info.execute_path = get_path(env);
-	e_info.i = 0;
+	e_info.i = -1;
 	make_pipe(process, env, e_info);
 	if (e_info.execute_path)
 		arr_free(e_info.execute_path);
@@ -57,7 +57,8 @@ int	check_rider(t_process *process)
 		count = 0;
 		while (head_redir)
 		{
-			count++;
+			if (head_redir->type == T_REDIR_HEREDOC)
+				count++;
 			head_redir = head_redir->next;
 		}
 		if (count > 16)
@@ -81,14 +82,10 @@ void	process_start(t_process *process, t_env *env, char **envp)
 	if (!process)
 		return ;
 	e_info.cmd_size = ft_lstsize(process);
-	if (check_rider(process) == 1)
+	if (check_rider(process))
 		check_heredoc(process, env);
 	if (!head->cmd[0])
-	{
-		fd_redirection(process, process->redir);
 		unlink_file(process->redir);
-		return ;
-	}
 	e_info.envp = envp;
 	if (e_info.cmd_size == 1 && is_builtin(head))
 		no_fork_toexecute(head, env, e_info);

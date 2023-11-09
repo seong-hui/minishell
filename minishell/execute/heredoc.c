@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:11:51 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/08 15:39:46 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:20:56 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*make_tmp_heredoc(void)
 	char	*tmp_heredoc;
 	int		i;
 	char	*i_str;
+	int		fd;
 
 	i = 0;
 	while (1)
@@ -49,15 +50,17 @@ char	*make_tmp_heredoc(void)
 		i_str = ft_itoa(i);
 		tmp_heredoc = ft_strjoin("tmp_file", i_str);
 		free(i_str);
-		if (open(tmp_heredoc, O_RDONLY) == -1)
+		fd = open(tmp_heredoc, O_RDONLY);
+		if (fd == -1)
 			return (tmp_heredoc);
+		close(fd);
 		free(tmp_heredoc);
 		i++;
 	}
 	return (NULL);
 }
 
-void	handle_heredoc(t_redir	*redir, t_process *proc, t_here *he, t_env *env)
+void	handle_heredoc(t_redir *redir, t_process *proc, t_here *he, t_env *env)
 {
 	redir->tmp = make_tmp_heredoc();
 	he->pid = fork();
