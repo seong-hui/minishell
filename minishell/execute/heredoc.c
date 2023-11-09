@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:11:51 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/09 15:20:56 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/09 17:49:50 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,7 @@ void	handle_heredoc(t_redir *redir, t_process *proc, t_here *he, t_env *env)
 		exit(0);
 	}
 	else
-	{
 		signal(SIGINT, SIG_IGN);
-	}
 }
 
 void	check_heredoc(t_process *process, t_env *env)

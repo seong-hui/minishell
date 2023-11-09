@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = 
+CFLAGS = -g3 -fsanitize=address
 COMFILE_FLAGS = -I${HOME}/.brew/opt/readline/include
 LDFLAGS = -L${HOME}/.brew/opt/readline/lib
 LDLIBS = -lreadline
