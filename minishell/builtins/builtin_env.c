@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 20:33:16 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/04 21:02:51 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:02:44 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void	builtin_env(t_process *process, t_env *env, int fd)
+void	builtin_env(t_env *env, int fd)
 {
 	while (env)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:21:18 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 17:10:49 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/11 17:07:13 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,20 @@ void	unlink_file(t_redir *redir)
 	}
 }
 
-char	**copy_envp(char **envp)
-{
-	int		i;
-	char	**tmp;
-	char	**start;
+// 안 쓰이는 함수 같아요
+// char	**copy_envp(char **envp)
+// {
+// 	int		i;
+// 	char	**tmp;
+// 	char	**start;
 
-	i = 0;
-	start = tmp;
-	while (envp[i])
-	{
-		tmp[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	tmp = start;
-	return (tmp);
-}
+// 	i = 0;
+// 	start = tmp;
+// 	while (envp[i])
+// 	{
+// 		tmp[i] = ft_strdup(envp[i]);
+// 		i++;
+// 	}
+// 	tmp = start;
+// 	return (tmp);
+// }

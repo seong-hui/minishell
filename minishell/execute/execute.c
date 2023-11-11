@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:32:17 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 18:57:24 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/11 17:00:22 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	process_start(t_process *process, t_env *env, char **envp)
 		check_heredoc(process, env);
 	if (!head->cmd[0] || g_exit_code == 1)
 		unlink_file(process->redir);
-	if (!g_exit_code == 1)
+	if (g_exit_code != 1)
 	{
 		e_info.envp = envp;
 		if (e_info.cmd_size == 1 && is_builtin(head))

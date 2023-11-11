@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:16:33 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/05 19:51:17 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/11 17:01:49 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void	builtin_pwd(int fd, t_env *env)
+void	builtin_pwd(int fd)
 {
 	char	*pwd;
-	t_env	*copy;
 
 	pwd = getcwd(NULL, 0);
 	if (pwd)

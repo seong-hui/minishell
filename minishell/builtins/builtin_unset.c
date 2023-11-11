@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 20:03:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 16:31:11 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/11 17:03:25 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	unset_env(t_env *env, t_process *process, int i, t_env *start)
 	}
 }
 
-void	builtin_unset(t_process *process, t_env *env, int fd)
+void	builtin_unset(t_process *process, t_env *env)
 {
 	int		i;
 	t_env	*start;
