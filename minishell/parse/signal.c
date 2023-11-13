@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 21:57:13 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/09 18:55:08 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/13 22:16:08 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,21 @@ void	signal_handler(int signo)
 void	exec_signal(int signo)
 {
 	if (signo == SIGINT)
-	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
 		g_exit_code = 1;
-	}
 	else if (signo == SIGQUIT)
-	{
 		printf("^\\Quit: %d\n", signo);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-	}
 }
 
 void	heredoc_signal(int signo)
 {
 	if (signo == SIGINT)
 	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
 		printf("\n");
 		g_exit_code = 1;
 		exit(1);
 	}
 	else if (signo == SIGTERM)
 	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
 		g_exit_code = 0;
 		exit(0);
 	}

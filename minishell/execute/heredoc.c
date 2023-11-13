@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:11:51 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/13 20:25:19 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 21:46:01 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ static void	execute_heredoc(t_process *process, t_redir *redir, t_env *env)
 	{
 		buffer = readline("> ");
 		if (buffer == NULL)
-		{
-			g_exit_code = 0;
-			break ;
-		}
+			heredoc_signal(SIGTERM);
 		if (!ft_strcmp(buffer, redir->file))
 		{
 			free(buffer);
