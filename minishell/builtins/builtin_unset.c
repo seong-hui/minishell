@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 20:03:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 16:31:11 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/13 20:34:38 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void	unset_env(t_env *env, t_process *process, int i, t_env *start)
+static void	unset_env(t_env *env, t_process *process, int i, t_env *start)
 {
 	if (!ft_strcmp(process->cmd[i], "_"))
 	{
@@ -31,7 +31,7 @@ void	unset_env(t_env *env, t_process *process, int i, t_env *start)
 	}
 }
 
-void	builtin_unset(t_process *process, t_env *env, int fd)
+void	builtin_unset(t_process *process, t_env *env)
 {
 	int		i;
 	t_env	*start;

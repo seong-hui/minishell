@@ -6,13 +6,13 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 20:33:16 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/04 21:02:51 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:33:20 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void	builtin_env(t_process *process, t_env *env, int fd)
+void	builtin_env(t_env *env, int fd)
 {
 	while (env)
 	{

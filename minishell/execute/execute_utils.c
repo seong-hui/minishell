@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:21:18 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 17:10:49 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/13 20:35:51 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ char	**copy_envp(char **envp)
 	char	**start;
 
 	i = 0;
+	tmp = NULL;
 	start = tmp;
 	while (envp[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/07 20:09:25 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:37:30 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	run_prompt(t_env *env, char **envp)
 		line = readline("minishell$ ");
 		if (!line)
 			signal_handler(SIGTERM);
-		//signal(SIGINT, signal_handler);
 		add_history(line);
 		if (tokenize(&process, &env, line) == 1)
 		{
@@ -47,14 +46,16 @@ int	main(int ac, char **av, char **envp)
 {
 	t_env		*env;
 
-	ac = 0;
 	av = NULL;
 	env = NULL;
-	create_env_list(&env, envp);
-	detect_signal();
-	set_terminal_print_off();
-	run_prompt(env, envp);
-	set_terminal_print_on();
-	free_env_list(env);
+	if (ac == 1)
+	{
+		create_env_list(&env, envp);
+		detect_signal();
+		set_terminal_print_off();
+		run_prompt(env, envp);
+		set_terminal_print_on();
+		free_env_list(env);
+	}
 	return (0);
 }

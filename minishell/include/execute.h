@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:26:42 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/13 17:20:34 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/13 20:26:35 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,7 @@ void	unlink_file(t_redir *redir);
 char	**copy_envp(char **envp);
 void	exit_and_setcode(void);
 void	close_fd(t_process *process);
+void	handle_heredoc(t_redir *redir, t_process *proc, t_here *he, t_env *env);
+void	child_process(t_process *proc, t_env *env, t_excute info, int *cur_fd);
 
 #endif

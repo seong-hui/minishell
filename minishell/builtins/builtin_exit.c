@@ -6,13 +6,13 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 16:30:44 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/07 17:02:25 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:19:57 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-unsigned long long	ft_atoi_cal(char *str, int *flag, int sign)
+static unsigned long long	ft_atoi_cal(char *str, int *flag, int sign)
 {
 	unsigned long long	re;
 	int					i;
@@ -39,7 +39,7 @@ unsigned long long	ft_atoi_cal(char *str, int *flag, int sign)
 	return (re);
 }
 
-int	ft_atoi_for_exit(char *str, int *flag)
+static int	ft_atoi_for_exit(char *str, int *flag)
 {
 	int					i;
 	int					sign;

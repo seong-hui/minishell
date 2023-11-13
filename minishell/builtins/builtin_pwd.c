@@ -6,16 +6,15 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 16:16:33 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/05 19:51:17 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:32:26 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void	builtin_pwd(int fd, t_env *env)
+void	builtin_pwd(int fd)
 {
 	char	*pwd;
-	t_env	*copy;
 
 	pwd = getcwd(NULL, 0);
 	if (pwd)

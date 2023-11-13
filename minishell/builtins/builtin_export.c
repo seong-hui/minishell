@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:33:09 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 16:02:27 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/13 20:20:47 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void	handle_exception(t_process *process, int i, char *key)
+static void	handle_exception(t_process *process, int i, char *key)
 {
 	free(key);
 	if ((process->cmd[i][0] == '_' && !process->cmd[i][1]))
@@ -24,7 +24,7 @@ void	handle_exception(t_process *process, int i, char *key)
 		print_export_error(process->cmd[i]);
 }
 
-void	handle_edit_env(t_env *env, char *key, char *value, int equl)
+static void	handle_edit_env(t_env *env, char *key, char *value, int equl)
 {
 	if (!ft_strcmp(key, "_"))
 	{
@@ -42,7 +42,7 @@ void	handle_edit_env(t_env *env, char *key, char *value, int equl)
 		add_env(&env, key, value, equl);
 }
 
-void	add_export(t_process *process, t_env *env)
+static void	add_export(t_process *process, t_env *env)
 {
 	int		i;
 	char	*key;
@@ -69,7 +69,7 @@ void	add_export(t_process *process, t_env *env)
 	}
 }
 
-void	export_putstr(t_env *env_s, int fd)
+static void	export_putstr(t_env *env_s, int fd)
 {
 	ft_putstr_fd("declare -x ", fd);
 	ft_putstr_fd(env_s->key, fd);

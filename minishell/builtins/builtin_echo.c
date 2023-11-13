@@ -6,13 +6,13 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 16:27:04 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/07 19:35:24 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:19:27 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-int	check_option(char *option)
+static int	check_option(char *option)
 {
 	int	len;
 	int	i;

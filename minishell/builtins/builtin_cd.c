@@ -6,13 +6,13 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 17:24:50 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/07 16:36:22 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:19:14 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-void	update_pwd(t_env *env, char *old_pwd)
+static void	update_pwd(t_env *env, char *old_pwd)
 {
 	char	*pwd;
 
@@ -22,7 +22,7 @@ void	update_pwd(t_env *env, char *old_pwd)
 		replace_env(&env, "PWD", pwd);
 }
 
-char	*get_cur_dir(void)
+static char	*get_cur_dir(void)
 {
 	char	*cur_dir;
 
@@ -35,7 +35,7 @@ char	*get_cur_dir(void)
 	return (cur_dir);
 }
 
-void	handle_home_error(t_env *env, char *old_pwd)
+static void	handle_home_error(t_env *env, char *old_pwd)
 {
 	char	*path;
 

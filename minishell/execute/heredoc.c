@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 17:11:51 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/09 17:49:50 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/13 20:25:19 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-void	execute_heredoc(t_process *process, t_redir *redir, t_env *env)
+static void	execute_heredoc(t_process *process, t_redir *redir, t_env *env)
 {
 	char	*buffer;
 
@@ -37,7 +37,7 @@ void	execute_heredoc(t_process *process, t_redir *redir, t_env *env)
 	}
 }
 
-char	*make_tmp_heredoc(void)
+static char	*make_tmp_heredoc(void)
 {
 	char	*tmp_heredoc;
 	int		i;

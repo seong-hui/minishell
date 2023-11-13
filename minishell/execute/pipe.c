@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:20:12 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/13 20:13:27 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/13 20:26:28 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-static void close_pipe(int *prev_fd, int *cur_fd, int pid)
+static void	close_pipe(int *prev_fd, int *cur_fd, int pid)
 {
-	int flag_printed;
-	int status;
-	int child;
+	int	flag_printed;
+	int	status;
+	int	child;
 
 	if (prev_fd)
 	{
@@ -40,9 +40,9 @@ static void close_pipe(int *prev_fd, int *cur_fd, int pid)
 	}
 }
 
-void exit_code_handler(int status, int *flag_printed, int pid, int child)
+void	exit_code_handler(int status, int *flag_printed, int pid, int child)
 {
-	int signo;
+	int	signo;
 
 	if (WIFSIGNALED(status))
 	{
@@ -60,7 +60,7 @@ void exit_code_handler(int status, int *flag_printed, int pid, int child)
 		g_exit_code = WEXITSTATUS(status);
 }
 
-void handle_fd(int *prev_fd, int *cur_fd)
+static void	handle_fd(int *prev_fd, int *cur_fd)
 {
 	close(prev_fd[0]);
 	close(prev_fd[1]);
@@ -68,7 +68,7 @@ void handle_fd(int *prev_fd, int *cur_fd)
 	prev_fd[1] = cur_fd[1];
 }
 
-void child_process(t_process *proc, t_env *env, t_excute info, int *cur_fd)
+void	child_process(t_process *proc, t_env *env, t_excute info, int *cur_fd)
 {
 	if (!proc->cmd[0] || !info.exe_flag)
 		exit(0);
@@ -85,10 +85,10 @@ void child_process(t_process *proc, t_env *env, t_excute info, int *cur_fd)
 		middle_child(proc, cur_fd, env, info);
 }
 
-void make_pipe(t_process *process, t_env *env, t_excute exe_info)
+void	make_pipe(t_process *process, t_env *env, t_excute exe_info)
 {
-	pid_t pid;
-	int cur_fd[2];
+	pid_t	pid;
+	int		cur_fd[2];
 
 	if (pipe(exe_info.prev_fd) == -1)
 		exit_and_setcode();

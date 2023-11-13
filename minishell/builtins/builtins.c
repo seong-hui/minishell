@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 16:43:19 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/07 16:56:20 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:34:57 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	check_builtins(t_process *process, t_env *env, int fd, t_excute e_info)
 		else if (!ft_strncmp(process->cmd[0], "cd", ft_strlen("cd")))
 			builtin_cd(process, env);
 		else if (!ft_strncmp(process->cmd[0], "pwd", ft_strlen("pwd")))
-			builtin_pwd(fd, env);
+			builtin_pwd(fd);
 		else if (!ft_strncmp(process->cmd[0], "env", ft_strlen("env")))
-			builtin_env(process, env, fd);
+			builtin_env(env, fd);
 		else if (!ft_strncmp(process->cmd[0], "export", ft_strlen("export")))
 			builtin_export(process, env, fd, e_info);
 		else if (!ft_strncmp(process->cmd[0], "unset", ft_strlen("unset"))
 			&& e_info.cmd_size == 1)
-			builtin_unset(process, env, fd);
+			builtin_unset(process, env);
 		else if (!ft_strncmp(process->cmd[0], "exit", ft_strlen("exit")))
 			builtin_exit(process, e_info);
 	}
