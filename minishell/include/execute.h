@@ -6,7 +6,7 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:26:42 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/09 15:51:33 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/13 17:20:34 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_execute
 	char	**execute_path;
 	int		prev_fd[2];
 	int		i;
+	int		exe_flag;
 }	t_excute;
 
 typedef struct s_here

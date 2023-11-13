@@ -6,15 +6,15 @@
 /*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:32:17 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 18:57:24 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/13 17:31:24 by moonseonghu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-void	arr_free(char **str)
+void arr_free(char **str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (str)
@@ -28,27 +28,32 @@ void	arr_free(char **str)
 	}
 }
 
-int	fork_toexcute(t_process *process, t_env *env, t_excute e_info)
+int fork_toexcute(t_process *process, t_env *env, t_excute e_info)
 {
 	e_info.execute_path = get_path(env);
 	e_info.i = -1;
 	make_pipe(process, env, e_info);
+	while (process)
+	{
+		unlink_file(process->redir);
+		process = process->next;
+	}
 	if (e_info.execute_path)
 		arr_free(e_info.execute_path);
 	return (0);
 }
 
-void	no_fork_toexecute(t_process *process, t_env *env, t_excute e_info)
+void no_fork_toexecute(t_process *process, t_env *env, t_excute e_info)
 {
 	fd_redirection(process, process->redir);
 	check_builtins(process, env, process->outfile_fd, e_info);
 }
 
-int	check_rider(t_process *process)
+int check_rider(t_process *process)
 {
-	int			count;
-	t_redir		*head_redir;
-	t_process	*head;
+	int count;
+	t_redir *head_redir;
+	t_process *head;
 
 	head_redir = process->redir;
 	head = process;
@@ -71,16 +76,16 @@ int	check_rider(t_process *process)
 	return (1);
 }
 
-void	process_start(t_process *process, t_env *env, char **envp)
+void process_start(t_process *process, t_env *env, char **envp)
 {
-	t_process	*head;
-	t_redir		*head_redir;
-	t_excute	e_info;
+	t_process *head;
+	t_redir *head_redir;
+	t_excute e_info;
 
 	head = process;
 	head_redir = process->redir;
 	if (!process)
-		return ;
+		return;
 	e_info.cmd_size = ft_lstsize(process);
 	if (check_rider(process))
 		check_heredoc(process, env);
