@@ -6,18 +6,11 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/13 20:37:30 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:41:18 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
-
-void	process_start(t_process *process, t_env *env, char **envp);
-
-void	cl(void)
-{
-	system("leaks --list minishell");
-}
 
 void	run_prompt(t_env *env, char **envp)
 {

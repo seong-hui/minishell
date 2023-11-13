@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:09:19 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/07 20:09:27 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 20:41:06 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_expand
 
 // main.c
 void	run_prompt(t_env *env, char **envp);
+void	process_start(t_process *process, t_env *env, char **envp);
 
 // utils.c
 int		in_charset(char c, char *charset);
