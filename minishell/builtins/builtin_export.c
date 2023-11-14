@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 19:33:09 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/13 20:20:47 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/14 15:05:27 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static void	handle_exception(t_process *process, int i, char *key)
 {
 	free(key);
-	if ((process->cmd[i][0] == '_' && !process->cmd[i][1]))
+	if ((process->cmd[i][0] == '_'
+		&& (!process->cmd[i][1] || process->cmd[i][1] == '=')))
 	{
 		g_exit_code = 0;
 		return ;
@@ -60,9 +61,7 @@ static void	add_export(t_process *process, t_env *env)
 			value = get_path_value(&process->cmd[i][ft_strlen(key) + 1]);
 			equl = 1;
 		}
-		if (check_vaild_key(key)
-			&& ((process->cmd[i][0] == '_' && process->cmd[i][1])
-			|| ft_isalpha(process->cmd[i][0])))
+		if (check_vaild_key(key))
 			handle_edit_env(env, key, value, equl);
 		else
 			handle_exception(process, i, key);

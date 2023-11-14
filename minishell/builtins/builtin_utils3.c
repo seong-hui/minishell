@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 15:38:29 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/08 15:46:38 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 23:31:25 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,15 @@ int	check_vaild_key(char *str)
 	int	i;
 
 	i = 0;
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+		return (0);
 	while (str[i])
 	{
-		if (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')
+		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
 		i++;
 	}
+	if (str[0] == '_' && !str[1])
+		return (0);
 	return (1);
 }

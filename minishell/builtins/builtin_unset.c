@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 20:03:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/13 20:34:38 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/13 23:46:33 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	builtin_unset(t_process *process, t_env *env)
 	i = 1;
 	while (process->cmd[i])
 	{
-		if ((process->cmd[i][0] == '_')
-			|| ft_isalpha(process->cmd[i][0]))
+		if (check_vaild_key(process->cmd[i]) || (process->cmd[i][0] == '_'
+			&& (!process->cmd[i][1])))
 		{
 			env = start;
 			unset_env(env, process, i, start);

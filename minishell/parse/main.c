@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/13 20:41:18 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/14 15:04:57 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	run_prompt(t_env *env, char **envp)
 		line = readline("minishell$ ");
 		if (!line)
 			signal_handler(SIGTERM);
-		add_history(line);
+		if (ft_strcmp(line, "") != 0)
+			add_history(line);
 		if (tokenize(&process, &env, line) == 1)
 		{
 			g_exit_code = 0;

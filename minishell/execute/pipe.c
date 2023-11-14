@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:20:12 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/13 20:26:28 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/14 14:55:56 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	handle_fd(int *prev_fd, int *cur_fd)
 void	child_process(t_process *proc, t_env *env, t_excute info, int *cur_fd)
 {
 	if (!proc->cmd[0] || !info.exe_flag)
-		exit(0);
+		exit(g_exit_code);
 	proc->cmd_path = get_cmd(info.execute_path, proc->cmd[0]);
 	if (info.i == info.cmd_size - 1)
 	{
