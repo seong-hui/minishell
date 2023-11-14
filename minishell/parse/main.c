@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:43:33 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/14 15:04:57 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 19:51:15 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	run_prompt(t_env *env, char **envp)
 		if (tokenize(&process, &env, line) == 1)
 		{
 			g_exit_code = 0;
-			process_start(process, env, envp);
+			process_start(process, &env, envp);
 		}
 		free_process_list(&process);
 		free(line);

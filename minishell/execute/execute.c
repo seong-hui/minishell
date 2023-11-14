@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:32:17 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/14 14:56:06 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 19:52:19 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	arr_free(char **str)
 	}
 }
 
-static int	fork_toexcute(t_process *process, t_env *env, t_excute e_info)
+static int	fork_toexcute(t_process *process, t_env **env, t_excute e_info)
 {
-	e_info.execute_path = get_path(env);
+	e_info.execute_path = get_path(*env);
 	e_info.i = -1;
 	make_pipe(process, env, e_info);
 	while (process)
@@ -43,7 +43,7 @@ static int	fork_toexcute(t_process *process, t_env *env, t_excute e_info)
 	return (0);
 }
 
-static void	no_fork_toexecute(t_process *process, t_env *env, t_excute e_info)
+static void	no_fork_toexecute(t_process *process, t_env **env, t_excute e_info)
 {
 	fd_redirection(process, process->redir);
 	check_builtins(process, env, process->outfile_fd, e_info);
@@ -76,7 +76,7 @@ static int	check_rider(t_process *process)
 	return (1);
 }
 
-void	process_start(t_process *process, t_env *env, char **envp)
+void	process_start(t_process *process, t_env **env, char **envp)
 {
 	t_process	*head;
 	t_redir		*head_redir;
@@ -88,7 +88,7 @@ void	process_start(t_process *process, t_env *env, char **envp)
 		return ;
 	e_info.cmd_size = ft_lstsize(process);
 	if (check_rider(process))
-		check_heredoc(process, env);
+		check_heredoc(process, *env);
 	if (!head->cmd[0] || g_exit_code == 1)
 		unlink_file(process->redir);
 	if (g_exit_code != 1)
