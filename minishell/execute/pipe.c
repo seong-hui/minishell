@@ -6,7 +6,7 @@
 /*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:20:12 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/14 19:03:12 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/14 20:19:24 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	make_pipe(t_process *process, t_env **env, t_excute exe_info)
 			handle_fd(exe_info.prev_fd, cur_fd);
 		if (pipe(cur_fd) == -1)
 			exit_and_setcode();
-		if (!ft_strcmp(process->cmd[0], "./minishell"))
+		if (process->cmd[0] && !ft_strcmp(process->cmd[0], "./minishell"))
 			detect_signal2();
 		pid = fork();
 		if (pid < 0)
