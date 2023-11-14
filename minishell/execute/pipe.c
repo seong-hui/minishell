@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:20:12 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/14 14:55:56 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 19:03:12 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,16 @@ void	make_pipe(t_process *process, t_env *env, t_excute exe_info)
 	if (pipe(exe_info.prev_fd) == -1)
 		exit_and_setcode();
 	pid = 0;
-	handle_signal();
 	while (++exe_info.i < exe_info.cmd_size)
 	{
+		handle_signal();
 		exe_info.exe_flag = fd_redirection(process, process->redir);
 		if (exe_info.i > 0)
 			handle_fd(exe_info.prev_fd, cur_fd);
 		if (pipe(cur_fd) == -1)
 			exit_and_setcode();
+		if (!ft_strcmp(process->cmd[0], "./minishell"))
+			detect_signal2();
 		pid = fork();
 		if (pid < 0)
 			exit_and_setcode();

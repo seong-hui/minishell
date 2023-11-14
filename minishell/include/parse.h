@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:09:19 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/13 22:54:59 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 19:00:08 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ void	signal_handler(int signo);
 void	exec_signal(int signo);
 void	heredoc_signal(int signo);
 void	detect_signal(void);
+void	detect_signal2(void);
 
 // terminal.c
 void	set_terminal_print_off(void);
