@@ -6,46 +6,44 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 20:03:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/13 23:46:33 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 19:51:40 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins.h"
 
-static void	unset_env(t_env *env, t_process *process, int i, t_env *start)
+static void	unset_env(t_env **env, t_process *process, int i)
 {
+	t_env	*start;
+
+	start = *env;
 	if (!ft_strcmp(process->cmd[i], "_"))
 	{
 		g_exit_code = 0;
 		return ;
 	}
-	while (env)
+	while (start)
 	{
-		if (ft_strcmp(env->key, process->cmd[i]) == 0)
+		if (ft_strcmp(start->key, process->cmd[i]) == 0)
 		{
-			delete_env(&start, env->key);
+			delete_env(env, start->key);
 			break ;
 		}
 		else
-			env = env->next;
+			start = start->next;
 	}
 }
 
-void	builtin_unset(t_process *process, t_env *env)
+void	builtin_unset(t_process *process, t_env **env)
 {
 	int		i;
-	t_env	*start;
 
-	start = env;
 	i = 1;
 	while (process->cmd[i])
 	{
 		if (check_vaild_key(process->cmd[i]) || (process->cmd[i][0] == '_'
 			&& (!process->cmd[i][1])))
-		{
-			env = start;
-			unset_env(env, process, i, start);
-		}
+			unset_env(env, process, i);
 		else
 			print_unset_error(process->cmd[i]);
 		i++;

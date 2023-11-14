@@ -68,7 +68,7 @@ typedef struct s_expand
 
 // main.c
 void	run_prompt(t_env *env, char **envp);
-void	process_start(t_process *process, t_env *env, char **envp);
+void	process_start(t_process *process, t_env **env, char **envp);
 
 // utils.c
 int		in_charset(char c, char *charset);
