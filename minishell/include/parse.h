@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:09:19 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/14 19:00:08 by seonghmo         ###   ########.fr       */
+/*   Updated: 2023/11/14 22:13:49 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,27 @@ typedef struct s_process
 	char				*cmd_path;
 }	t_process;
 
-typedef struct s_expand
+typedef struct s_parse
 {
 	char	*cmd;
 	int		len;
 	int		idx;
 	int		quote;
-}	t_expand;
+}	t_parse;
 
 // main.c
 void	run_prompt(t_env *env, char **envp);
 void	process_start(t_process *process, t_env **env, char **envp);
 
 // utils.c
+int		is_quote(char c);
 int		in_charset(char c, char *charset);
 char	*ft_strndup(const char *s, int n);
 int		ft_strcmp(const char *s1, const char *s2);
 void	trim_spaces(t_process *process);
+
+// init.c
+void	init_parse(t_parse *parse, char *str);
 
 // tokenize.c
 int		is_all_blank(char *line);
@@ -119,9 +123,8 @@ char	*replace_redir_file(char *file, int type, t_env **env);
 void	replace_process_resources(t_process *process, t_env **env);
 
 // expand.c
-void	init_expand(t_expand *expand, char *str, t_env **env);
 int		expand_len(int *len, char *str, t_env **env, int quote);
-void	expand_cmd(char *replaced, t_expand *expand, t_env **env);
+void	expand_cmd(char *replaced, t_parse *expand, t_env **env);
 
 // syntax.c
 void	print_syntax_error(char *str);

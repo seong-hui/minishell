@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 15:17:01 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 21:17:31 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 22:05:54 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	skip_quote(char *line)
 
 	i = 0;
 	quote = 0;
-	if (line[i] == '\'' || line[i] == '"')
+	if (is_quote(line[i]))
 	{
 		quote = line[i++];
 		while (quote != line[i])

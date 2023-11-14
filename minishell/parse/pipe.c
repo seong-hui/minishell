@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 22:16:55 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 19:58:53 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 22:06:34 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,21 @@ void	add_process(t_process **process, char *cmd_line)
 
 int	skip_quote_with_pipe(char *line)
 {
-	int	in_quote;
+	int	quote;
 	int	i;
 
 	i = 0;
-	in_quote = 0;
+	quote = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'' || line[i] == '"')
+		if (is_quote(line[i]))
 		{
-			if (in_quote == 0)
-				in_quote = line[i];
-			else if (in_quote == line[i])
-				in_quote = 0;
+			if (quote == 0)
+				quote = line[i];
+			else if (quote == line[i])
+				quote = 0;
 		}
-		if (line[i] && line[i] == '|' && in_quote == 0)
+		if (line[i] && line[i] == '|' && quote == 0)
 			return (i);
 		i++;
 	}

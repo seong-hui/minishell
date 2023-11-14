@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 22:13:58 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 19:39:37 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 22:07:45 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,20 @@ int	is_redir(char *line)
 int	get_file_len(char *line)
 {
 	int	i;
-	int	in_quote;
+	int	quote;
 
 	i = 0;
-	in_quote = 0;
+	quote = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'' || line[i] == '"')
+		if (is_quote(line[i]))
 		{
-			if (in_quote == 0)
-				in_quote = line[i];
-			else if (in_quote == line[i])
-				in_quote = 0;
+			if (quote == 0)
+				quote = line[i];
+			else if (quote == line[i])
+				quote = 0;
 		}
-		else if (in_charset(line[i], " \n\t<>") && in_quote == 0)
+		else if (in_charset(line[i], " \n\t<>") && quote == 0)
 			return (i);
 		i++;
 	}
@@ -88,26 +88,28 @@ int	get_file_loc(char *line, int type)
 
 void	parse_redir(t_process *process)
 {
-	int	i;
-	int	st;
-	int	type;
-	int	len;
+	t_parse	re;
+	int		st;
+	int		type;
 
-	i = 0;
-	type = 0;
-	while (process->cmd_line[i])
+	init_parse(&re, process->cmd_line);
+	while (re.cmd[re.idx])
 	{
-		type = is_redir(&(process->cmd_line[i]));
-		if (type != 0)
+		if (is_quote(re.cmd[re.idx]) && re.quote == 0)
+			re.quote = re.cmd[re.idx];
+		else if (is_quote(re.cmd[re.idx]) && re.quote == re.cmd[re.idx])
+			re.quote = 0;
+		type = is_redir(&(re.cmd[re.idx]));
+		if (type != 0 && re.quote == 0)
 		{
-			st = i + get_file_loc(&(process->cmd_line[i]), type);
-			len = get_file_len(&(process->cmd_line[st]));
+			st = re.idx + get_file_loc(&(re.cmd[re.idx]), type);
+			re.len = get_file_len(&(re.cmd[st]));
 			add_redir(&(process->redir),
-				ft_strndup(&(process->cmd_line[st]), len), type);
-			while (i < st + len)
-				process->cmd_line[i++] = ' ';
+				ft_strndup(&(re.cmd[st]), re.len), type);
+			while (re.idx < st + re.len)
+				re.cmd[(re.idx)++] = ' ';
 		}
 		else
-			i++;
+			re.idx++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 20:43:31 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/07 20:17:59 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 22:09:28 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	replace_len(char *str, t_env **env)
 	quote = 0;
 	while (*str)
 	{
-		if ((*str == '\'' || *str == '"') && quote == 0)
+		if (is_quote(*str) && quote == 0)
 			quote = *str;
-		else if ((*str == '\'' || *str == '"') && quote == *str)
+		else if (is_quote(*str) && quote == *str)
 			quote = 0;
 		else if (*str == '$' && quote != '\'')
 			str += expand_len(&len, str, env, quote);
@@ -36,19 +36,19 @@ int	replace_len(char *str, t_env **env)
 
 char	*replace_str(char *str, t_env **env)
 {
-	char		*replaced;
-	t_expand	expand;
+	char	*replaced;
+	t_parse	expand;
 
-	init_expand(&expand, str, env);
+	init_parse(&expand, str);
+	expand.len = replace_len(str, env);
 	replaced = (char *)malloc(sizeof(char) * (expand.len + 1));
 	if (!replaced)
 		exit(1);
 	while (expand.idx < expand.len)
 	{
-		if ((*expand.cmd == '\'' || *expand.cmd == '"') && expand.quote == 0)
+		if (is_quote(*expand.cmd) && expand.quote == 0)
 			expand.quote = *expand.cmd;
-		else if ((*expand.cmd == '\'' || *expand.cmd == '"')
-			&& expand.quote == *expand.cmd)
+		else if (is_quote(*expand.cmd) && expand.quote == *expand.cmd)
 			expand.quote = 0;
 		else if (*expand.cmd == '$' && expand.quote != '\'')
 			expand_cmd(replaced, &expand, env);
@@ -73,13 +73,13 @@ char	*replace_limiter(char *file)
 		exit(1);
 	while (*file)
 	{
-		if ((*file == '\'' || *file == '"') && quote == 0)
+		if (is_quote(*file) && quote == 0)
 			quote = *file;
-		else if ((*file == '\'' || *file == '"') && quote == *file)
+		else if (is_quote(*file) && quote == *file)
 			quote = 0;
 		else if (*file == '$')
 		{
-			if (quote != 0 || !(*(file + 1) == '\'' || *(file + 1) == '"'))
+			if (quote != 0 || !is_quote(*(file + 1)))
 				replaced[i++] = *file;
 		}
 		else
