@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:20:12 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/14 14:55:56 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 19:47:49 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	handle_fd(int *prev_fd, int *cur_fd)
 	prev_fd[1] = cur_fd[1];
 }
 
-void	child_process(t_process *proc, t_env *env, t_excute info, int *cur_fd)
+void	child_process(t_process *proc, t_env **env, t_excute info, int *cur_fd)
 {
 	if (!proc->cmd[0] || !info.exe_flag)
 		exit(g_exit_code);
@@ -85,7 +85,7 @@ void	child_process(t_process *proc, t_env *env, t_excute info, int *cur_fd)
 		middle_child(proc, cur_fd, env, info);
 }
 
-void	make_pipe(t_process *process, t_env *env, t_excute exe_info)
+void	make_pipe(t_process *process, t_env **env, t_excute exe_info)
 {
 	pid_t	pid;
 	int		cur_fd[2];

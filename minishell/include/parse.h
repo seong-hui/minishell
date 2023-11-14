@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:09:19 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/13 22:54:59 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 19:49:09 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_expand
 
 // main.c
 void	run_prompt(t_env *env, char **envp);
-void	process_start(t_process *process, t_env *env, char **envp);
+void	process_start(t_process *process, t_env **env, char **envp);
 
 // utils.c
 int		in_charset(char c, char *charset);

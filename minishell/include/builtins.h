@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 17:29:13 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/13 23:44:06 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 19:52:15 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	builtin_echo(t_process *process, int fd);
 void	builtin_pwd(int fd);
 void	builtin_cd(t_process *process, t_env *env);
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
-void	process_start(t_process *process, t_env *env, char **envp);
+void	process_start(t_process *process, t_env **env, char **envp);
 void	builtin_env(t_env *env, int fd);
 void	builtin_export(t_process *process, t_env *env, int fd, t_excute e_info);
-void	builtin_unset(t_process *process, t_env *env);
+void	builtin_unset(t_process *process, t_env **env);
 void	builtin_exit(t_process *process, t_excute e_info);
 char	*get_path_key(char *envp);
 char	*get_path_value(char *envp);

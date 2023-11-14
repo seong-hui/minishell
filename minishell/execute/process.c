@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:23:48 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 17:07:33 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/14 19:50:07 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-void	first_child(t_process *proc, int *cur_fd, t_env *env, t_excute e_info)
+void	first_child(t_process *proc, int *cur_fd, t_env **env, t_excute e_info)
 {
 	close(cur_fd[0]);
 	if (proc->infile_fd > 0)
@@ -35,7 +35,7 @@ void	first_child(t_process *proc, int *cur_fd, t_env *env, t_excute e_info)
 	}
 }
 
-void	middle_child(t_process *proc, int *cur_fd, t_env *env, t_excute e_info)
+void	middle_child(t_process *proc, int *cur_fd, t_env **env, t_excute e_info)
 {
 	close(cur_fd[0]);
 	close(e_info.prev_fd[1]);
@@ -62,7 +62,7 @@ void	middle_child(t_process *proc, int *cur_fd, t_env *env, t_excute e_info)
 	}
 }
 
-void	last_child(t_process *process, t_env *env, t_excute e_info)
+void	last_child(t_process *process, t_env **env, t_excute e_info)
 {
 	close(e_info.prev_fd[1]);
 	if (process->infile_fd > 0)
