@@ -6,7 +6,7 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 20:49:18 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 20:00:22 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 22:09:46 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	is_quote_closed(char *line)
 	quote = 0;
 	while (line[i])
 	{
-		if (line[i] == '\'' || line[i] == '"')
+		if (is_quote(line[i]))
 		{
 			if (quote == 0)
 				quote = line[i];

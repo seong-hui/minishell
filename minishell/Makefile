@@ -10,6 +10,7 @@ SRCS = ./parse/main.c \
 	   ./parse/pipe.c \
 	   ./parse/redirection.c \
 	   ./parse/utils.c \
+	   ./parse/init.c \
 	   ./parse/cmd.c \
 	   ./parse/env.c \
 	   ./parse/path.c \

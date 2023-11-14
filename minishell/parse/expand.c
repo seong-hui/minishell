@@ -6,19 +6,11 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 16:00:07 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/06 21:29:22 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 22:10:56 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
-
-void	init_expand(t_expand *expand, char *str, t_env **env)
-{
-	expand->cmd = str;
-	expand->len = replace_len(str, env);
-	expand->idx = 0;
-	expand->quote = 0;
-}
 
 int	expand_len(int *len, char *str, t_env **env, int quote)
 {
@@ -29,7 +21,7 @@ int	expand_len(int *len, char *str, t_env **env, int quote)
 	i = 0;
 	env_key = get_env_key(&str[i + 1]);
 	if ((ft_strlen(env_key) == 0) && (quote != 0
-			|| !(str[i + 1] == '\'' || str[i + 1] == '"')))
+			|| !is_quote(str[i + 1])))
 		(*len)++;
 	else
 	{
@@ -48,7 +40,7 @@ int	expand_len(int *len, char *str, t_env **env, int quote)
 	return (i);
 }
 
-void	expand_cmd(char *replaced, t_expand *expand, t_env **env)
+void	expand_cmd(char *replaced, t_parse *expand, t_env **env)
 {
 	int		i;
 	char	*env_key;
@@ -56,7 +48,7 @@ void	expand_cmd(char *replaced, t_expand *expand, t_env **env)
 
 	env_key = get_env_key(expand->cmd + 1);
 	if ((ft_strlen(env_key) == 0) && (expand->quote != 0
-			|| !(*(expand->cmd + 1) == '\'' || *(expand->cmd + 1) == '"')))
+			|| !is_quote(*(expand->cmd + 1))))
 		replaced[expand->idx++] = '$';
 	else
 	{

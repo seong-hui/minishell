@@ -6,11 +6,18 @@
 /*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 22:18:50 by jooypark          #+#    #+#             */
-/*   Updated: 2023/11/05 20:41:20 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/14 22:13:14 by jooypark         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parse.h"
+
+int	is_quote(char c)
+{
+	if (c == '\'' || c == '"')
+		return (1);
+	return (0);
+}
 
 int	in_charset(char c, char *charset)
 {
