@@ -18,6 +18,7 @@ SRCS = ./parse/main.c \
 	   ./parse/syntax.c \
 	   ./parse/free.c \
 	   ./parse/signal.c \
+	   ./parse/signal2.c \
 	   ./parse/terminal.c \
 	   ./execute/execute.c\
 	   ./execute/heredoc.c \
