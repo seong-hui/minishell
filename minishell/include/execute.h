@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 21:26:42 by moonseonghu       #+#    #+#             */
-/*   Updated: 2023/11/14 19:58:11 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/15 16:08:34 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include "parse.h"
 
 typedef struct s_execute
@@ -55,5 +56,7 @@ void	exit_and_setcode(void);
 void	close_fd(t_process *process);
 void	handle_heredoc(t_redir *redir, t_process *proc, t_here *he, t_env *env);
 void	child_process(t_process *proc, t_env **env, t_excute info, int *cur_fd);
+void	evecve_error(char *cmd);
+void	util_write(char *str);
 
 #endif

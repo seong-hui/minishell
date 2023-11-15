@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jooypark <jooypark@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 17:23:48 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/14 19:50:07 by jooypark         ###   ########seoul.kr  */
+/*   Updated: 2023/11/15 16:08:48 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	first_child(t_process *proc, int *cur_fd, t_env **env, t_excute e_info)
 	{
 		close(cur_fd[1]);
 		if (execve(proc->cmd_path, proc->cmd, e_info.envp) == -1)
-			print_command_error(proc->cmd[0]);
+			evecve_error(proc->cmd[0]);
 	}
 }
 
@@ -58,7 +58,7 @@ void	middle_child(t_process *proc, int *cur_fd, t_env **env, t_excute e_info)
 	{
 		close(cur_fd[1]);
 		if (execve(proc->cmd_path, proc->cmd, e_info.envp) == -1)
-			print_command_error(proc->cmd[0]);
+			evecve_error(proc->cmd[0]);
 	}
 }
 
@@ -80,6 +80,6 @@ void	last_child(t_process *process, t_env **env, t_excute e_info)
 	else
 	{
 		if (execve(process->cmd_path, process->cmd, e_info.envp) == -1)
-			print_command_error(process->cmd[0]);
+			evecve_error(process->cmd[0]);
 	}
 }
