@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: moonseonghui <moonseonghui@student.42.f    +#+  +:+       +#+        */
+/*   By: seonghmo <seonghmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 15:41:14 by seonghmo          #+#    #+#             */
-/*   Updated: 2023/11/09 15:51:53 by moonseonghu      ###   ########.fr       */
+/*   Updated: 2023/11/15 16:35:27 by seonghmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,12 @@ void	close_fd(t_process *process)
 		close(process->infile_fd);
 	if (process->outfile_fd != STDOUT_FILENO)
 		close(process->outfile_fd);
+}
+
+void	util_write(char *str)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	write(2, str, len);
 }
